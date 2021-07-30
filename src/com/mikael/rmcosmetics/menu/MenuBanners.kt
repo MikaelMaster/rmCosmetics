@@ -1,7 +1,9 @@
 package com.mikael.rmcosmetics.menu
 
 import com.mikael.rmcosmetics.core.BannerSystem
+import com.mikael.rmcosmetics.core.ClosetSystem
 import com.mikael.rmcosmetics.core.HatAnimatedSystem
+import com.mikael.rmcosmetics.core.HatSystem
 import com.mikael.rmcosmetics.percentColor
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.game.SoundEffect
@@ -42,41 +44,41 @@ class MenuBanners : Menu("Banners", 6) {
                             val bannerUsed = BannerSystem.getSelectedBanner(player)
                             if (bannerUsed == banner) {
                                 item.lore(
-                                        "§8Banner",
-                                        "",
-                                        "§7Exiba seu estilo em nossos lobbies",
-                                        "§7utilizando o banner ${banner.display}§7.",
-                                        "",
-                                        "§eClique para remover!"
+                                    "§8Banner",
+                                    "",
+                                    "§7Exiba seu estilo em nossos lobbies",
+                                    "§7utilizando o banner ${banner.display}§7.",
+                                    "",
+                                    "§eClique para remover!"
                                 )
                             } else {
                                 item.lore(
-                                        "§8Banner",
-                                        "",
-                                        "§7Exiba seu estilo em nossos lobbies",
-                                        "§7utilizando o banner ${banner.display}§7.",
-                                        "",
-                                        "§eClique para utilizar!"
-                                )
-                            }
-                        } else {
-                            item.lore(
                                     "§8Banner",
                                     "",
                                     "§7Exiba seu estilo em nossos lobbies",
                                     "§7utilizando o banner ${banner.display}§7.",
                                     "",
                                     "§eClique para utilizar!"
-                            )
-                        }
-                    } else {
-                        item.lore(
+                                )
+                            }
+                        } else {
+                            item.lore(
                                 "§8Banner",
                                 "",
                                 "§7Exiba seu estilo em nossos lobbies",
                                 "§7utilizando o banner ${banner.display}§7.",
                                 "",
-                                "§cVocê não possui esse banner."
+                                "§eClique para utilizar!"
+                            )
+                        }
+                    } else {
+                        item.lore(
+                            "§8Banner",
+                            "",
+                            "§7Exiba seu estilo em nossos lobbies",
+                            "§7utilizando o banner ${banner.display}§7.",
+                            "",
+                            "§cVocê não possui esse banner."
                         )
                     }
 
@@ -96,6 +98,21 @@ class MenuBanners : Menu("Banners", 6) {
                                 open(player, getPageOpen(player))
                             } else {
                                 player.soundWhenEffect()
+
+                                if (HatAnimatedSystem.hasSelected(player)) {
+                                    HatAnimatedSystem.deselect(player)
+                                }
+                                if (HatSystem.hasSelected(player)) {
+                                    HatSystem.deselect(player)
+                                }
+                                val closet = ClosetSystem.getPlayerCloset(player)
+                                if (closet.helmet != null) {
+                                    closet.helmet = null
+                                    closet.helmetBright = false
+                                    closet.helmetName = null
+                                    closet.updateQueue()
+                                }
+                                player.equipment.helmet = null
                                 player.sendMessage("§aVocê equipou o banner ${banner.display}.")
                                 player.equipment.helmet = banner.icon()
                                 BannerSystem.select(player, banner)
@@ -103,6 +120,21 @@ class MenuBanners : Menu("Banners", 6) {
                             }
                         } else {
                             player.soundWhenEffect()
+
+                            if (HatAnimatedSystem.hasSelected(player)) {
+                                HatAnimatedSystem.deselect(player)
+                            }
+                            if (HatSystem.hasSelected(player)) {
+                                HatSystem.deselect(player)
+                            }
+                            val closet = ClosetSystem.getPlayerCloset(player)
+                            if (closet.helmet != null) {
+                                closet.helmet = null
+                                closet.helmetBright = false
+                                closet.helmetName = null
+                                closet.updateQueue()
+                            }
+                            player.equipment.helmet = null
                             player.sendMessage("§aVocê equipou o banner ${banner.display}.")
                             player.equipment.helmet = banner.icon()
                             BannerSystem.select(player, banner)
@@ -119,8 +151,8 @@ class MenuBanners : Menu("Banners", 6) {
                     fixed = true
                     iconPerPlayer = {
                         ItemBuilder(Material.BARRIER)
-                                .name("§cRemover Banner")
-                                .lore("§7Remove seu banner atual.")
+                            .name("§cRemover Banner")
+                            .lore("§7Remove seu banner atual.")
                     }
                     click = ClickEffect {
                         val player = it.player
@@ -162,17 +194,17 @@ class MenuBanners : Menu("Banners", 6) {
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 ItemBuilder(Material.PAPER)
-                        .name("§aInformações")
-                        .lore(
-                                "§8Banners",
-                                "",
-                                "§7Você pode encontrar novos",
-                                "§7banners em §bCaixas Misteriosas§7.",
-                                "",
-                                "§fDesbloqueados: ${corNumero}${bannersDesbloqueados}/${BannerSystem.banners.size} §8(${porcentagemTexto})",
-                                "§fSelecionado atualmente:",
-                                "§a▸ ${usedBannerName}"
-                        )
+                    .name("§aInformações")
+                    .lore(
+                        "§8Banners",
+                        "",
+                        "§7Você pode encontrar novos",
+                        "§7banners em §bCaixas Misteriosas§7.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${bannersDesbloqueados}/${BannerSystem.banners.size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${usedBannerName}"
+                    )
             }
             click = ClickEffect {
                 it.player.soundWhenNoEffect()
@@ -180,20 +212,20 @@ class MenuBanners : Menu("Banners", 6) {
         }
 
         backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                .name("§cVoltar")
-                .lore("§7Para Cosméticos.")
+            .name("§cVoltar")
+            .lore("§7Para Cosméticos.")
         backPage.setPosition(5, 6)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
         nextPage.item = ItemBuilder(Material.INK_SACK).data(10)
-                .name("§aPágina %page")
-                .lore("§7Ir até a página %page.")
+            .name("§aPágina %page")
+            .lore("§7Ir até a página %page.")
         nextPage.setPosition(9, 6)
         nextPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
         previousPage.item = ItemBuilder(Material.INK_SACK).data(8)
-                .name("§aPágina %page")
-                .lore("§7Ir até a página %page.")
+            .name("§aPágina %page")
+            .lore("§7Ir até a página %page.")
         previousPage.setPosition(1, 6)
         previousPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 

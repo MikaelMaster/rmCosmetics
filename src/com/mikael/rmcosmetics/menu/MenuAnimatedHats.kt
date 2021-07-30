@@ -1,7 +1,10 @@
 package com.mikael.rmcosmetics.menu
 
-import com.kirelcodes.miniaturepets.loader.PetLoader
+import com.mikael.rmcosmetics.MiftCosmetics
+import com.mikael.rmcosmetics.core.BannerSystem
+import com.mikael.rmcosmetics.core.ClosetSystem
 import com.mikael.rmcosmetics.core.HatAnimatedSystem
+import com.mikael.rmcosmetics.core.HatSystem
 import com.mikael.rmcosmetics.percentColor
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.game.SoundEffect
@@ -17,7 +20,7 @@ import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.Sound
 
-class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
+class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
     companion object {
         lateinit var instance: MenuAnimatedHats
@@ -27,13 +30,12 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
         instance = this
 
         isAutoAlignItems = true
-        autoAlignSkipLines = listOf(1, 3, 4)
+        autoAlignSkipLines = listOf(1, 4, 5)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 1 * autoAlignPerLine
 
         for (hat in HatAnimatedSystem.animatedHats) {
-
             button {
 
                 iconPerPlayer = {
@@ -41,7 +43,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
                     val user = player.user
 
                     val item = ItemBuilder().skin(hat.urls.keys.last())
-                            .name("§a" + hat.display)
+                        .name("§a" + hat.display)
 
                     val hatprecogold = HatAnimatedSystem.precoemgold[hat]!!
                     val hatprecocash = HatAnimatedSystem.precoemcash[hat]!!
@@ -51,7 +53,6 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
 
                     if (player.hasPermission(hat.groupPermission)) {
                         if (player.hasPermission(hat.permission)) {
-
                             if (HatAnimatedSystem.hasSelected(player)) {
                                 val hatUsed = HatAnimatedSystem.getSelectedAnimatedHat(player)
                                 if (hatUsed == hat) {
@@ -103,12 +104,14 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
                             if (hatporcash) {
                                 loreUsada.add(" §8▪ §fComprar com Cash: §b${hatprecocash.format(false)} Cash")
                             }
-                            loreUsada.add("")
+                            if (hatcompravel) {
+                                loreUsada.add("")
+                            }
                             if (hatcompravel) {
                                 loreUsada.add(
-                                        if (user.gold >= hatprecogold || user.cash >= hatprecocash)
-                                            "§aClique para comprar!" else
-                                            "§cVocê não possui saldo suficiente."
+                                    if (user.gold >= hatprecogold || user.cash >= hatprecocash)
+                                        "§aClique para comprar!" else
+                                        "§cVocê não possui saldo suficiente."
                                 )
                             } else {
                                 loreUsada.add("§cIndisponível para compra.")
@@ -150,17 +153,47 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
                                     open(player, getPageOpen(player))
                                 } else {
                                     player.soundWhenEffect()
+
+                                    if (HatSystem.hasSelected(player)) {
+                                        HatSystem.deselect(player)
+                                    }
+                                    if (BannerSystem.hasSelected(player)) {
+                                        BannerSystem.deselect(player)
+                                    }
+                                    val closet = ClosetSystem.getPlayerCloset(player)
+                                    if (closet.helmet != null) {
+                                        closet.helmet = null
+                                        closet.helmetBright = false
+                                        closet.helmetName = null
+                                        closet.updateQueue()
+                                    }
+                                    player.equipment.helmet = null
                                     player.sendMessage("§aVocê equipou o chapéu animado ${hat.display}.")
                                     player.equipment.helmet = ItemBuilder().skin(hat.urls.keys.first())
-                                            .name("§a${hat.display}")
+                                        .name("§a${hat.display}")
                                     HatAnimatedSystem.select(player, hat)
                                     open(player, getPageOpen(player))
                                 }
                             } else {
                                 player.soundWhenEffect()
+
+                                if (HatSystem.hasSelected(player)) {
+                                    HatSystem.deselect(player)
+                                }
+                                if (BannerSystem.hasSelected(player)) {
+                                    BannerSystem.deselect(player)
+                                }
+                                val closet = ClosetSystem.getPlayerCloset(player)
+                                if (closet.helmet != null) {
+                                    closet.helmet = null
+                                    closet.helmetBright = false
+                                    closet.helmetName = null
+                                    closet.updateQueue()
+                                }
+                                player.equipment.helmet = null
                                 player.sendMessage("§aVocê equipou o chapéu animado ${hat.display}.")
                                 player.equipment.helmet = ItemBuilder().skin(hat.urls.keys.first())
-                                        .name("§a${hat.display}")
+                                    .name("§a${hat.display}")
                                 HatAnimatedSystem.select(player, hat)
                                 open(player, getPageOpen(player))
                             }
@@ -169,7 +202,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
                                 if (user.gold >= hatemgold || user.cash >= hatemcash) {
                                     player.soundWhenSwitchMenu()
                                     MenuSelectCoinTypeAnimatedHat.instance
-                                            .comprando[player] = hat
+                                        .comprando[player] = hat
 
                                     MenuSelectCoinTypeAnimatedHat.instance.open(player)
                                 } else {
@@ -186,14 +219,15 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
                 }
             }
         }
+
         button("remove-animated-hat") {
-            setPosition(4, 4)
+            setPosition(4, 5)
 
             fixed = true
             iconPerPlayer = {
                 ItemBuilder(Material.BARRIER)
-                        .name("§cRemover Chapéu Animado")
-                        .lore("§7Remove seu chapéu animado atual.")
+                    .name("§cRemover Chapéu Animado")
+                    .lore("§7Remove seu chapéu animado atual.")
             }
             click = ClickEffect {
                 val player = it.player
@@ -209,8 +243,9 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
                 }
             }
         }
+
         button("info") {
-            setPosition(6, 4)
+            setPosition(6, 5)
 
             fixed = true
             iconPerPlayer = {
@@ -233,18 +268,18 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 ItemBuilder(Material.PAPER)
-                        .name("§aInformações")
-                        .lore(
-                                "§8Chapéus Animados",
-                                "",
-                                "§7Você pode encontrar novos chapéus animados",
-                                "§7em §bCaixas Misteriosas §7ou comprá-los",
-                                "§7utilizando §6Gold §7e §bCash§7.",
-                                "",
-                                "§fDesbloqueados: ${corNumero}${animatedHatsDesbloqueados}/${HatAnimatedSystem.animatedHats.size} §8(${porcentagemTexto})",
-                                "§fSelecionado atualmente:",
-                                "§a▸ ${usedHatName}"
-                        )
+                    .name("§aInformações")
+                    .lore(
+                        "§8Chapéus Animados",
+                        "",
+                        "§7Você pode encontrar novos chapéus animados",
+                        "§7em §bCaixas Misteriosas §7ou comprá-los",
+                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${animatedHatsDesbloqueados}/${HatAnimatedSystem.animatedHats.size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${usedHatName}"
+                    )
             }
             click = ClickEffect {
                 it.player.soundWhenNoEffect()
@@ -252,9 +287,9 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
         }
 
         backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                .name("§cVoltar")
-                .lore("§7Para Cosméticos.")
-        backPage.setPosition(5, 4)
+            .name("§cVoltar")
+            .lore("§7Para Cosméticos.")
+        backPage.setPosition(5, 5)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
     }

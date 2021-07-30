@@ -1,5 +1,8 @@
 package com.mikael.rmcosmetics.menu
 
+import com.mikael.rmcosmetics.core.BannerSystem
+import com.mikael.rmcosmetics.core.ClosetSystem
+import com.mikael.rmcosmetics.core.HatAnimatedSystem
 import com.mikael.rmcosmetics.core.HatSystem
 import com.mikael.rmcosmetics.percentColor
 import net.eduard.api.lib.game.ItemBuilder
@@ -29,7 +32,7 @@ class MenuHats : Menu("Chapéus", 6) {
                 iconPerPlayer = {
                     val player = this
                     val item = ItemBuilder()
-                            .skin(hat.url).name("§a" + hat.display)
+                        .skin(hat.url).name("§a" + hat.display)
 
                     if (hasPermission(hat.permission)) {
 
@@ -96,17 +99,47 @@ class MenuHats : Menu("Chapéus", 6) {
                                 open(player, getPageOpen(player))
                             } else {
                                 player.soundWhenEffect()
+
+                                if (HatAnimatedSystem.hasSelected(player)) {
+                                    HatAnimatedSystem.deselect(player)
+                                }
+                                if (BannerSystem.hasSelected(player)) {
+                                    BannerSystem.deselect(player)
+                                }
+                                val closet = ClosetSystem.getPlayerCloset(player)
+                                if (closet.helmet != null) {
+                                    closet.helmet = null
+                                    closet.helmetBright = false
+                                    closet.helmetName = null
+                                    closet.updateQueue()
+                                }
+                                player.equipment.helmet = null
                                 player.sendMessage("§aVocê equipou o chapéu ${hat.display}.")
                                 player.equipment.helmet = ItemBuilder().skin(hat.url)
-                                        .name("§a${hat.display}")
+                                    .name("§a${hat.display}")
                                 HatSystem.select(player, hat)
                                 open(player, getPageOpen(player))
                             }
                         } else {
                             player.soundWhenEffect()
+
+                            if (HatAnimatedSystem.hasSelected(player)) {
+                                HatAnimatedSystem.deselect(player)
+                            }
+                            if (BannerSystem.hasSelected(player)) {
+                                BannerSystem.deselect(player)
+                            }
+                            val closet = ClosetSystem.getPlayerCloset(player)
+                            if (closet.helmet != null) {
+                                closet.helmet = null
+                                closet.helmetBright = false
+                                closet.helmetName = null
+                                closet.updateQueue()
+                            }
+                            player.equipment.helmet = null
                             player.sendMessage("§aVocê equipou o chapéu ${hat.display}.")
                             player.equipment.helmet = ItemBuilder().skin(hat.url)
-                                    .name("§a${hat.display}")
+                                .name("§a${hat.display}")
                             HatSystem.select(player, hat)
                             open(player, getPageOpen(player))
                         }
@@ -121,8 +154,8 @@ class MenuHats : Menu("Chapéus", 6) {
             fixed = true
             iconPerPlayer = {
                 ItemBuilder(Material.BARRIER)
-                        .name("§cRemover Chapéu")
-                        .lore("§7Remove seu chapéu atual.")
+                    .name("§cRemover Chapéu")
+                    .lore("§7Remove seu chapéu atual.")
             }
             click = ClickEffect {
                 val player = it.player
@@ -161,17 +194,17 @@ class MenuHats : Menu("Chapéus", 6) {
                     val corNumero = porcentagemDesbloqueada.percentColor()
 
                     ItemBuilder(Material.PAPER)
-                            .name("§aInformações")
-                            .lore(
-                                    "§8Chapéus",
-                                    "",
-                                    "§7Você pode encontrar novos",
-                                    "§7chapéus em §bCaixas Misteriosas§7.",
-                                    "",
-                                    "§fDesbloqueados: ${corNumero}${hatsDesbloqueados}/${HatSystem.hats.size} §8(${porcentagemTexto})",
-                                    "§fSelecionado atualmente:",
-                                    "§a▸ ${usedHatName}"
-                            )
+                        .name("§aInformações")
+                        .lore(
+                            "§8Chapéus",
+                            "",
+                            "§7Você pode encontrar novos",
+                            "§7chapéus em §bCaixas Misteriosas§7.",
+                            "",
+                            "§fDesbloqueados: ${corNumero}${hatsDesbloqueados}/${HatSystem.hats.size} §8(${porcentagemTexto})",
+                            "§fSelecionado atualmente:",
+                            "§a▸ ${usedHatName}"
+                        )
                 }
                 click = ClickEffect {
                     it.player.soundWhenNoEffect()
@@ -179,20 +212,20 @@ class MenuHats : Menu("Chapéus", 6) {
             }
 
             backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                    .name("§cVoltar")
-                    .lore("§7Para Cosméticos.")
+                .name("§cVoltar")
+                .lore("§7Para Cosméticos.")
             backPage.setPosition(5, 6)
             backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
             nextPage.item = ItemBuilder(Material.INK_SACK).data(10)
-                    .name("§aPágina %page")
-                    .lore("§7Ir até a página %page.")
+                .name("§aPágina %page")
+                .lore("§7Ir até a página %page.")
             nextPage.setPosition(9, 6)
             nextPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
             previousPage.item = ItemBuilder(Material.INK_SACK).data(8)
-                    .name("§aPágina %page")
-                    .lore("§7Ir até a página %page.")
+                .name("§aPágina %page")
+                .lore("§7Ir até a página %page.")
             previousPage.setPosition(1, 6)
             previousPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 

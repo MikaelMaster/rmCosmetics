@@ -1,6 +1,9 @@
 package com.mikael.rmcosmetics.menu
 
+import com.mikael.rmcosmetics.core.BannerSystem
 import com.mikael.rmcosmetics.core.ClosetSystem
+import com.mikael.rmcosmetics.core.HatAnimatedSystem
+import com.mikael.rmcosmetics.core.HatSystem
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.kotlin.name
 import net.eduard.api.lib.kotlin.player
@@ -338,6 +341,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
                 val closet = ClosetSystem.getPlayerCloset(player)
 
                 player.soundWhenEffect()
+
+                if (HatSystem.hasSelected(player)) {
+                    HatSystem.deselect(player)
+                }
+                if (HatAnimatedSystem.hasSelected(player)) {
+                    HatAnimatedSystem.deselect(player)
+                }
+                if (BannerSystem.hasSelected(player)) {
+                    BannerSystem.deselect(player)
+                }
+                player.equipment.helmet = null
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.LEATHER_HELMET) {
                         player.equipment.helmet = null
@@ -503,6 +517,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
                 val closet = ClosetSystem.getPlayerCloset(player)
 
                 player.soundWhenEffect()
+
+                if (HatSystem.hasSelected(player)) {
+                    HatSystem.deselect(player)
+                }
+                if (HatAnimatedSystem.hasSelected(player)) {
+                    HatAnimatedSystem.deselect(player)
+                }
+                if (BannerSystem.hasSelected(player)) {
+                    BannerSystem.deselect(player)
+                }
+                player.equipment.helmet = null
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.IRON_HELMET) {
                         player.equipment.helmet = null
@@ -667,6 +692,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
                 val closet = ClosetSystem.getPlayerCloset(player)
 
                 player.soundWhenEffect()
+
+                if (HatSystem.hasSelected(player)) {
+                    HatSystem.deselect(player)
+                }
+                if (HatAnimatedSystem.hasSelected(player)) {
+                    HatAnimatedSystem.deselect(player)
+                }
+                if (BannerSystem.hasSelected(player)) {
+                    BannerSystem.deselect(player)
+                }
+                player.equipment.helmet = null
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.GOLD_HELMET) {
                         player.equipment.helmet = null
@@ -831,6 +867,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
                 val closet = ClosetSystem.getPlayerCloset(player)
 
                 player.soundWhenEffect()
+
+                if (HatSystem.hasSelected(player)) {
+                    HatSystem.deselect(player)
+                }
+                if (HatAnimatedSystem.hasSelected(player)) {
+                    HatAnimatedSystem.deselect(player)
+                }
+                if (BannerSystem.hasSelected(player)) {
+                    BannerSystem.deselect(player)
+                }
+                player.equipment.helmet = null
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.DIAMOND_HELMET) {
                         player.equipment.helmet = null

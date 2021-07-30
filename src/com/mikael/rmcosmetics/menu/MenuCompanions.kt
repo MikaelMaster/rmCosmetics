@@ -143,12 +143,14 @@ class MenuCompanions : Menu("Companheiros", 6) {
                             if (companionporcash) {
                                 loreUsada.add(" §8▪ §fComprar com Cash: §b${companionprecocash.format(false)} Cash")
                             }
-                            loreUsada.add("")
+                            if (companioncompravel) {
+                                loreUsada.add("")
+                            }
                             if (companioncompravel) {
                                 loreUsada.add(
-                                        if (user.gold >= companionprecogold || user.cash >= companionprecocash)
-                                            "§aClique para comprar!" else
-                                            "§cVocê não possui saldo suficiente."
+                                    if (user.gold >= companionprecogold || user.cash >= companionprecocash)
+                                        "§aClique para comprar!" else
+                                        "§cVocê não possui saldo suficiente."
                                 )
                             } else {
                                 loreUsada.add("§cIndisponível para compra.")
@@ -224,7 +226,7 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                 if (user.gold >= companionemgold || user.cash >= companionemcash) {
                                     player.soundWhenSwitchMenu()
                                     MenuSelectCoinTypeCompanion.instance
-                                            .comprando[player] = companion
+                                        .comprando[player] = companion
 
                                     MenuSelectCoinTypeCompanion.instance.open(player)
                                 } else {
@@ -246,8 +248,8 @@ class MenuCompanions : Menu("Companheiros", 6) {
             fixed = true
             iconPerPlayer = {
                 ItemBuilder(Material.BARRIER)
-                        .name("§cRemover Companheiro")
-                        .lore("§7Remove seu companheiro atual.")
+                    .name("§cRemover Companheiro")
+                    .lore("§7Remove seu companheiro atual.")
             }
             click = ClickEffect {
                 val player = it.player
@@ -280,27 +282,27 @@ class MenuCompanions : Menu("Companheiros", 6) {
                 val item = ItemBuilder(Material.PAPER).name("§aInformações")
                 if (PetManager.hasPet(player)) {
                     item.lore(
-                            "§8Companheiros",
-                            "",
-                            "§7Você pode encontrar novos companheiros",
-                            "§7em §bCaixas Misteriosas §7ou comprá-los",
-                            "§7utilizando §6Gold §7e §bCash§7.",
-                            "",
-                            "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
-                            "§fSelecionado atualmente:",
-                            "§a▸ ${PetManager.getPet(player).container.name}"
+                        "§8Companheiros",
+                        "",
+                        "§7Você pode encontrar novos companheiros",
+                        "§7em §bCaixas Misteriosas §7ou comprá-los",
+                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${PetManager.getPet(player).container.name}"
                     )
                 } else {
                     item.lore(
-                            "§8Companheiros",
-                            "",
-                            "§7Você pode encontrar novos companheiros",
-                            "§7em §bCaixas Misteriosas §7ou comprá-los",
-                            "§7utilizando §6Gold §7e §bCash§7.",
-                            "",
-                            "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
-                            "§fSelecionado atualmente:",
-                            "§a▸ Nenhum"
+                        "§8Companheiros",
+                        "",
+                        "§7Você pode encontrar novos companheiros",
+                        "§7em §bCaixas Misteriosas §7ou comprá-los",
+                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ Nenhum"
                     )
                 }
             }
@@ -326,22 +328,22 @@ class MenuCompanions : Menu("Companheiros", 6) {
                 if (PetManager.hasPet(player)) {
                     if (PetManager.getPet(player).hasCustomName()) {
                         item.lore(
-                                "§fNome atual: ${PetManager.getPet(player).customName}",
-                                "",
-                                "§eClique para renomear!"
+                            "§fNome atual: ${PetManager.getPet(player).customName}",
+                            "",
+                            "§eClique para renomear!"
                         )
                     } else {
                         item.lore(
-                                "§fNome atual: §cNenhum",
-                                "",
-                                "§eClique para renomear!"
+                            "§fNome atual: §cNenhum",
+                            "",
+                            "§eClique para renomear!"
                         )
                     }
                 } else {
                     item.lore(
-                            "§fNome atual: §cNenhum",
-                            "",
-                            "§cVocê não possui um companheiro."
+                        "§fNome atual: §cNenhum",
+                        "",
+                        "§cVocê não possui um companheiro."
                     )
                 }
             }
@@ -357,10 +359,10 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     player.sendMessage("")
                     player.sendMessage("§aQual será o nome do seu companheiro? §7(${companion.container.name})")
                     val text =
-                            net.md_5.bungee.api.chat.TextComponent("§7Responda no chat ou clique §7§lAQUI §7para cancelar.")
+                        net.md_5.bungee.api.chat.TextComponent("§7Responda no chat ou clique §7§lAQUI §7para cancelar.")
                     val clickEvent = ClickEvent(
-                            ClickEvent.Action.RUN_COMMAND,
-                            "rmcosmetics:cancelchangename"
+                        ClickEvent.Action.RUN_COMMAND,
+                        "rmcosmetics:cancelchangename"
                     )
                     text.clickEvent = clickEvent
 
@@ -380,8 +382,8 @@ class MenuCompanions : Menu("Companheiros", 6) {
         }
 
         backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                .name("§cVoltar")
-                .lore("§7Para Cosméticos.")
+            .name("§cVoltar")
+            .lore("§7Para Cosméticos.")
         backPage.setPosition(5, 6)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 

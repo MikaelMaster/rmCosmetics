@@ -41,7 +41,7 @@ class MenuParticles : Menu("Partículas", 5) {
                 iconPerPlayer = {
 
                     val item = ItemBuilder(particleCosmetic.material)
-                            .name("§a" + particleCosmetic.display)
+                        .name("§a" + particleCosmetic.display)
 
                     val particle = particleCosmetic
                     val particleprecoemgold = ParticleSystem.precoemgold[particle]!!
@@ -112,12 +112,14 @@ class MenuParticles : Menu("Partículas", 5) {
                         if (particleporcash) {
                             loreUsada.add(" §8▪ §fComprar com Cash: §b${particleprecoemcash.format(false)} Cash")
                         }
-                        loreUsada.add("")
+                        if (particlecompravel) {
+                            loreUsada.add("")
+                        }
                         if (particlecompravel) {
                             loreUsada.add(
-                                    if (user.gold >= particleprecoemgold)
-                                        "§aClique para comprar!" else
-                                        "§cVocê não possui saldo suficiente."
+                                if (user.gold >= particleprecoemgold)
+                                    "§aClique para comprar!" else
+                                    "§cVocê não possui saldo suficiente."
                             )
                             item.lore(loreUsada)
                         } else {
@@ -159,7 +161,7 @@ class MenuParticles : Menu("Partículas", 5) {
                                 open(player)
                             } else {
                                 particle = particleCosmetic.animationClass.constructors
-                                        .first().call(player)
+                                    .first().call(player)
                                 player.soundWhenEffect()
                                 player.sendMessage("§aVocê selecionou a partícula ${particleCosmetic.display}.")
                                 particle.start()
@@ -169,7 +171,7 @@ class MenuParticles : Menu("Partículas", 5) {
                             }
                         } else {
                             val animation = particleCosmetic.animationClass.constructors
-                                    .first().call(player)
+                                .first().call(player)
                             player.soundWhenEffect()
                             player.sendMessage("§aVocê selecionou a partícula ${particleCosmetic.display}.")
                             animation.restart()
@@ -182,7 +184,7 @@ class MenuParticles : Menu("Partículas", 5) {
                             if (user.gold >= particleprecoemgold || user.cash >= particleprecoemcash) {
                                 player.soundWhenSwitchMenu()
                                 MenuSelectCoinTypeParticle.instance
-                                        .comprando[player] = particle
+                                    .comprando[player] = particle
 
                                 MenuSelectCoinTypeParticle.instance.open(player)
                             } else {
@@ -200,8 +202,8 @@ class MenuParticles : Menu("Partículas", 5) {
                 fixed = true
                 iconPerPlayer = {
                     ItemBuilder(Material.BARRIER)
-                            .name("§cRemover Partícula")
-                            .lore("§7Remove sua partícula atual.")
+                        .name("§cRemover Partícula")
+                        .lore("§7Remove sua partícula atual.")
                 }
                 click = ClickEffect {
                     val player = it.player
@@ -243,18 +245,18 @@ class MenuParticles : Menu("Partículas", 5) {
                     val corNumero = porcentagemDesbloqueada.percentColor()
 
                     ItemBuilder(Material.PAPER)
-                            .name("§aInformações")
-                            .lore(
-                                    "§8Partículas",
-                                    "",
-                                    "§7Você pode encontrar novas partículas",
-                                    "§7em §bCaixas Misteriosas §7ou comprá-las",
-                                    "§7utilizando §6Gold §7e §bCash§7.",
-                                    "",
-                                    "§fDesbloqueados: ${corNumero}${particlesDesbloqueados}/${ParticleSystem.particles.size} §8(${porcentagemTexto})",
-                                    "§fSelecionada atualmente:",
-                                    "§a▸ ${usedParticleName}"
-                            )
+                        .name("§aInformações")
+                        .lore(
+                            "§8Partículas",
+                            "",
+                            "§7Você pode encontrar novas partículas",
+                            "§7em §bCaixas Misteriosas §7ou comprá-las",
+                            "§7utilizando §6Gold §7e §bCash§7.",
+                            "",
+                            "§fDesbloqueados: ${corNumero}${particlesDesbloqueados}/${ParticleSystem.particles.size} §8(${porcentagemTexto})",
+                            "§fSelecionada atualmente:",
+                            "§a▸ ${usedParticleName}"
+                        )
                 }
                 click = ClickEffect {
                     it.player.soundWhenNoEffect()
@@ -262,8 +264,8 @@ class MenuParticles : Menu("Partículas", 5) {
             }
 
             backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                    .name("§cVoltar")
-                    .lore("§7Para Cosméticos.")
+                .name("§cVoltar")
+                .lore("§7Para Cosméticos.")
             backPage.setPosition(5, 5)
             backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
