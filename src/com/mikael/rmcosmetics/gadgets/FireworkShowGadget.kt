@@ -94,6 +94,33 @@ class FireworkShowGadget : Gadget(
                     )
                     Mine.newFirework(
                         localfirework,
+                        2,
+                        Color.AQUA,
+                        Color.YELLOW,
+                        true,
+                        true,
+                        FireworkEffect.Type.BURST
+                    )
+                    Mine.newFirework(
+                        localfirework,
+                        2,
+                        Color.AQUA,
+                        Color.YELLOW,
+                        true,
+                        true,
+                        FireworkEffect.Type.BURST
+                    )
+                    Mine.newFirework(
+                        localfirework,
+                        2,
+                        Color.AQUA,
+                        Color.YELLOW,
+                        true,
+                        true,
+                        FireworkEffect.Type.BURST
+                    )
+                    Mine.newFirework(
+                        localfirework,
                         3,
                         Color.AQUA,
                         Color.YELLOW,

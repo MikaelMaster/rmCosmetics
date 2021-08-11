@@ -2,10 +2,12 @@ package com.mikael.rmcosmetics.menu
 
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.game.SoundEffect
+import net.eduard.api.lib.kotlin.format
 import net.eduard.api.lib.kotlin.player
 import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
 import net.eduard.redemikael.core.soundWhenNoEffect
+import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.Sound
 
@@ -24,6 +26,8 @@ class MenuSkyWarsStats : Menu("Estatísticas - Sky Wars", 5) {
             setPosition(5, 1)
 
             iconPerPlayer = {
+                val skywarsUser = player.user.skywars
+
                 ItemBuilder(Material.GRASS)
                     .name("§aGeral")
                     .lore(
@@ -45,7 +49,7 @@ class MenuSkyWarsStats : Menu("Estatísticas - Sky Wars", 5) {
                         " §8▪ §fAbandonos: §70",
                         " §8▪ §fAssistências: §70",
                         "",
-                        "§fCoins: §e0"
+                        "§fCoins: §e${skywarsUser.coins.format(false)}"
                     )
             }
             click = ClickEffect {

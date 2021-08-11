@@ -1,24 +1,16 @@
 package com.mikael.rmcosmetics
 
-import com.kirelcodes.miniaturepets.pets.PetManager
 import com.mikael.rmcosmetics.commands.RemoveCosmeticsCommand
 import com.mikael.rmcosmetics.commands.VersionCommand
 import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.menu.*
 import com.mikael.rmcosmetics.objects.*
-import net.eduard.api.lib.game.Particle
-import net.eduard.api.lib.game.ParticleType
 import net.eduard.api.lib.modules.BukkitTimeHandler
 import net.eduard.api.lib.plugin.IPluginInstance
 import net.eduard.redemikael.core.api.miftCore
 import org.bukkit.Bukkit
-import org.bukkit.Material
-import org.bukkit.Sound
-import org.bukkit.entity.Player
-import org.bukkit.material.MaterialData
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.scheduler.BukkitRunnable
 
 class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
     companion object {

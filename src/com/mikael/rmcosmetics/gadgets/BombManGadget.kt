@@ -91,7 +91,6 @@ class BombManGadget : Gadget(
                 }
 
             }.runTaskLater(MiftCosmetics.instance, 75);
-
         }
     }
 
@@ -104,4 +103,9 @@ class BombManGadget : Gadget(
                 "§7jogadores próximos para os ares!"
             )
     }
+
+    fun removeBombManGadget() {
+
+    }
+
 }

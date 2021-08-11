@@ -43,32 +43,32 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 val item =
-                        ItemBuilder(Material.SKULL_ITEM).skin("http://textures.minecraft.net/texture/47b4f84e19b52f31217712e7ba9f51d56da59d2445b4d7f39ef6c323b8166")
-                                .name("§aCompanheiros")
+                    ItemBuilder(Material.SKULL_ITEM).skin("http://textures.minecraft.net/texture/47b4f84e19b52f31217712e7ba9f51d56da59d2445b4d7f39ef6c323b8166")
+                        .name("§aCompanheiros")
 
                 if (PetManager.hasPet(player)) {
                     item.lore(
-                            "§7Passeie em nossos lobbies",
-                            "§7com estilo acompanhado de",
-                            "§7um companheiro exclusivo.",
-                            "",
-                            "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
-                            "§fSelecionado atualmente:",
-                            "§a▸ ${PetManager.getPet(player).container.name}",
-                            "",
-                            "§eClique para abrir!"
+                        "§7Passeie em nossos lobbies",
+                        "§7com estilo acompanhado de",
+                        "§7um companheiro exclusivo.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${PetManager.getPet(player).container.name}",
+                        "",
+                        "§eClique para abrir!"
                     )
                 } else {
                     item.lore(
-                            "§7Passeie em nossos lobbies",
-                            "§7com estilo acompanhado de",
-                            "§7um companheiro exclusivo.",
-                            "",
-                            "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
-                            "§fSelecionado atualmente:",
-                            "§a▸ Nenhum",
-                            "",
-                            "§eClique para abrir!"
+                        "§7Passeie em nossos lobbies",
+                        "§7com estilo acompanhado de",
+                        "§7um companheiro exclusivo.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ Nenhum",
+                        "",
+                        "§eClique para abrir!"
                     )
                 }
             }
@@ -100,19 +100,19 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 ItemBuilder(Material.SKULL_ITEM)
-                        .skin("http://textures.minecraft.net/texture/c25af966a326f9d98466a7bf8582ca4da6453de271b3bc9e59f57a99b63511c6")
-                        .name("§aChapéus")
-                        .lore(
-                                "§7Passeie em nossos lobbies",
-                                "§7com estilo utilizando um",
-                                "§7chapéu exclusivo.",
-                                "",
-                                "§fDesbloqueados: ${corNumero}${hatsDesbloqueados}/${HatSystem.hats.size} §8(${porcentagemTexto})",
-                                "§fSelecionado atualmente:",
-                                "§a▸ ${usedHatName}",
-                                "",
-                                "§eClique para abrir!"
-                        )
+                    .skin("http://textures.minecraft.net/texture/c25af966a326f9d98466a7bf8582ca4da6453de271b3bc9e59f57a99b63511c6")
+                    .name("§aChapéus")
+                    .lore(
+                        "§7Passeie em nossos lobbies",
+                        "§7com estilo utilizando um",
+                        "§7chapéu exclusivo.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${hatsDesbloqueados}/${HatSystem.hats.size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${usedHatName}",
+                        "",
+                        "§eClique para abrir!"
+                    )
             }
             menu = MenuHats()
             click = ClickEffect {
@@ -143,18 +143,18 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
 
                 ItemBuilder(Material.SKULL_ITEM).skin("http://textures.minecraft.net/texture/732fe121a63eaabd99ced6d1acc91798652d1ee8084d2f9127d8a315cad5ce4")
-                        .name("§aChapéus animados")
-                        .lore(
-                                "§7Passeie em nossos lobbies com",
-                                "§7um chapéu animado que irá",
-                                "§7exibir suas reações.",
-                                "",
-                                "§fDesbloqueados: ${corNumero}${animatedHatsDesbloqueados}/${HatAnimatedSystem.animatedHats.size} §8(${porcentagemTexto})",
-                                "§fSelecionado atualmente:",
-                                "§a▸ ${usedHatName}",
-                                "",
-                                "§eClique para abrir!"
-                        )
+                    .name("§aChapéus animados")
+                    .lore(
+                        "§7Passeie em nossos lobbies com",
+                        "§7um chapéu animado que irá",
+                        "§7exibir suas reações.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${animatedHatsDesbloqueados}/${HatAnimatedSystem.animatedHats.size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${usedHatName}",
+                        "",
+                        "§eClique para abrir!"
+                    )
             }
             menu = MenuAnimatedHats()
             click = ClickEffect {
@@ -200,28 +200,28 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
                 if (player.hasPermission("rmcosmetics.use.closet")) {
                     item.lore(
-                            "§7Ande sempre com estilo em",
-                            "§7nossos lobbies com armaduras",
-                            "§7que você poderá personalizar!",
-                            "",
-                            "§fCombinação de roupas atual:",
-                            helmet,
-                            chestplate,
-                            leggings,
-                            boots,
-                            "",
-                            "§eClique para abrir!"
+                        "§7Ande sempre com estilo em",
+                        "§7nossos lobbies com armaduras",
+                        "§7que você poderá personalizar!",
+                        "",
+                        "§fCombinação de roupas atual:",
+                        helmet,
+                        chestplate,
+                        leggings,
+                        boots,
+                        "",
+                        "§eClique para abrir!"
                     )
                 } else {
                     item.lore(
-                            "§7Ande sempre com estilo em",
-                            "§7nossos lobbies com armaduras",
-                            "§7que você poderá personalizar!",
-                            "",
-                            "§fAdquira seu VIP acessando nossa loja:",
-                            "§awww.redemift.com/loja",
-                            "",
-                            "§fExclusivo para §aVIP §fou superior.",
+                        "§7Ande sempre com estilo em",
+                        "§7nossos lobbies com armaduras",
+                        "§7que você poderá personalizar!",
+                        "",
+                        "§fAdquira seu VIP acessando nossa loja:",
+                        "§awww.redemift.com/loja",
+                        "",
+                        "§fExclusivo para §aVIP §fou superior.",
                     )
                 }
             }
@@ -241,18 +241,18 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
             iconPerPlayer = {
                 ItemBuilder(Material.BONE)
-                        .name("§aPets")
-                        .lore(
-                                "§7Passeie em nossos lobbies",
-                                "§7com estilo utilizando um",
-                                "§7pet exclusivo.",
-                                "",
-                                "§fDesbloqueados: §c0/0 §8(0%)",
-                                "§fSelecionado atualmente:",
-                                "§a▸ Nenhum",
-                                "",
-                                "§eClique para abrir!"
-                        )
+                    .name("§aPets")
+                    .lore(
+                        "§7Passeie em nossos lobbies",
+                        "§7com estilo utilizando um",
+                        "§7pet exclusivo.",
+                        "",
+                        "§fDesbloqueados: §c0/0 §8(0%)",
+                        "§fSelecionado atualmente:",
+                        "§a▸ Nenhum",
+                        "",
+                        "§eClique para abrir!"
+                    )
             }
             menu = MenuPets()
             click = ClickEffect {
@@ -284,26 +284,26 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
 
                 ItemBuilder(Material.BANNER)
-                        .name("§aBanners")
-                        .lore(
-                                "§7Escolha banners com diversos",
-                                "§7desenhos, formatos e cores",
-                                "§7diferentes para utilizar",
-                                "§7em nossos lobbies.",
-                                "",
-                                "§fDesbloqueados: ${corNumero}${bannersDesbloqueados}/${BannerSystem.banners.size} §8(${porcentagemTexto})",
-                                "§fSelecionado atualmente:",
-                                "§a▸ ${usedBannerName}",
-                                "",
-                                "§eClique para abrir!"
-                        )
-                        .banner(DyeColor.BLUE, DyeColor.WHITE, PatternType.BRICKS)
-                        .addBanner(DyeColor.BLUE, PatternType.STRIPE_BOTTOM)
-                        .addBanner(DyeColor.BLACK, PatternType.STRAIGHT_CROSS)
-                        .addBanner(DyeColor.BLUE, PatternType.STRAIGHT_CROSS)
-                        .addBanner(DyeColor.BLACK, PatternType.BORDER)
-                        .addBanner(DyeColor.BLUE, PatternType.BORDER)
-                        .addFlags(*ItemFlag.values())
+                    .name("§aBanners")
+                    .lore(
+                        "§7Escolha banners com diversos",
+                        "§7desenhos, formatos e cores",
+                        "§7diferentes para utilizar",
+                        "§7em nossos lobbies.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${bannersDesbloqueados}/${BannerSystem.banners.size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${usedBannerName}",
+                        "",
+                        "§eClique para abrir!"
+                    )
+                    .banner(DyeColor.BLUE, DyeColor.WHITE, PatternType.BRICKS)
+                    .addBanner(DyeColor.BLUE, PatternType.STRIPE_BOTTOM)
+                    .addBanner(DyeColor.BLACK, PatternType.STRAIGHT_CROSS)
+                    .addBanner(DyeColor.BLUE, PatternType.STRAIGHT_CROSS)
+                    .addBanner(DyeColor.BLACK, PatternType.BORDER)
+                    .addBanner(DyeColor.BLUE, PatternType.BORDER)
+                    .addFlags(*ItemFlag.values())
             }
             menu = MenuBanners()
             click = ClickEffect {
@@ -334,18 +334,18 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
 
                 ItemBuilder(Material.BLAZE_POWDER)
-                        .name("§aPartículas")
-                        .lore(
-                                "§7Escolha partículas de diversas",
-                                "§7cores e formatos para andar com",
-                                "§7estilo em nossos lobbies.",
-                                "",
-                                "§fDesbloqueadas: ${corNumero}${particlesDesbloqueados}/${ParticleSystem.particles.size} §8(${porcentagemTexto})",
-                                "§fSelecionado atualmente:",
-                                "§a▸ ${usedParticleName}",
-                                "",
-                                "§eClique para abrir!",
-                        )
+                    .name("§aPartículas")
+                    .lore(
+                        "§7Escolha partículas de diversas",
+                        "§7cores e formatos para andar com",
+                        "§7estilo em nossos lobbies.",
+                        "",
+                        "§fDesbloqueadas: ${corNumero}${particlesDesbloqueados}/${ParticleSystem.particles.size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${usedParticleName}",
+                        "",
+                        "§eClique para abrir!",
+                    )
             }
             menu = MenuParticles()
             click = ClickEffect {
@@ -375,17 +375,17 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 ItemBuilder(Material.PISTON_BASE)
-                        .name("§aEngenhocas")
-                        .lore(
-                                "§7Escolha entre diversos brinquedos",
-                                "§7para se divertir nos lobbies.",
-                                "",
-                                "§fDesbloqueados: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
-                                "§fSelecionado atualmente:",
-                                "§a▸ ${usedGadgetName}",
-                                "",
-                                "§eClique para abrir!"
-                        )
+                    .name("§aEngenhocas")
+                    .lore(
+                        "§7Escolha entre diversos brinquedos",
+                        "§7para se divertir nos lobbies.",
+                        "",
+                        "§fDesbloqueados: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
+                        "§fSelecionado atualmente:",
+                        "§a▸ ${usedGadgetName}",
+                        "",
+                        "§eClique para abrir!"
+                    )
             }
             menu = MenuGadgets()
             click = ClickEffect {
