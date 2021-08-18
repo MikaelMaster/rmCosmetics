@@ -3,6 +3,9 @@ package com.mikael.rmcosmetics
 import com.mikael.rmcosmetics.commands.RemoveCosmeticsCommand
 import com.mikael.rmcosmetics.commands.VersionCommand
 import com.mikael.rmcosmetics.core.GadgetSystem
+import com.mikael.rmcosmetics.gadgets.BreadsGadget
+import com.mikael.rmcosmetics.gadgets.CreeperGadget
+import com.mikael.rmcosmetics.gadgets.GoldFountainGadget
 import com.mikael.rmcosmetics.menu.*
 import com.mikael.rmcosmetics.objects.*
 import net.eduard.api.lib.modules.BukkitTimeHandler
@@ -80,6 +83,9 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
     override fun onDisable() {
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §fDescarregando sistemas...")
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §fRemovendo engenhocas ativas...")
+        GoldFountainGadget.instace.removeActiveGadgets()
+        BreadsGadget.instace.removeActiveGadgets()
+        CreeperGadget.instace.removeActiveGadgets()
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §cPlugin desativado!")
     }
 

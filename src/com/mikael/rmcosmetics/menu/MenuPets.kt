@@ -27,11 +27,12 @@ class MenuPets : Menu("Pets", 6) {
             fixed = true
             iconPerPlayer = {
                 ItemBuilder(Material.WEB)
-                        .name("§cEm Breve!")
-                        .lore(
-                                "§7O sistema de Pets está em desenvolvimento",
-                                "§7e estará disponível em futuras versões do",
-                                "§7plugin de cosméticos da Rede Mift.")
+                    .name("§cEm Breve!")
+                    .lore(
+                        "§7O sistema de Pets está em desenvolvimento",
+                        "§7e estará disponível em futuras versões do",
+                        "§7sistema de cosméticos da Rede Mift."
+                    )
             }
             click = ClickEffect {
                 it.player.soundWhenNoEffect()
@@ -44,8 +45,8 @@ class MenuPets : Menu("Pets", 6) {
             fixed = true
             iconPerPlayer = {
                 ItemBuilder(Material.BARRIER)
-                        .name("§cRemover Pet")
-                        .lore("§7Remove seu pet atual.")
+                    .name("§cRemover Pet")
+                    .lore("§7Remove seu pet atual.")
             }
             click = ClickEffect {
                 val player = it.player
@@ -61,18 +62,18 @@ class MenuPets : Menu("Pets", 6) {
             fixed = true
             iconPerPlayer = {
                 ItemBuilder(Material.PAPER)
-                        .name("§aInformações")
-                        .lore(
-                                "§8Pets",
-                                "",
-                                "§7Você pode encontrar novos pets",
-                                "§7em §bCaixas Misteriosas §7ou comprá-los",
-                                "§7utilizando §6Gold §7e §bCash§7.",
-                                "",
-                                "§fDesbloqueados: §c0/0 §8(0%)",
-                                "§fSelecionado atualmente:",
-                                "§a▸ Nenhum"
-                        )
+                    .name("§aInformações")
+                    .lore(
+                        "§8Pets",
+                        "",
+                        "§7Você pode encontrar novos pets",
+                        "§7em §bCaixas Misteriosas §7ou comprá-los",
+                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "",
+                        "§fDesbloqueados: §c0/0 §8(0%)",
+                        "§fSelecionado atualmente:",
+                        "§a▸ Nenhum"
+                    )
             }
             click = ClickEffect {
                 it.player.soundWhenNoEffect()
@@ -84,12 +85,12 @@ class MenuPets : Menu("Pets", 6) {
             fixed = true
             iconPerPlayer = {
                 ItemBuilder(Material.NAME_TAG)
-                        .name("§aRenomear Pet")
-                        .lore(
-                                "§fNome atual: §cNenhum",
-                                "",
-                                "§cVocê não possui um pet."
-                        )
+                    .name("§aRenomear Pet")
+                    .lore(
+                        "§fNome atual: §cNenhum",
+                        "",
+                        "§cVocê não possui um pet."
+                    )
             }
             click = ClickEffect {
                 val player = it.player
@@ -99,8 +100,8 @@ class MenuPets : Menu("Pets", 6) {
         }
 
         backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                .name("§cVoltar")
-                .lore("§7Para Cosméticos.")
+            .name("§cVoltar")
+            .lore("§7Para Cosméticos.")
         backPage.setPosition(5, 6)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 

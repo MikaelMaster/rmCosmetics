@@ -1,6 +1,5 @@
 package com.mikael.rmcosmetics.menu
 
-import com.mikael.rmcosmetics.core.BannerSystem
 import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.percentColor
 import net.eduard.api.lib.game.ItemBuilder
@@ -17,8 +16,8 @@ import org.bukkit.Sound
 class MenuGadgets : Menu("Engenhocas", 6) {
 
     init {
-
         isAutoAlignItems = true
+
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
@@ -123,8 +122,8 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                     fixed = true
                     iconPerPlayer = {
                         ItemBuilder(Material.BARRIER)
-                                .name("§cRemover Engenhoca")
-                                .lore("§7Remove sua engenhoca atual.")
+                            .name("§cRemover Engenhoca")
+                            .lore("§7Remove sua engenhoca atual.")
                     }
                     click = ClickEffect {
                         val player = it.player
@@ -165,17 +164,17 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                     val corNumero = porcentagemDesbloqueada.percentColor()
 
                     ItemBuilder(Material.PAPER)
-                            .name("§aInformações")
-                            .lore(
-                                    "§8Engenhocas",
-                                    "",
-                                    "§7Você pode encontrar novas",
-                                    "§7engenhocas em §bCaixas Misteriosas§7.",
-                                    "",
-                                    "§fDesbloqueados: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
-                                    "§fSelecionado atualmente:",
-                                    "§a▸ ${usedGadgetName}"
-                            )
+                        .name("§aInformações")
+                        .lore(
+                            "§8Engenhocas",
+                            "",
+                            "§7Você pode encontrar novas",
+                            "§7engenhocas em §bCaixas Misteriosas§7.",
+                            "",
+                            "§fDesbloqueados: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
+                            "§fSelecionado atualmente:",
+                            "§a▸ ${usedGadgetName}"
+                        )
                 }
                 click = ClickEffect {
                     it.player.soundWhenNoEffect()
@@ -183,20 +182,20 @@ class MenuGadgets : Menu("Engenhocas", 6) {
             }
 
             backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                    .name("§cVoltar")
-                    .lore("§7Para Cosméticos.")
+                .name("§cVoltar")
+                .lore("§7Para Cosméticos.")
             backPage.setPosition(5, 6)
             backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
             nextPage.item = ItemBuilder(Material.INK_SACK).data(10)
-                    .name("§aPágina %page")
-                    .lore("§7Ir até a página %page.")
+                .name("§aPágina %page")
+                .lore("§7Ir até a página %page.")
             nextPage.setPosition(9, 6)
             nextPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
             previousPage.item = ItemBuilder(Material.INK_SACK).data(8)
-                    .name("§aPágina %page")
-                    .lore("§7Ir até a página %page.")
+                .name("§aPágina %page")
+                .lore("§7Ir até a página %page.")
             previousPage.setPosition(1, 6)
             previousPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 

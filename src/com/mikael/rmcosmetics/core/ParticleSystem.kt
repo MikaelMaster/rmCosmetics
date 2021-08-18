@@ -51,7 +51,7 @@ object ParticleSystem {
     fun load(player: Player) {
         val profile = player.user
         val particleSelected = miftCore.sqlManager.getDataOf<ParticleData>(profile) ?: return
-        ParticleSystem.particlesSelected[profile] = particleSelected
+        particlesSelected[profile] = particleSelected
         val particle = particles.firstOrNull { it.display == particleSelected.particle } ?: return
         usingParticle[player] = particle
     }
@@ -63,7 +63,7 @@ object ParticleSystem {
         val particleSelected = ParticleData()
         particleSelected.player = profile
         particleSelected.insert()
-        ParticleSystem.particlesSelected[profile] = particleSelected
+        particlesSelected[profile] = particleSelected
         return particleSelected
     }
 
@@ -74,6 +74,8 @@ object ParticleSystem {
             ParticleType.HEART,
             Material.RED_ROSE,
             "rmcosmetics.particle.heart",
+            "rmcosmetics.animatedhat.mvp",
+            "§fExclusivo para §6MVP §fou superior.",
             SingleParticleHead::class
         )
         val particle2 = ParticleCosmetic(
@@ -81,6 +83,8 @@ object ParticleSystem {
             ParticleType.FLAME,
             Material.BLAZE_POWDER,
             "rmcosmetics.particle.flame",
+            "rmcosmetics.defaultperm",
+            "§fExclusivo para §7Membro §fou superior.",
             SingleParticleHead::class
         )
         val particle3 = ParticleCosmetic(
@@ -88,6 +92,8 @@ object ParticleSystem {
             ParticleType.CRIT,
             Material.DEAD_BUSH,
             "rmcosmetics.particle.crit",
+            "rmcosmetics.defaultperm",
+            "§fExclusivo para §7Membro §fou superior.",
             SingleParticleHead::class
         )
         val particle4 = ParticleCosmetic(
@@ -95,6 +101,8 @@ object ParticleSystem {
             ParticleType.MAGIC_CRIT,
             Material.PRISMARINE_CRYSTALS,
             "rmcosmetics.particle.magic_crit",
+            "rmcosmetics.defaultperm",
+            "§fExclusivo para §7Membro §fou superior.",
             SingleParticleHead::class
         )
         val particle5 = ParticleCosmetic(
@@ -102,6 +110,8 @@ object ParticleSystem {
             ParticleType.FIREWORKS_SPARK,
             Material.FIREWORK,
             "rmcosmetics.particle.fireworks_spark",
+            "rmcosmetics.animatedhat.vip",
+            "§fExclusivo para §aVIP §fou superior.",
             SingleParticleHead::class
         )
         val particle6 = ParticleCosmetic(
@@ -109,6 +119,8 @@ object ParticleSystem {
             ParticleType.WITCH_MAGIC,
             Material.FERMENTED_SPIDER_EYE,
             "rmcosmetics.particle.witch_magic",
+            "rmcosmetics.animatedhat.mvp",
+            "§fExclusivo para §6MVP §fou superior.",
             SingleParticleHead::class
         )
         val particle7 = ParticleCosmetic(
@@ -116,6 +128,8 @@ object ParticleSystem {
             ParticleType.DRIP_WATER,
             Material.WATER_BUCKET,
             "rmcosmetics.particle.drip_water",
+            "rmcosmetics.defaultperm",
+            "§fExclusivo para §7Membro §fou superior.",
             SingleParticleHead::class
         )
         val particle8 = ParticleCosmetic(
@@ -123,6 +137,8 @@ object ParticleSystem {
             ParticleType.DRIP_LAVA,
             Material.LAVA_BUCKET,
             "rmcosmetics.particle.drip_lava",
+            "rmcosmetics.defaultperm",
+            "§fExclusivo para §7Membro §fou superior.",
             SingleParticleHead::class
         )
         val particle9 = ParticleCosmetic(
@@ -130,6 +146,8 @@ object ParticleSystem {
             ParticleType.ANGRY_VILLAGER,
             Material.BLAZE_ROD,
             "rmcosmetics.particle.angry_villager",
+            "rmcosmetics.animatedhat.mvpplus",
+            "§fExclusivo para §bMVP§6+ §fou superior.",
             SingleParticleHead::class
         )
         val particle10 = ParticleCosmetic(
@@ -137,6 +155,8 @@ object ParticleSystem {
             ParticleType.HAPPY_VILLAGER,
             Material.EMERALD,
             "rmcosmetics.particle.happy_villager",
+            "rmcosmetics.defaultperm",
+            "§fExclusivo para §7Membro §fou superior.",
             SingleParticleHead::class
         )
         val particle11 = ParticleCosmetic(
@@ -144,6 +164,8 @@ object ParticleSystem {
             ParticleType.NOTE,
             Material.RECORD_4,
             "rmcosmetics.particle.note",
+            "rmcosmetics.animatedhat.vip",
+            "§fExclusivo para §aVIP §fou superior.",
             SingleParticleHead::class
         )
         val particle12 = ParticleCosmetic(
@@ -151,6 +173,8 @@ object ParticleSystem {
             ParticleType.PORTAL,
             Material.EYE_OF_ENDER,
             "rmcosmetics.particle.portal",
+            "rmcosmetics.defaultperm",
+            "§fExclusivo para §7Membro §fou superior.",
             SingleParticleHead::class
         )
         val particle13 = ParticleCosmetic(
@@ -158,6 +182,8 @@ object ParticleSystem {
             ParticleType.ENCHANTMENT_TABLE,
             Material.MAP,
             "rmcosmetics.particle.enchantment_table",
+            "rmcosmetics.animatedhat.mvpplus",
+            "§fExclusivo para §bMVP§6+ §fou superior.",
             SingleParticleHead::class
         )
 

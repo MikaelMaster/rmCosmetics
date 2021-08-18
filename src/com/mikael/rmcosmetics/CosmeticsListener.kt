@@ -15,14 +15,15 @@ import net.eduard.redemikael.core.api.miftCore
 import net.eduard.redemikael.core.user
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
-import org.bukkit.EntityEffect
 import org.bukkit.Sound
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.EnderPearl
+import org.bukkit.entity.Entity
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
-import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.entity.PotionSplashEvent
+import org.bukkit.event.entity.*
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.weather.WeatherChangeEvent
@@ -79,6 +80,19 @@ class CosmeticsListener : EventsManager() {
                 text.hoverEvent = hoverEvent
                 player.spigot().sendMessage(text)
             }
+        }
+    }
+
+    @EventHandler
+    fun blockStackItem(e: ItemMergeEvent) {
+        e.isCancelled = true
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    fun removePlayerCar(e: PlayerQuitEvent) {
+        val player = e.player
+        if (player.isInsideVehicle) {
+            player.vehicle.eject()
         }
     }
 

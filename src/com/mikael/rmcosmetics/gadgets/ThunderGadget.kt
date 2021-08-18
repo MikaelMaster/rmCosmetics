@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.util.Vector
 
 class ThunderGadget : Gadget(
     "Trovão", listOf(
@@ -45,7 +46,6 @@ class ThunderGadget : Gadget(
 
             val local = event.clickedBlock.location
             val mundo = player.world
-            val mundotime = mundo.time
 
             val localbat = local.clone().add(0.0, 3.5, 0.0)
 
@@ -55,11 +55,12 @@ class ThunderGadget : Gadget(
             mundo.strikeLightning(local)
             mundo.strikeLightning(local)
             Mine.broadcast("§6[Cosméticos] §aO jogador ${user.nick} §ainvocou um mega Trovão neste lobby!")
-            mundo.time = 140000
+            player.velocity = Vector(0.0, 1.5, 0.0)
+            mundo.time = 16000
 
             object : BukkitRunnable() {
                 override fun run() {
-                    mundo.time = mundotime
+                    mundo.time = 1000
 
                     val bruxa = local.world.spawn(localbat, Witch::class.java)
                     bruxa.customName = "§dBruxa §7do trovão de ${user.nick}"

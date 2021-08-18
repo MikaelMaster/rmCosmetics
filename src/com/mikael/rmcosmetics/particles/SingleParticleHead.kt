@@ -4,6 +4,7 @@ import com.mikael.rmcosmetics.core.ParticleSystem
 import com.mikael.rmcosmetics.menu.MenuParticles
 import com.mikael.rmcosmetics.objects.ParticleAnimation
 import net.eduard.api.lib.game.Particle
+import net.eduard.api.lib.game.ParticleType
 import org.bukkit.entity.Player
 
 class SingleParticleHead(player: Player) : ParticleAnimation(player) {

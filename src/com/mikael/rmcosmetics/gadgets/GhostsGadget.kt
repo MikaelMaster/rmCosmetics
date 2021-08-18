@@ -11,7 +11,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
-import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.util.Vector
 
 class GhostsGadget : Gadget(
     "Orda de Fantasmas",
@@ -52,7 +52,6 @@ class GhostsGadget : Gadget(
             mundo.strikeLightning(local)
             mundo.strikeLightning(local)
             mundo.strikeLightning(local)
-
             val stand = local.world.spawn(localbat, ArmorStand::class.java)
             stand.setGravity(true)
             stand.isVisible = false
@@ -164,33 +163,30 @@ class GhostsGadget : Gadget(
             morcego10.passenger = stand10
             morcego10.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, 20 * 35, 1))
 
-
-            object : BukkitRunnable() {
-                override fun run() {
-                    player.sendMessage("§cSua Orda de Fantasmas foi removida.")
-                    GadgetSystem.removeActiveGadget(player)
-                    morcego.remove()
-                    morcego2.remove()
-                    morcego3.remove()
-                    morcego4.remove()
-                    morcego5.remove()
-                    morcego6.remove()
-                    morcego7.remove()
-                    morcego8.remove()
-                    morcego9.remove()
-                    morcego10.remove()
-                    stand.remove()
-                    stand2.remove()
-                    stand3.remove()
-                    stand4.remove()
-                    stand5.remove()
-                    stand6.remove()
-                    stand7.remove()
-                    stand8.remove()
-                    stand9.remove()
-                    stand10.remove()
-                }
-            }.runTaskLater(MiftCosmetics.instance, 20 * 15);
+            MiftCosmetics.instance.syncDelay(20 * 15) {
+                player.sendMessage("§cSua Orda de Fantasmas foi removida.")
+                GadgetSystem.removeActiveGadget(player)
+                morcego.remove()
+                morcego2.remove()
+                morcego3.remove()
+                morcego4.remove()
+                morcego5.remove()
+                morcego6.remove()
+                morcego7.remove()
+                morcego8.remove()
+                morcego9.remove()
+                morcego10.remove()
+                stand.remove()
+                stand2.remove()
+                stand3.remove()
+                stand4.remove()
+                stand5.remove()
+                stand6.remove()
+                stand7.remove()
+                stand8.remove()
+                stand9.remove()
+                stand10.remove()
+            }
         }
     }
 

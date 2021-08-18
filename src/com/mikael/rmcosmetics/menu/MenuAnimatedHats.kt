@@ -1,6 +1,5 @@
 package com.mikael.rmcosmetics.menu
 
-import com.mikael.rmcosmetics.MiftCosmetics
 import com.mikael.rmcosmetics.core.BannerSystem
 import com.mikael.rmcosmetics.core.ClosetSystem
 import com.mikael.rmcosmetics.core.HatAnimatedSystem
@@ -60,7 +59,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
                                     loreUsada.add("§8Chapéu Animado")
                                     loreUsada.add("")
-                                    loreUsada.add("§7Esboce sua expressão em nossos lobbies")
+                                    loreUsada.add("§7Realce seu estilo em nossos lobbies")
                                     loreUsada.add("§7utilizando o chapéu animado ${hat.display}.")
                                     loreUsada.add("")
                                     loreUsada.add("§eClique para remover!")
@@ -70,7 +69,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
                                     loreUsada.add("§8Chapéu Animado")
                                     loreUsada.add("")
-                                    loreUsada.add("§7Esboce sua expressão em nossos lobbies")
+                                    loreUsada.add("§7Realce seu estilo em nossos lobbies")
                                     loreUsada.add("§7utilizando o chapéu animado ${hat.display}.")
                                     loreUsada.add("")
                                     loreUsada.add("§eClique para utilizar!")
@@ -81,7 +80,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
                                 loreUsada.add("§8Chapéu Animado")
                                 loreUsada.add("")
-                                loreUsada.add("§7Esboce sua expressão em nossos lobbies")
+                                loreUsada.add("§7Realce seu estilo em nossos lobbies")
                                 loreUsada.add("§7utilizando o chapéu animado ${hat.display}.")
                                 loreUsada.add("")
                                 loreUsada.add("§eClique para utilizar!")
@@ -92,7 +91,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
                             loreUsada.add("§8Chapéu Animado")
                             loreUsada.add("")
-                            loreUsada.add("§7Esboce sua expressão em nossos lobbies")
+                            loreUsada.add("§7Realce seu estilo em nossos lobbies")
                             loreUsada.add("§7utilizando o chapéu animado ${hat.display}.")
                             loreUsada.add("")
                             if (hatcompravel) {
@@ -124,7 +123,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
                         loreUsada.add("§8Chapéu Animado")
                         loreUsada.add("")
-                        loreUsada.add("§7Esboce sua expressão em nossos lobbies")
+                        loreUsada.add("§7Exiba seu estilo em nossos lobbies")
                         loreUsada.add("§7utilizando o chapéu animado ${hat.display}.")
                         loreUsada.add("")
                         loreUsada.add(hat.exclusiveGroupName)
@@ -272,9 +271,9 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
                     .lore(
                         "§8Chapéus Animados",
                         "",
-                        "§7Você pode encontrar novos chapéus animados",
-                        "§7em §bCaixas Misteriosas §7ou comprá-los",
-                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "§7Você pode encontrar novos chapéus",
+                        "§7animados em §bCaixas Misteriosas §7ou",
+                        "§7comprá-los utilizando §6Gold §7e §bCash§7.",
                         "",
                         "§fDesbloqueados: ${corNumero}${animatedHatsDesbloqueados}/${HatAnimatedSystem.animatedHats.size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",

@@ -467,7 +467,7 @@ object HatSystem {
                 "",
                 "§6Chapéu especial em homenagem ao Dia",
                 "§6Internacional do Orgulho LGBTQIA+.",
-                "",
+                ""
             ),
             "http://textures.minecraft.net/texture/124932bb949d0c65717b121c8cd9a21b69e86c0f7e3421ae9b8c64d8b990eb60",
             "rmcosmetics.hat.orgulho_lgbtqia+"
@@ -562,6 +562,17 @@ object HatSystem {
             "http://textures.minecraft.net/texture/e312468de4ca8fe9a8d82aa25dfad812f247a699f964471adbaebc9d26b785c1",
             "rmcosmetics.hat.xbox_one_preto"
         )
+        val chapeu84 = Hat(
+            "PC Gamer",
+            listOf(
+                "",
+                "§6Chapéu especial para todos os Gaymers",
+                "§6que jogam na Rede Mift! :D",
+                ""
+            ),
+            "http://textures.minecraft.net/texture/f8bccd8d916a1960ed304f99d81b9be676ac821b1a1c356b380830575a4444e3",
+            "rmcosmetics.hat.pc_gamer"
+        )
 
         hats.add(chapeu1)
         hats.add(chapeu2)
@@ -646,5 +657,6 @@ object HatSystem {
         hats.add(chapeu81)
         hats.add(chapeu82)
         hats.add(chapeu83)
+        hats.add(chapeu84)
     }
 }

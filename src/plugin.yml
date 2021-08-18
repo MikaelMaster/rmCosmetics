@@ -1,5 +1,6 @@
 name: rmCosmetics
+website: "https://redemift.com"
 version: 1.1
 author: Mikael
-depend: [EduardAPI, rmCore, MiniaturePets]
+depend: [ EduardAPI, rmCore, MiniaturePets ]
 main: com.mikael.rmcosmetics.MiftCosmetics

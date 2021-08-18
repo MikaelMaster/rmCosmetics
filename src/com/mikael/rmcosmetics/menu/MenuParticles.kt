@@ -37,7 +37,6 @@ class MenuParticles : Menu("Partículas", 5) {
         for (particleCosmetic in ParticleSystem.particles) {
 
             button {
-
                 iconPerPlayer = {
 
                     val item = ItemBuilder(particleCosmetic.material)
@@ -50,23 +49,35 @@ class MenuParticles : Menu("Partículas", 5) {
                     val particleporgold = ParticleSystem.compravelporgold[particle]!!
                     val particleporcash = ParticleSystem.compravelporcash[particle]!!
 
+                    if (hasPermission(particleCosmetic.groupPermission)) {
+                        if (hasPermission(particleCosmetic.permission)) {
+                            if (ParticleSystem.hasSelected(player)) {
+                                val particleUsed = ParticleSystem.getSelectedParticle(player)
+                                if (particleUsed == particleCosmetic) {
+                                    val loreUsada = mutableListOf<String>()
 
-                    if (hasPermission(particleCosmetic.permission)) {
+                                    loreUsada.add("§8Partícula")
+                                    loreUsada.add("")
+                                    loreUsada.add("§7Realce seu estilo em nossos lobbies")
+                                    loreUsada.add("§7utilizando a partícula ${particle.display}.")
+                                    loreUsada.add("")
+                                    loreUsada.add("§fFormato: §7Singular")
+                                    loreUsada.add("")
+                                    loreUsada.add("§eClique para remover!")
+                                    item.lore(loreUsada)
+                                } else {
+                                    val loreUsada = mutableListOf<String>()
 
-                        if (ParticleSystem.hasSelected(player)) {
-                            val particleUsed = ParticleSystem.getSelectedParticle(player)
-                            if (particleUsed == particleCosmetic) {
-                                val loreUsada = mutableListOf<String>()
-
-                                loreUsada.add("§8Partícula")
-                                loreUsada.add("")
-                                loreUsada.add("§7Realce seu estilo em nossos lobbies")
-                                loreUsada.add("§7utilizando a partícula ${particle.display}.")
-                                loreUsada.add("")
-                                loreUsada.add("§fFormato: §7Singular")
-                                loreUsada.add("")
-                                loreUsada.add("§eClique para remover!")
-                                item.lore(loreUsada)
+                                    loreUsada.add("§8Partícula")
+                                    loreUsada.add("")
+                                    loreUsada.add("§7Realce seu estilo em nossos lobbies")
+                                    loreUsada.add("§7utilizando a partícula ${particle.display}.")
+                                    loreUsada.add("")
+                                    loreUsada.add("§fFormato: §7Singular")
+                                    loreUsada.add("")
+                                    loreUsada.add("§eClique para utilizar!")
+                                    item.lore(loreUsada)
+                                }
                             } else {
                                 val loreUsada = mutableListOf<String>()
 
@@ -90,7 +101,29 @@ class MenuParticles : Menu("Partículas", 5) {
                             loreUsada.add("")
                             loreUsada.add("§fFormato: §7Singular")
                             loreUsada.add("")
-                            loreUsada.add("§eClique para utilizar!")
+                            if (particlecompravel) {
+                                loreUsada.add("§eOpções de compra:")
+                            }
+                            if (particleporgold) {
+                                loreUsada.add(" §8▪ §fComprar com Gold: §6${particleprecoemgold.format(false)} Gold")
+                            }
+                            if (particleporcash) {
+                                loreUsada.add(" §8▪ §fComprar com Cash: §b${particleprecoemcash.format(false)} Cash")
+                            }
+                            if (particlecompravel) {
+                                loreUsada.add("")
+                            }
+                            if (particlecompravel) {
+                                loreUsada.add(
+                                    if (user.gold >= particleprecoemgold)
+                                        "§aClique para comprar!" else
+                                        "§cVocê não possui saldo suficiente."
+                                )
+                                item.lore(loreUsada)
+                            } else {
+                                loreUsada.add("§cIndisponível para compra.")
+                                item.lore(loreUsada)
+                            }
                             item.lore(loreUsada)
                         }
                     } else {
@@ -103,32 +136,9 @@ class MenuParticles : Menu("Partículas", 5) {
                         loreUsada.add("")
                         loreUsada.add("§fFormato: §7Singular")
                         loreUsada.add("")
-                        if (particlecompravel) {
-                            loreUsada.add("§eOpções de compra:")
-                        }
-                        if (particleporgold) {
-                            loreUsada.add(" §8▪ §fComprar com Gold: §6${particleprecoemgold.format(false)} Gold")
-                        }
-                        if (particleporcash) {
-                            loreUsada.add(" §8▪ §fComprar com Cash: §b${particleprecoemcash.format(false)} Cash")
-                        }
-                        if (particlecompravel) {
-                            loreUsada.add("")
-                        }
-                        if (particlecompravel) {
-                            loreUsada.add(
-                                if (user.gold >= particleprecoemgold)
-                                    "§aClique para comprar!" else
-                                    "§cVocê não possui saldo suficiente."
-                            )
-                            item.lore(loreUsada)
-                        } else {
-                            loreUsada.add("§cIndisponível para compra.")
-                            item.lore(loreUsada)
-                        }
+                        loreUsada.add(particleCosmetic.exclusiveGroupName)
                         item.lore(loreUsada)
                     }
-
                     item
                 }
                 click = ClickEffect {
@@ -142,60 +152,65 @@ class MenuParticles : Menu("Partículas", 5) {
                     val particleporgold = ParticleSystem.compravelporgold[particle]!!
                     val particleporcash = ParticleSystem.compravelporcash[particle]!!
 
-                    if (player.hasPermission(particleCosmetic.permission)) {
-                        if (ParticleSystem.hasSelected(player)) {
-                            val particleUsed = ParticleSystem.getSelectedParticle(player)
-                            var particle = usingEffect[player]
-                            if (particle == null) {
-                                player.sendMessage("§cOcorreu um erro ao alterar sua partícula!")
-                                player.sendMessage("§cPor favor, troque de lobby para resolver esse problema.")
-                                return@ClickEffect
-                            }
+                    if (player.hasPermission(particleCosmetic.groupPermission)) {
+                        if (player.hasPermission(particleCosmetic.permission)) {
+                            if (ParticleSystem.hasSelected(player)) {
+                                val particleUsed = ParticleSystem.getSelectedParticle(player)
+                                var particle = usingEffect[player]
+                                if (particle == null) {
+                                    player.sendMessage("§cOcorreu um erro ao alterar sua partícula!")
+                                    player.sendMessage("§cPor favor, troque de lobby para resolver esse problema.")
+                                    return@ClickEffect
+                                }
 
-                            if (particleUsed == particleCosmetic) {
-                                player.soundWhenEffect()
-                                player.sendMessage("§cVocê removeu a partícula ${particleCosmetic.display}.")
-                                particle.stop()
-                                usingEffect.remove(player)
-                                ParticleSystem.deselect(player)
-                                open(player)
+                                if (particleUsed == particleCosmetic) {
+                                    player.soundWhenEffect()
+                                    player.sendMessage("§cVocê removeu a partícula ${particleCosmetic.display}.")
+                                    particle.stop()
+                                    usingEffect.remove(player)
+                                    ParticleSystem.deselect(player)
+                                    open(player)
+                                } else {
+                                    particle = particleCosmetic.animationClass.constructors
+                                        .first().call(player)
+                                    player.soundWhenEffect()
+                                    player.sendMessage("§aVocê selecionou a partícula ${particleCosmetic.display}.")
+                                    particle.start()
+                                    usingEffect[player] = particle
+                                    ParticleSystem.select(player, particleCosmetic)
+                                    open(player)
+                                }
                             } else {
-                                particle = particleCosmetic.animationClass.constructors
+                                val animation = particleCosmetic.animationClass.constructors
                                     .first().call(player)
                                 player.soundWhenEffect()
                                 player.sendMessage("§aVocê selecionou a partícula ${particleCosmetic.display}.")
-                                particle.start()
-                                usingEffect[player] = particle
+                                animation.restart()
+                                usingEffect[player] = animation
                                 ParticleSystem.select(player, particleCosmetic)
                                 open(player)
                             }
                         } else {
-                            val animation = particleCosmetic.animationClass.constructors
-                                .first().call(player)
-                            player.soundWhenEffect()
-                            player.sendMessage("§aVocê selecionou a partícula ${particleCosmetic.display}.")
-                            animation.restart()
-                            usingEffect[player] = animation
-                            ParticleSystem.select(player, particleCosmetic)
-                            open(player)
-                        }
-                    } else {
-                        if (ParticleSystem.compravel[particleCosmetic] == true) {
-                            if (user.gold >= particleprecoemgold || user.cash >= particleprecoemcash) {
-                                player.soundWhenSwitchMenu()
-                                MenuSelectCoinTypeParticle.instance
-                                    .comprando[player] = particle
+                            if (ParticleSystem.compravel[particleCosmetic] == true) {
+                                if (user.gold >= particleprecoemgold || user.cash >= particleprecoemcash) {
+                                    player.soundWhenSwitchMenu()
+                                    MenuSelectCoinTypeParticle.instance
+                                        .comprando[player] = particle
 
-                                MenuSelectCoinTypeParticle.instance.open(player)
+                                    MenuSelectCoinTypeParticle.instance.open(player)
+                                } else {
+                                    player.soundWhenNoEffect()
+                                }
                             } else {
                                 player.soundWhenNoEffect()
                             }
-                        } else {
-                            player.soundWhenNoEffect()
                         }
+                    } else {
+                        player.soundWhenNoEffect()
                     }
                 }
             }
+
             button("remove-particles") {
                 setPosition(4, 5)
 
@@ -221,6 +236,7 @@ class MenuParticles : Menu("Partículas", 5) {
                     }
                 }
             }
+
             button("info") {
                 setPosition(6, 5)
 

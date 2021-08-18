@@ -11,5 +11,7 @@ open class ParticleCosmetic(
     var type: ParticleType = ParticleType.HEART,
     var material: Material = Material.RED_ROSE,
     var permission: String = "rmcosmetics.particle.particle",
+    var groupPermission: String = "rmcosmetics.animatedhat.vip",
+    var exclusiveGroupName: String = "§fExclusivo para §7Membro §fou superior.",
     var animationClass: KClass<out ParticleAnimation> = SingleParticleHead::class
 )

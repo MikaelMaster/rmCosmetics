@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
+import org.bukkit.util.Vector
 
 class StrawManGadget : Gadget(
     "Espantalho Amaldiçoado", listOf(
@@ -86,13 +87,13 @@ class StrawManGadget : Gadget(
             player.sendMessage("§aVocê ativou a engenhoca Espantalho Amaldiçoado! Duração: §f35s")
             GadgetSystem.putActiveGadget(player)
             val mundo = player.world
-            val mundotime = mundo.time
 
             Mine.broadcast("§6[Cosméticos] §aBuuuu! ${user.nick} §ainvocou a maldição do espantalho neste lobby!")
+            player.velocity = Vector(0.0, 1.5, 0.0)
             player.playSound(player.location, Sound.AMBIENCE_CAVE, 2f, 2f)
             player.playSound(player.location, Sound.AMBIENCE_CAVE, 2f, 2f)
             player.playSound(player.location, Sound.AMBIENCE_CAVE, 2f, 2f)
-            mundo.time = 160000
+            mundo.time = 16000
 
             mundo.strikeLightning(local)
             mundo.strikeLightning(local)
@@ -316,7 +317,7 @@ class StrawManGadget : Gadget(
                             mundo.strikeLightning(local)
                             mundo.strikeLightning(local)
                             Mine.broadcast("§6[Cosméticos] §cA maldição do espantalho invocada por ${user.nick} §cse foi em um estouro.")
-                            mundo.time = mundotime
+                            mundo.time = 1000
                         }
 
                     }.runTaskLater(MiftCosmetics.instance, 20 * 35);

@@ -23,12 +23,12 @@ class BombManGadget : Gadget(
     "Homem Bomba", listOf(
         "§7Tenha o poder de invocar TNTs que",
         "§7causarão uma enorme explosão no",
-        "§7meio dos lobbies que joga todos",
+        "§7meio dos lobbies e jogará todos",
         "§7jogadores próximos para os ares!"
-    ), ItemBuilder(Material.TNT), 40, "rmcosmetics.gadget.bombman"
+    ), ItemBuilder(Material.TNT), 35, "rmcosmetics.gadget.bombman"
 ) {
 
-    val cooldown = CooldownManager(20 * 40)
+    val cooldown = CooldownManager(20 * 35)
 
     init {
         cooldown.msgCooldown = "§cVocê precisa esperar mais %times para utilizar esta engenhoca novamente!"
@@ -99,13 +99,8 @@ class BombManGadget : Gadget(
             .lore(
                 "§7Tenha o poder de invocar TNTs que",
                 "§7causarão uma enorme explosão no",
-                "§7meio dos lobbies que joga todos",
+                "§7meio dos lobbies e jogará todos",
                 "§7jogadores próximos para os ares!"
             )
     }
-
-    fun removeBombManGadget() {
-
-    }
-
 }

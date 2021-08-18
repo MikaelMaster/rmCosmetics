@@ -57,7 +57,6 @@ class FireworkShowGadget : Gadget(
             Mine.broadcast("§6[Cosméticos] §aO jogador ${user.nick} §ainvocou um Show de Fogos neste lobby!")
             GadgetSystem.putActiveGadget(player)
 
-            val localWorldTime = player.world.time
             player.world.time = 16000
             val stand = local.world.spawn(localstand, ArmorStand::class.java)
             stand.isVisible = false
@@ -137,7 +136,7 @@ class FireworkShowGadget : Gadget(
                         cancel()
                         stand.remove()
                         stand2.remove()
-                        player.world.time = localWorldTime
+                        player.world.time = 1000
                     }
                 }
             }.runTaskTimer(MiftCosmetics.instance, 10, 10);

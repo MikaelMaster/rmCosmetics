@@ -7,6 +7,7 @@ import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
 import net.eduard.redemikael.core.user
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
@@ -52,8 +53,8 @@ class EnderDragonGadget : Gadget(
             enderdragon.customName = "§5Dragão do Fim §7de ${user.nick}"
             enderdragon.passenger = player
 
-
             player.sendMessage("§aVocê ativou a engenhoca Dragão do Fim! Duração: §f35s")
+            mundo.time = 16000
             GadgetSystem.putActiveGadget(player)
             Mine.broadcast("§6[Cosméticos] §aO jogador ${user.nick} §ainvocou seu Dragão do Fim neste lobby!")
 
@@ -66,7 +67,7 @@ class EnderDragonGadget : Gadget(
                         player.sendMessage("§cVocê saiu de seu Dragão do Fim e por isso ele foi removido.")
                         GadgetSystem.removeActiveGadget(player)
                         player.chat("/spawn")
-                        enderdragon.passenger = null
+                        mundo.time = 1000
                         enderdragon.remove()
                         runTimer = false
 
@@ -86,8 +87,8 @@ class EnderDragonGadget : Gadget(
                         player.chat("/spawn")
                     }
                     Mine.broadcast("§6[Cosméticos] §cO Dragão do Fim de ${user.nick} §cviajou de volta para o The End.")
+                    mundo.time = 1000
                     GadgetSystem.removeActiveGadget(player)
-                    enderdragon.passenger = null
                     enderdragon.remove()
                 }
             }.runTaskLater(MiftCosmetics.instance, 20 * 35)
