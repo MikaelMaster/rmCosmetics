@@ -21,6 +21,11 @@ class ThunderGadget : Gadget(
         "§7lobbies que gera uma orda de mobs!"
     ), ItemBuilder(Material.BLAZE_ROD), 35, "rmcosmetics.gadget.thunder"
 ) {
+    companion object {
+        lateinit var instance: ThunderGadget
+    }
+
+    val listaDeEntityParaRemover = mutableListOf<Entity>()
 
     val cooldown = CooldownManager(20 * 35)
 
@@ -41,7 +46,7 @@ class ThunderGadget : Gadget(
 
         if (cooldown.cooldown(player)) {
             val user = player.user
-            player.sendMessage("§aVocê invocou um mega Trovão! Duração dos mobs: §f15s")
+            player.sendMessage("§aVocê invocou um mega Trovão! Duração dos mobs: §f10s")
             GadgetSystem.putActiveGadget(player)
 
             val local = event.clickedBlock.location
@@ -63,37 +68,48 @@ class ThunderGadget : Gadget(
                     mundo.time = 1000
 
                     val bruxa = local.world.spawn(localbat, Witch::class.java)
+                    listaDeEntityParaRemover.add(bruxa)
                     bruxa.customName = "§dBruxa §7do trovão de ${user.nick}"
 
                     val morcego = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego)
                     morcego.isAwake = true
                     morcego.passenger = player
 
                     val morcego2 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego2)
                     morcego2.isAwake = true
 
                     val morcego3 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego3)
                     morcego3.isAwake = true
 
                     val morcego4 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego4)
                     morcego4.isAwake = true
 
                     val morcego5 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego5)
                     morcego5.isAwake = true
 
                     val morcego6 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego6)
                     morcego6.isAwake = true
 
                     val morcego7 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego7)
                     morcego7.isAwake = true
 
                     val morcego8 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego8)
                     morcego8.isAwake = true
 
                     val morcego9 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego9)
                     morcego9.isAwake = true
 
                     val morcego10 = local.world.spawn(localbat, Bat::class.java)
+                    listaDeEntityParaRemover.add(morcego10)
                     morcego10.isAwake = true
 
 
@@ -101,25 +117,43 @@ class ThunderGadget : Gadget(
                         override fun run() {
                             player.sendMessage("§cA orda de mobs do seu Trovão foi removida.")
                             GadgetSystem.removeActiveGadget(player)
-                            morcego.remove()
-                            morcego2.remove()
-                            morcego3.remove()
-                            morcego4.remove()
-                            morcego5.remove()
-                            morcego6.remove()
-                            morcego7.remove()
-                            morcego8.remove()
-                            morcego9.remove()
-                            morcego10.remove()
                             bruxa.remove()
+                            listaDeEntityParaRemover.remove(bruxa)
+                            morcego.remove()
+                            listaDeEntityParaRemover.remove(morcego)
+                            morcego2.remove()
+                            listaDeEntityParaRemover.remove(morcego2)
+                            morcego3.remove()
+                            listaDeEntityParaRemover.remove(morcego3)
+                            morcego4.remove()
+                            listaDeEntityParaRemover.remove(morcego4)
+                            morcego5.remove()
+                            listaDeEntityParaRemover.remove(morcego5)
+                            morcego6.remove()
+                            listaDeEntityParaRemover.remove(morcego6)
+                            morcego7.remove()
+                            listaDeEntityParaRemover.remove(morcego)
+                            morcego8.remove()
+                            listaDeEntityParaRemover.remove(morcego8)
+                            morcego9.remove()
+                            listaDeEntityParaRemover.remove(morcego9)
+                            morcego10.remove()
+                            listaDeEntityParaRemover.remove(morcego10)
                         }
-                    }.runTaskLater(MiftCosmetics.instance, 20 * 15);
+                    }.runTaskLater(MiftCosmetics.instance, 20 * 10)
                 }
-            }.runTaskLater(MiftCosmetics.instance, 20);
+            }.runTaskLater(MiftCosmetics.instance, 20)
+        }
+    }
+
+    fun removeActiveGadgets() {
+        for (itemLoop in listaDeEntityParaRemover) {
+            itemLoop.remove()
         }
     }
 
     init {
+        instance = this@ThunderGadget
         icon = ItemBuilder(Material.BLAZE_ROD).name("§aEngenhoca: §eTrovão")
             .lore(
                 "§7Invoque um mega trovão no meio dos",

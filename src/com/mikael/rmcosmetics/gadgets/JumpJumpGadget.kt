@@ -9,7 +9,6 @@ import net.eduard.api.lib.modules.Mine
 import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
-import org.bukkit.entity.ArmorStand
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
@@ -21,7 +20,7 @@ class JumpJumpGadget : Gadget(
     "Pula-Pula", listOf(
         "§7Um Pula-Pula será gerado em seu",
         "§7lobby e você poderá pular com todos!"
-    ), ItemBuilder(Material.SLIME_BLOCK), 80, "rmcosmetics.gadget.jump-jump"
+    ), ItemBuilder(Material.SLIME_BLOCK), 80, "rmcosmetics.gadget.jumpjump"
 ) {
 
     val cooldown = CooldownManager(20 * 80)
@@ -225,76 +224,104 @@ class JumpJumpGadget : Gadget(
             GadgetSystem.putActiveGadget(player)
             Mine.broadcast("§6[Cosméticos] §aO jogador ${user.nick} §aativou um Pula-Pula neste lobby!")
 
-            val localstand = local.clone().add(0.5, 4.0, 0.5)
             fence1.block.type = Material.FENCE
+            GadgetSystem.addBlockToList(fence1.block.location)
             fence2.block.type = Material.FENCE
+            GadgetSystem.addBlockToList(fence2.block.location)
             fence3.block.type = Material.FENCE
+            GadgetSystem.addBlockToList(fence3.block.location)
             fence4.block.type = Material.FENCE
+            GadgetSystem.addBlockToList(fence4.block.location)
             stair1.block.type = Material.WOOD_STAIRS
+            GadgetSystem.addBlockToList(stair1.block.location)
             stair2.block.type = Material.WOOD_STAIRS
+            GadgetSystem.addBlockToList(stair2.block.location)
 
             centerwool.block.type = Material.WOOL
             centerwool.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(centerwool.block.location)
             wool1.block.type = Material.WOOL
             wool1.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool1.block.location)
             wool2.block.type = Material.WOOL
             wool2.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool2.block.location)
             wool3.block.type = Material.WOOL
             wool3.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool3.block.location)
             wool4.block.type = Material.WOOL
             wool4.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool4.block.location)
             wool5.block.type = Material.WOOL
             wool5.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool5.block.location)
             wool6.block.type = Material.WOOL
             wool6.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool6.block.location)
             wool7.block.type = Material.WOOL
             wool7.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool7.block.location)
             wool8.block.type = Material.WOOL
             wool8.block.data = 15.toByte()
+            GadgetSystem.addBlockToList(wool8.block.location)
 
             bluewool1.block.type = Material.WOOL
             bluewool1.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool1.block.location)
             bluewool2.block.type = Material.WOOL
             bluewool2.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool2.block.location)
             bluewool3.block.type = Material.WOOL
             bluewool3.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool3.block.location)
             bluewool4.block.type = Material.WOOL
             bluewool4.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool4.block.location)
             bluewool5.block.type = Material.WOOL
             bluewool5.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool5.block.location)
             bluewool6.block.type = Material.WOOL
             bluewool6.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool6.block.location)
             bluewool7.block.type = Material.WOOL
             bluewool7.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool7.block.location)
             bluewool8.block.type = Material.WOOL
             bluewool8.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool8.block.location)
             bluewool9.block.type = Material.WOOL
             bluewool9.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool9.block.location)
             bluewool10.block.type = Material.WOOL
             bluewool10.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool10.block.location)
             bluewool11.block.type = Material.WOOL
             bluewool11.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool11.block.location)
             bluewool12.block.type = Material.WOOL
             bluewool12.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool12.block.location)
             bluewool13.block.type = Material.WOOL
             bluewool13.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool13.block.location)
             bluewool14.block.type = Material.WOOL
             bluewool14.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool14.block.location)
             bluewool15.block.type = Material.WOOL
             bluewool15.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool15.block.location)
             bluewool16.block.type = Material.WOOL
             bluewool16.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool16.block.location)
             bluewool17.block.type = Material.WOOL
             bluewool17.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool17.block.location)
             bluewool18.block.type = Material.WOOL
             bluewool18.block.data = 11.toByte()
+            GadgetSystem.addBlockToList(bluewool18.block.location)
 
-            val stand = local.world.spawn(localstand, ArmorStand::class.java)
-            stand.isVisible = false
-            stand.customName = "§9Pula-Pula §7de ${user.nick}"
-            stand.isCustomNameVisible = true
-            stand.setGravity(false)
-            player.teleport(localstand.clone().subtract(0.0, 0.8, 0.0))
+            val localPlayer = local.clone().add(0.5, 3.2, 0.5)
+            player.teleport(localPlayer)
 
             object : BukkitRunnable() {
                 override fun run() {
@@ -302,42 +329,73 @@ class JumpJumpGadget : Gadget(
                     GadgetSystem.removeActiveGadget(player)
                     Mine.broadcast("§6[Cosméticos] §cO Pula-Pula de ${user.nick} §cfoi removido.")
                     fence1.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(fence1.block.location)
                     fence2.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(fence2.block.location)
                     fence3.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(fence3.block.location)
                     fence4.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(fence4.block.location)
                     stair1.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(stair1.block.location)
                     stair2.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(stair2.block.location)
 
                     centerwool.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(centerwool.block.location)
                     wool1.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool1.block.location)
                     wool2.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool2.block.location)
                     wool3.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool3.block.location)
                     wool4.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool4.block.location)
                     wool5.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool5.block.location)
                     wool6.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool6.block.location)
                     wool7.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool7.block.location)
                     wool8.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(wool8.block.location)
 
                     bluewool1.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool1.block.location)
                     bluewool2.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool2.block.location)
                     bluewool3.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool3.block.location)
                     bluewool4.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool4.block.location)
                     bluewool5.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool5.block.location)
                     bluewool6.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool6.block.location)
                     bluewool7.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool7.block.location)
                     bluewool8.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool8.block.location)
                     bluewool9.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool9.block.location)
                     bluewool10.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool10.block.location)
                     bluewool11.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool11.block.location)
                     bluewool12.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool12.block.location)
                     bluewool13.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool13.block.location)
                     bluewool14.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool14.block.location)
                     bluewool15.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool15.block.location)
                     bluewool16.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool16.block.location)
                     bluewool17.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(bluewool17.block.location)
                     bluewool18.block.type = Material.AIR
-
-                    stand.remove()
+                    GadgetSystem.removeBlockToList(bluewool18.block.location)
                 }
             }.runTaskLater(MiftCosmetics.instance, 20 * 35)
         }

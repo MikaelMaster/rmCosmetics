@@ -27,7 +27,7 @@ class CreeperGadget : Gadget(
     ), ItemBuilder(Material.MONSTER_EGG).data(50), 15, "rmcosmetics.gadget.creeper"
 ) {
     companion object {
-        lateinit var instace: CreeperGadget
+        lateinit var instance: CreeperGadget
     }
 
     val listaDeEntityParaRemover = mutableListOf<Entity>()
@@ -105,7 +105,7 @@ class CreeperGadget : Gadget(
     }
 
     init {
-        instace = this@CreeperGadget
+        instance = this@CreeperGadget
         icon = ItemBuilder(Material.MONSTER_EGG).data(50).name("§aEngenhoca: §eCreeper Voador")
             .lore(
                 "§7Lance um creeper para os ares",

@@ -28,6 +28,11 @@ class RabbitsFamilyGadget : Gadget(
     45,
     "rmcosmetics.gadget.rabbitsfamily"
 ) {
+    companion object {
+        lateinit var instance: RabbitsFamilyGadget
+    }
+
+    val listaDeEntityParaRemover = mutableListOf<Entity>()
 
     val cooldown = CooldownManager(20 * 45)
 
@@ -51,7 +56,6 @@ class RabbitsFamilyGadget : Gadget(
         val localegg = local.clone().add(0.5, 5.5, 0.5)
         val localstand = local.clone().add(0.0, 1.5, -0.3)
         val localfirework = local.clone().add(0.0, 2.0, 0.0)
-
 
         val haybale1 = local.clone().add(0.0, 1.0, 0.0)
         val haybale2 = local.clone().add(1.0, 1.0, 0.0)
@@ -95,55 +99,73 @@ class RabbitsFamilyGadget : Gadget(
             GadgetSystem.putActiveGadget(player)
 
             val stand = local.world.spawn(localstand, ArmorStand::class.java)
+            listaDeEntityParaRemover.add(stand)
             stand.isVisible = false
             stand.setGravity(false)
             stand.customName = "§aFamília de Coelhos §7de ${user.nick}"
             stand.isCustomNameVisible = true
 
             haybale1.block.type = Material.HAY_BLOCK
+            GadgetSystem.addBlockToList(haybale1.block.location)
             haybale2.block.type = Material.HAY_BLOCK
+            GadgetSystem.addBlockToList(haybale2.block.location)
             haybale3.block.type = Material.HAY_BLOCK
+            GadgetSystem.addBlockToList(haybale3.block.location)
             haybale4.block.type = Material.HAY_BLOCK
+            GadgetSystem.addBlockToList(haybale4.block.location)
             haybale5.block.type = Material.HAY_BLOCK
+            GadgetSystem.addBlockToList(haybale5.block.location)
             slab1.block.type = Material.WOOD_STEP
+            GadgetSystem.addBlockToList(slab1.block.location)
             slab2.block.type = Material.WOOD_STEP
+            GadgetSystem.addBlockToList(slab2.block.location)
 
             local.world.spawn(localegg, Egg::class.java)
             local.world.spawn(localegg, Egg::class.java)
             local.world.spawn(localegg, Egg::class.java)
 
             val zombie = local.world.spawn(localegg, Zombie::class.java)
+            listaDeEntityParaRemover.add(zombie)
             zombie.isBaby = true
             zombie.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, 20 * 3, 1))
 
             object : BukkitRunnable() {
                 override fun run() {
+                    listaDeEntityParaRemover.remove(zombie)
                     zombie.remove()
                 }
             }.runTaskLater(MiftCosmetics.instance, 20 * 2)
 
             val rabbit = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit)
             rabbit.customName = "§6Coelho 1"
 
             val rabbit2 = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit2)
             rabbit2.customName = "§6Coelho 2"
 
             val rabbit3 = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit3)
             rabbit3.customName = "§6Coelho 3"
 
             val rabbit4 = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit4)
             rabbit4.customName = "§6Coelho 4"
 
             val rabbit5 = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit5)
             rabbit5.customName = "§6Coelho 5"
 
             val rabbit6 = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit6)
             rabbit6.customName = "§6Coelho 6"
 
             val rabbit7 = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit7)
             rabbit7.customName = "§6Coelho 7"
 
             val rabbit8 = local.world.spawn(localrabbit, Rabbit::class.java)
+            listaDeEntityParaRemover.add(rabbit8)
             rabbit8.customName = "§6Coelho 8"
 
             Mine.newFirework(localfirework, 0, Color.LIME, Color.GREEN, true, true, FireworkEffect.Type.BURST)
@@ -164,28 +186,51 @@ class RabbitsFamilyGadget : Gadget(
                     Mine.newFirework(localfirework, 1, Color.GRAY, Color.GRAY, true, true, FireworkEffect.Type.BALL)
 
                     haybale1.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(haybale1.block.location)
                     haybale2.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(haybale2.block.location)
                     haybale3.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(haybale3.block.location)
                     haybale4.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(haybale4.block.location)
                     haybale5.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(haybale5.block.location)
                     slab1.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(slab1.block.location)
                     slab2.block.type = Material.AIR
+                    GadgetSystem.removeBlockToList(slab2.block.location)
 
                     rabbit.remove()
+                    listaDeEntityParaRemover.remove(rabbit)
                     rabbit2.remove()
+                    listaDeEntityParaRemover.remove(rabbit2)
                     rabbit3.remove()
+                    listaDeEntityParaRemover.remove(rabbit3)
                     rabbit4.remove()
+                    listaDeEntityParaRemover.remove(rabbit4)
                     rabbit5.remove()
+                    listaDeEntityParaRemover.remove(rabbit5)
                     rabbit6.remove()
+                    listaDeEntityParaRemover.remove(rabbit6)
                     rabbit7.remove()
+                    listaDeEntityParaRemover.remove(rabbit7)
                     rabbit8.remove()
+                    listaDeEntityParaRemover.remove(rabbit8)
                     stand.remove()
+                    listaDeEntityParaRemover.remove(stand)
                 }
             }.runTaskLater(MiftCosmetics.instance, 20 * 15)
         }
     }
 
+    fun removeActiveGadgets() {
+        for (itemLoop in listaDeEntityParaRemover) {
+            itemLoop.remove()
+        }
+    }
+
     init {
+        instance = this@RabbitsFamilyGadget
         icon =
             ItemBuilder().skin("http://textures.minecraft.net/texture/117bffc1972acd7f3b4a8f43b5b6c7534695b8fd62677e0306b2831574b")
                 .name("§aEngenhoca: §eFamília de Coelhos")

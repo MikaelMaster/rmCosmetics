@@ -256,6 +256,13 @@ class CosmeticsListener : EventsManager() {
         }
     }
 
+    /*
+    @EventHandler
+    fun test(e: ProjectileHitEvent) {
+        e.entity.
+    }
+     */
+
     @EventHandler
     fun nocompanionspawnmessage(event: PetSpawnEvent) {
         event.setShouldSendSpawnMessage(false)

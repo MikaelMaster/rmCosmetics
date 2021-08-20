@@ -11,6 +11,7 @@ import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Entity
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
@@ -22,6 +23,11 @@ class FireworkShowGadget : Gadget(
         "§7meio de nossos lobbies!"
     ), ItemBuilder(Material.FIREWORK_CHARGE), 45, "rmcosmetics.gadget.fireworkshow"
 ) {
+    companion object {
+        lateinit var instance: FireworkShowGadget
+    }
+
+    val listaDeEntityParaRemover = mutableListOf<Entity>()
 
     val cooldown = CooldownManager(20 * 45)
 
@@ -59,16 +65,19 @@ class FireworkShowGadget : Gadget(
 
             player.world.time = 16000
             val stand = local.world.spawn(localstand, ArmorStand::class.java)
+            listaDeEntityParaRemover.add(stand)
             stand.isVisible = false
             stand.setGravity(false)
             stand.helmet =
                 ItemBuilder(Material.SKULL).skin("http://textures.minecraft.net/texture/7419263f9ebc9317dc5abb879cd59738d76e2a23dc1acbcb94e9dc362ffc4b")
 
             val stand2 = local.world.spawn(localstand2, ArmorStand::class.java)
+            listaDeEntityParaRemover.add(stand2)
             stand2.isVisible = false
             stand2.setGravity(false)
             stand2.customName = "§eShow de Fogos §7de ${user.nick}"
             stand2.isCustomNameVisible = true
+
             object : BukkitRunnable() {
                 var tempo = 30
                 override fun run() {
@@ -135,7 +144,9 @@ class FireworkShowGadget : Gadget(
                         GadgetSystem.removeActiveGadget(player)
                         cancel()
                         stand.remove()
+                        listaDeEntityParaRemover.remove(stand)
                         stand2.remove()
+                        listaDeEntityParaRemover.remove(stand2)
                         player.world.time = 1000
                     }
                 }
@@ -143,7 +154,14 @@ class FireworkShowGadget : Gadget(
         }
     }
 
+    fun removeActiveGadgets() {
+        for (itemLoop in listaDeEntityParaRemover) {
+            itemLoop.remove()
+        }
+    }
+
     init {
+        instance = this@FireworkShowGadget
         icon = ItemBuilder(Material.FIREWORK_CHARGE).name("§aEngenhoca: §eShow de Fogos")
             .lore(
                 "§7Faça um show pirotécnico no",

@@ -3,15 +3,14 @@ package com.mikael.rmcosmetics
 import com.mikael.rmcosmetics.commands.RemoveCosmeticsCommand
 import com.mikael.rmcosmetics.commands.VersionCommand
 import com.mikael.rmcosmetics.core.GadgetSystem
-import com.mikael.rmcosmetics.gadgets.BreadsGadget
-import com.mikael.rmcosmetics.gadgets.CreeperGadget
-import com.mikael.rmcosmetics.gadgets.GoldFountainGadget
+import com.mikael.rmcosmetics.gadgets.*
 import com.mikael.rmcosmetics.menu.*
 import com.mikael.rmcosmetics.objects.*
 import net.eduard.api.lib.modules.BukkitTimeHandler
 import net.eduard.api.lib.plugin.IPluginInstance
 import net.eduard.redemikael.core.api.miftCore
 import org.bukkit.Bukkit
+import org.bukkit.Material
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -83,9 +82,27 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
     override fun onDisable() {
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §fDescarregando sistemas...")
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §fRemovendo engenhocas ativas...")
-        GoldFountainGadget.instace.removeActiveGadgets()
-        BreadsGadget.instace.removeActiveGadgets()
-        CreeperGadget.instace.removeActiveGadgets()
+
+        for (bloco in GadgetSystem.blocksList) {
+            bloco.block.type = Material.AIR
+        }
+
+        RabbitsFamilyGadget.instance.removeActiveGadgets()
+        FireworkShowGadget.instance.removeActiveGadgets()
+        BombManGadget.instance.removeActiveGadgets()
+        ThunderGadget.instance.removeActiveGadgets()
+        EggRainfallGadget.instance.removeActiveGadgets()
+        FlyingHorseGadget.instance.removeActiveGadgets()
+        EnderDragonGadget.instance.removeActiveGadgets()
+        // Engenhoca lançador não precisa ser removida pois é fogo de artifício
+        StrawManGadget.instance.removeActiveGadgets()
+        GhostsGadget.instance.removeActiveGadgets()
+        GoldFountainGadget.instance.removeActiveGadgets()
+        BreadsGadget.instance.removeActiveGadgets()
+        CreeperGadget.instance.removeActiveGadgets()
+        GiftGadget.instace.removeActiveGadgets()
+        // DiscothequeGadget.instance.removeActiveGadgets()
+        BatsGadget.instance.removeActiveGadgets()
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §cPlugin desativado!")
     }
 

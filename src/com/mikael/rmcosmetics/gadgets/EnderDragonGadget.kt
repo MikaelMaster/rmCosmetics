@@ -7,7 +7,6 @@ import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
 import net.eduard.redemikael.core.user
-import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
@@ -24,6 +23,11 @@ class EnderDragonGadget : Gadget(
     120,
     "rmcosmetics.gadget.enderdragon"
 ) {
+    companion object {
+        lateinit var instance: EnderDragonGadget
+    }
+
+    val listaDeEntityParaRemover = mutableListOf<Entity>()
 
     val cooldown = CooldownManager(20 * 120)
 
@@ -50,6 +54,7 @@ class EnderDragonGadget : Gadget(
             mundo.strikeLightning(local)
 
             val enderdragon = local.world.spawn(localenderdragon, EnderDragon::class.java)
+            listaDeEntityParaRemover.add(enderdragon)
             enderdragon.customName = "§5Dragão do Fim §7de ${user.nick}"
             enderdragon.passenger = player
 
@@ -66,9 +71,12 @@ class EnderDragonGadget : Gadget(
                         if (enderdragon.passenger == player) return
                         player.sendMessage("§cVocê saiu de seu Dragão do Fim e por isso ele foi removido.")
                         GadgetSystem.removeActiveGadget(player)
-                        player.chat("/spawn")
+                        if (player.isOnline) {
+                            player.chat("/spawn")
+                        }
                         mundo.time = 1000
                         enderdragon.remove()
+                        listaDeEntityParaRemover.remove(enderdragon)
                         runTimer = false
 
                         if (enderdragon.isDead) {
@@ -90,12 +98,20 @@ class EnderDragonGadget : Gadget(
                     mundo.time = 1000
                     GadgetSystem.removeActiveGadget(player)
                     enderdragon.remove()
+                    listaDeEntityParaRemover.remove(enderdragon)
                 }
             }.runTaskLater(MiftCosmetics.instance, 20 * 35)
         }
     }
 
+    fun removeActiveGadgets() {
+        for (entity in listaDeEntityParaRemover) {
+            entity.remove()
+        }
+    }
+
     init {
+        instance = this@EnderDragonGadget
         icon =
             ItemBuilder().skin("http://textures.minecraft.net/texture/ffcdae586b52403b92b1857ee4331bac636af08bab92ba5750a54a83331a6353")
                 .name("§aEngenhoca: §eDragão do Fim")

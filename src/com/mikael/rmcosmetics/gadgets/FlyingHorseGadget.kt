@@ -24,6 +24,11 @@ class FlyingHorseGadget : Gadget(
         "§7cavalo... parece que ele sabe voar!"
     ), ItemBuilder(Material.SADDLE), 60, "rmcosmetics.gadget.flyinghorse"
 ) {
+    companion object {
+        lateinit var instance: FlyingHorseGadget
+    }
+
+    val listaDeEntityParaRemover = mutableListOf<Entity>()
 
     val cooldown = CooldownManager(20 * 60)
 
@@ -48,6 +53,7 @@ class FlyingHorseGadget : Gadget(
             val localhorse = local.clone().add(0.0, 2.0, 0.0)
 
             val horse = local.world.spawn(localhorse, Horse::class.java)
+            listaDeEntityParaRemover.add(horse)
             horse.customName = "§eCavalo Voador §7de ${user.nick}"
             horse.owner = player
             horse.isTamed = true
@@ -57,6 +63,7 @@ class FlyingHorseGadget : Gadget(
             horse.passenger = player
 
             val bat = local.world.spawn(localhorse, Bat::class.java)
+            listaDeEntityParaRemover.add(horse)
             bat.isAwake = true
             bat.passenger = horse
             bat.addPotionEffect(PotionEffect(PotionEffectType.INVISIBILITY, 20 * 35, 1))
@@ -94,7 +101,9 @@ class FlyingHorseGadget : Gadget(
                         player.chat("/spawn")
                     }
                     horse.remove()
+                    listaDeEntityParaRemover.remove(horse)
                     bat.remove()
+                    listaDeEntityParaRemover.remove(bat)
                     runTimer = false
 
                     if (horse.isDead) {
@@ -107,19 +116,28 @@ class FlyingHorseGadget : Gadget(
                 override fun run() {
                     if (!runTimer) return
 
+                    player.sendMessage("§cSeu Cavalo Voador foi removido.")
+                    GadgetSystem.removeActiveGadget(player)
                     if (player.isOnline) {
-                        player.sendMessage("§cSeu Cavalo Voador foi removido.")
-                        GadgetSystem.removeActiveGadget(player)
                         player.chat("/spawn")
                     }
                     horse.remove()
+                    listaDeEntityParaRemover.remove(horse)
                     bat.remove()
+                    listaDeEntityParaRemover.remove(bat)
                 }
             }.runTaskLater(MiftCosmetics.instance, 20 * 35)
         }
     }
 
+    fun removeActiveGadgets() {
+        for (entity in listaDeEntityParaRemover) {
+            entity.remove()
+        }
+    }
+
     init {
+        instance = this@FlyingHorseGadget
         icon = ItemBuilder(Material.SADDLE).name("§aEngenhoca: §eCavalo Voador")
             .lore(
                 "§7Parece que tem algo de errado com esse",

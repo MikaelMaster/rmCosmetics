@@ -4,10 +4,8 @@ import com.kirelcodes.miniaturepets.pets.PetManager
 import com.mikael.rmcosmetics.core.*
 import com.mikael.rmcosmetics.menu.MenuParticles
 import net.eduard.api.lib.game.ItemBuilder
-import net.eduard.api.lib.kotlin.player
 import net.eduard.api.lib.manager.CommandManager
 import net.eduard.api.lib.modules.Mine
-import net.eduard.redemikael.core.soundWhenEffect
 import net.eduard.redemikael.core.user
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -31,29 +29,29 @@ class RemoveCosmeticsCommand : CommandManager("removeallcosmetics") {
         Mine.broadcast(" §6[Cosméticos] §cTodos os cosméticos de todos os jogadores deste lobby foram desativados por ${user.visual}§c.")
         Mine.broadcast("")
 
-        for (player in Bukkit.getOnlinePlayers()) {
+        for (playerLoop in Bukkit.getOnlinePlayers()) {
 
-            player.playSound(player.location, Sound.ANVIL_BREAK, 2f, 1f)
+            playerLoop.playSound(playerLoop.location, Sound.ANVIL_BREAK, 2f, 1f)
 
-            if (PetManager.hasPet(player)) {
-                player.sendMessage("§cSeu companheiro atual foi removido.")
-                PetManager.getPet(player).remove()
-                CompanionSystem.deselect(player)
+            if (PetManager.hasPet(playerLoop)) {
+                playerLoop.sendMessage("§cSeu companheiro atual foi removido.")
+                PetManager.getPet(playerLoop).remove()
+                CompanionSystem.deselect(playerLoop)
             }
 
-            if (HatSystem.hasSelected(player)) {
-                player.sendMessage("§cSeu chapéu atual foi removido.")
-                player.inventory.helmet = null
-                HatSystem.deselect(player)
+            if (HatSystem.hasSelected(playerLoop)) {
+                playerLoop.sendMessage("§cSeu chapéu atual foi removido.")
+                playerLoop.inventory.helmet = null
+                HatSystem.deselect(playerLoop)
             }
 
-            if (HatAnimatedSystem.hasSelected(player)) {
-                player.sendMessage("§cSeu chapéu animado atual foi removido.")
-                player.inventory.helmet = null
-                HatAnimatedSystem.deselect(player)
+            if (HatAnimatedSystem.hasSelected(playerLoop)) {
+                playerLoop.sendMessage("§cSeu chapéu animado atual foi removido.")
+                playerLoop.inventory.helmet = null
+                HatAnimatedSystem.deselect(playerLoop)
             }
 
-            val closet = ClosetSystem.getPlayerCloset(player)
+            val closet = ClosetSystem.getPlayerCloset(playerLoop)
             player.sendMessage("§cToda a sua armadura foi removida.")
 
             if (closet.helmet != null) {
@@ -82,22 +80,22 @@ class RemoveCosmeticsCommand : CommandManager("removeallcosmetics") {
             }
             closet.updateQueue()
 
-            if (BannerSystem.hasSelected(player)) {
+            if (BannerSystem.hasSelected(playerLoop)) {
                 player.sendMessage("§cSeu banner atual foi removido.")
                 player.inventory.helmet = null
-                BannerSystem.deselect(player)
+                BannerSystem.deselect(playerLoop)
             }
 
-            if (ParticleSystem.hasSelected(player)) {
+            if (ParticleSystem.hasSelected(playerLoop)) {
                 player.sendMessage("§cSua partícula atual foi removida.")
-                MenuParticles.usingEffect.remove(player)
-                ParticleSystem.deselect(player)
+                MenuParticles.usingEffect.remove(playerLoop)
+                ParticleSystem.deselect(playerLoop)
             }
 
-            if (GadgetSystem.hasSelected(player)) {
+            if (GadgetSystem.hasSelected(playerLoop)) {
                 player.sendMessage("§cSua engenhoca atual foi removida.")
                 player.inventory.setItem(5, ItemBuilder(Material.AIR))
-                GadgetSystem.deselect(player)
+                GadgetSystem.deselect(playerLoop)
             }
         }
     }

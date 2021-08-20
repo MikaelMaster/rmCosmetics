@@ -25,7 +25,7 @@ class GoldFountainGadget : Gadget(
     ), ItemBuilder(Material.GOLD_INGOT), 30, "rmcosmetics.gadget.goldfountain"
 ) {
     companion object {
-        lateinit var instace: GoldFountainGadget
+        lateinit var instance: GoldFountainGadget
     }
 
     val listaDeEntityParaRemover = mutableListOf<Entity>()
@@ -146,7 +146,7 @@ class GoldFountainGadget : Gadget(
     }
 
     init {
-        instace = this@GoldFountainGadget
+        instance = this@GoldFountainGadget
         icon = ItemBuilder(Material.GOLD_INGOT).name("§aEngenhoca: §eFonte Dourada")
             .lore(
                 "§7Qual o jeito melhor de exibir sua",

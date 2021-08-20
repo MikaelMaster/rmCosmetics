@@ -6,9 +6,12 @@ import com.mikael.rmcosmetics.objects.GadgetData
 import net.eduard.redemikael.core.api.miftCore
 import net.eduard.redemikael.core.objects.MiftProfile
 import net.eduard.redemikael.core.user
+import org.bukkit.Location
 import org.bukkit.entity.Player
 
 object GadgetSystem {
+
+    var blocksList = mutableListOf<Location>()
 
     var activeGadget = mutableListOf<Player>()
 
@@ -18,6 +21,14 @@ object GadgetSystem {
 
     fun hasActiveGadget(player: Player): Boolean {
         return activeGadget.contains(player)
+    }
+
+    fun addBlockToList(location: Location) {
+        blocksList.add(location)
+    }
+
+    fun removeBlockToList(location: Location) {
+        blocksList.remove(location)
     }
 
     fun putActiveGadget(player: Player) {
@@ -90,6 +101,8 @@ object GadgetSystem {
         gadgets.add(BreadsGadget())
         gadgets.add(CreeperGadget())
         gadgets.add(GiftGadget())
+        gadgets.add(DiscothequeGadget())
+        gadgets.add(BatsGadget())
         // gadgets.add(SnowStormGadget())
         // gadgets.add(ChristmasTreeGadget())
         // gadgets.add(GraveStoneGadget())

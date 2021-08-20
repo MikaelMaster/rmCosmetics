@@ -9,9 +9,9 @@ import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Egg
+import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.player.PlayerInteractEvent
@@ -23,6 +23,11 @@ class EggRainfallGadget : Gadget(
         "§7Pena que estes não de chocolate..."
     ), ItemBuilder(Material.EGG), 45, "rmcosmetics.gadget.eggrainfall"
 ) {
+    companion object {
+        lateinit var instance: EggRainfallGadget
+    }
+
+    val listaDeEntityParaRemover = mutableListOf<Entity>()
 
     val cooldown = CooldownManager(20 * 45)
 
@@ -69,6 +74,7 @@ class EggRainfallGadget : Gadget(
             val playerloc12 = event.player.location.add(-2.0, 5.5, 0.0)
             val playerloc13 = event.player.location.add(-3.0, 5.5, 0.0)
             val stand = local.world.spawn(localstand, ArmorStand::class.java)
+            listaDeEntityParaRemover.add(stand)
             stand.isVisible = false
             stand.setGravity(false)
             stand.customName = "§fChuva de Ovos §7de ${user.nick}"
@@ -93,8 +99,9 @@ class EggRainfallGadget : Gadget(
                     if (tempo == 0) {
                         player.sendMessage("§cSua Chuva de Ovos foi removida.")
                         GadgetSystem.removeActiveGadget(player)
-                        cancel()
                         stand.remove()
+                        listaDeEntityParaRemover.remove(stand)
+                        cancel()
                     }
                 }
 
@@ -103,7 +110,14 @@ class EggRainfallGadget : Gadget(
         }
     }
 
+    fun removeActiveGadgets() {
+        for (entity in listaDeEntityParaRemover) {
+            entity.remove()
+        }
+    }
+
     init {
+        instance = this@EggRainfallGadget
         icon = ItemBuilder(Material.EGG).name("§aEngenhoca: §eChuva de Ovos")
             .lore(
                 "§7Já pensou em uma chuva de ovos?",

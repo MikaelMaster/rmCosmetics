@@ -25,7 +25,7 @@ class BreadsGadget : Gadget(
     ), ItemBuilder(Material.BREAD), 30, "rmcosmetics.gadget.bread"
 ) {
     companion object {
-        lateinit var instace: BreadsGadget
+        lateinit var instance: BreadsGadget
     }
 
     val listaDeEntityParaRemover = mutableListOf<Entity>()
@@ -146,7 +146,7 @@ class BreadsGadget : Gadget(
     }
 
     init {
-        instace = this@BreadsGadget
+        instance = this@BreadsGadget
         icon = ItemBuilder(Material.BREAD).name("§aEngenhoca: §ePães!")
             .lore(
                 "§7Você gosta de pães? Então esta",

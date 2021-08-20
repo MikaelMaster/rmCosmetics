@@ -11,6 +11,7 @@ import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.TNTPrimed
 import org.bukkit.event.EventHandler
@@ -27,6 +28,11 @@ class BombManGadget : Gadget(
         "§7jogadores próximos para os ares!"
     ), ItemBuilder(Material.TNT), 35, "rmcosmetics.gadget.bombman"
 ) {
+    companion object {
+        lateinit var instance: BombManGadget
+    }
+
+    val listaDeEntityParaRemover = mutableListOf<Entity>()
 
     val cooldown = CooldownManager(20 * 35)
 
@@ -58,6 +64,7 @@ class BombManGadget : Gadget(
             val localstand = local.clone().add(0.5, 0.5, 0.5)
 
             val stand = local.world.spawn(localstand, ArmorStand::class.java)
+            listaDeEntityParaRemover.add(stand)
             stand.isVisible = false
             stand.customName = "§cTNTs §7de ${user.nick}"
             stand.isCustomNameVisible = true
@@ -88,13 +95,21 @@ class BombManGadget : Gadget(
                     }
                     GadgetSystem.removeActiveGadget(player)
                     stand.remove()
+                    listaDeEntityParaRemover.remove(stand)
                 }
 
             }.runTaskLater(MiftCosmetics.instance, 75);
         }
     }
 
+    fun removeActiveGadgets() {
+        for (itemLoop in listaDeEntityParaRemover) {
+            itemLoop.remove()
+        }
+    }
+
     init {
+        instance = this@BombManGadget
         icon = ItemBuilder(Material.TNT).name("§aEngenhoca: §eHomem Bomba")
             .lore(
                 "§7Tenha o poder de invocar TNTs que",

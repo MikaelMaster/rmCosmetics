@@ -1,7 +1,5 @@
 package com.mikael.rmcosmetics.menu
 
-import com.kirelcodes.miniaturepets.loader.PetLoader
-import com.kirelcodes.miniaturepets.pets.PetManager
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.game.SoundEffect
 import net.eduard.api.lib.kotlin.player
@@ -23,7 +21,6 @@ class MenuSelectMapSolo : Menu("Mapas - Sky Wars Solo", 6) {
         autoAlignPerPage = 3 * autoAlignPerLine
 
         // for aqui
-
 
         button("info") {
             setPosition(6, 6)
