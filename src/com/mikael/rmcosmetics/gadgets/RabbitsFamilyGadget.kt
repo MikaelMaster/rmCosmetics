@@ -6,7 +6,9 @@ import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Material
@@ -20,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class RabbitsFamilyGadget : Gadget(
     "Família de Coelhos",
+    "raro",
     listOf(
         "§7Entre no clima da páscoa! Invoque",
         "§7uma família de coelhos em nossos lobbies."
@@ -46,6 +49,13 @@ class RabbitsFamilyGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

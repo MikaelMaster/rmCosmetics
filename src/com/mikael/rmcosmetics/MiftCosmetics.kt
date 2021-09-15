@@ -20,7 +20,7 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
     }
 
     override fun onEnable() {
-        instance = this
+        instance = this@MiftCosmetics
 
         val inicio = System.currentTimeMillis()
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §fCriando tabelas e referências...")
@@ -93,9 +93,12 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
         ThunderGadget.instance.removeActiveGadgets()
         EggRainfallGadget.instance.removeActiveGadgets()
         FlyingHorseGadget.instance.removeActiveGadgets()
-        EnderDragonGadget.instance.removeActiveGadgets()
+        // Ender dragon gadget ta desabilitado temporariamente
+        // EnderDragonGadget.instance.removeActiveGadgets()
         // Engenhoca lançador não precisa ser removida pois é fogo de artifício
-        StrawManGadget.instance.removeActiveGadgets()
+        for (world in Bukkit.getWorlds()) {
+            StrawManGadget.instance.removeActiveGadgets(world)
+        }
         GhostsGadget.instance.removeActiveGadgets()
         GoldFountainGadget.instance.removeActiveGadgets()
         BreadsGadget.instance.removeActiveGadgets()

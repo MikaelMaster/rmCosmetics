@@ -5,7 +5,9 @@ import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
+import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
@@ -14,7 +16,9 @@ import org.bukkit.entity.*
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 
 class MountGadget : Gadget(
-    "Vaqueiro", listOf(
+    "Vaqueiro",
+    "comum",
+    listOf(
         "§7Você já pensou em como seria andar",
         "§7em outro jogador? Vamos tentar?"
     ), ItemBuilder(Material.FISHING_ROD), 60, "rmcosmetics.gadget.mount"
@@ -31,6 +35,13 @@ class MountGadget : Gadget(
         val player = event.player
         if (event.rightClicked.type != EntityType.PLAYER) return
         if (icon != event.player.itemInHand) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

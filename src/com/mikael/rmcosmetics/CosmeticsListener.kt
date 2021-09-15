@@ -1,10 +1,12 @@
 package com.mikael.rmcosmetics
 
+import com.avaje.ebean.bean.EntityBeanIntercept
 import com.kirelcodes.miniaturepets.api.events.pets.PetInteractEvent
 import com.kirelcodes.miniaturepets.api.events.pets.PetSpawnEvent
 import com.kirelcodes.miniaturepets.pets.PetManager
 import com.mikael.rmcosmetics.core.*
 import com.mikael.rmcosmetics.core.CompanionSystem.companionsSelected
+import com.mikael.rmcosmetics.core.CompanionSystem.usingCompanion
 import com.mikael.rmcosmetics.menu.MenuParticles
 import com.mikael.rmcosmetics.objects.ClosetData
 import com.mikael.rmcosmetics.objects.CompanionData
@@ -12,24 +14,44 @@ import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.EventsManager
 import net.eduard.api.lib.modules.Mine
 import net.eduard.redemikael.core.api.miftCore
+import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
+import org.bukkit.Material
 import org.bukkit.Sound
+import org.bukkit.WeatherType
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.EnderPearl
-import org.bukkit.entity.Entity
-import org.bukkit.entity.EntityType
-import org.bukkit.entity.Player
+import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
+import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockPhysicsEvent
 import org.bukkit.event.entity.*
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.*
 import org.bukkit.event.weather.WeatherChangeEvent
+import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 
 class CosmeticsListener : EventsManager() {
+
+    /*
+    @EventHandler
+    fun test(e: PlayerJoinEvent) {
+        val player = e.player
+        val stand = player.world.spawn(player.location, ArmorStand::class.java)
+        stand.isVisible = false
+        stand.isSmall = true
+        stand.customName = "Teste :D"
+        stand.isCustomNameVisible = true
+        stand.setArms(false)
+        stand.setBasePlate(false)
+        stand.setGravity(false)
+        player.passenger = stand
+    }
+     */
 
     @EventHandler
     fun clickcompanheiro(event: PetInteractEvent) {
@@ -96,6 +118,23 @@ class CosmeticsListener : EventsManager() {
         }
     }
 
+    @EventHandler
+    fun noBlockBreakInMap(e: BlockPhysicsEvent) {
+        e.isCancelled = true
+    }
+
+    @EventHandler
+    fun noSheepCutWool(e: PlayerInteractEntityEvent) {
+        if (e.rightClicked.type == EntityType.SHEEP) {
+            e.isCancelled = true
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    fun removeEffects(e: PlayerJoinEvent) {
+        Mine.removeEffects(e.player)
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     fun playerjoin(event: PlayerJoinEvent) {
         val player = event.player
@@ -119,7 +158,11 @@ class CosmeticsListener : EventsManager() {
                 GadgetSystem.load(player)
                 if (GadgetSystem.hasSelected(player)) {
                     val gadgetUsed = GadgetSystem.getSelectedGadget(player)
-                    player.inventory.setItem(5, gadgetUsed.icon)
+                    var slot = 5
+                    if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+                        slot = 6
+                    }
+                    player.inventory.setItem(slot, gadgetUsed.icon)
                 }
                 GadgetSystem.removeActiveGadget(player)
             }

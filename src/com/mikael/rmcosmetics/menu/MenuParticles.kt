@@ -1,5 +1,6 @@
 package com.mikael.rmcosmetics.menu
 
+import com.mikael.rmcosmetics.core.BannerSystem
 import com.mikael.rmcosmetics.core.ParticleSystem
 import com.mikael.rmcosmetics.objects.ParticleAnimation
 import com.mikael.rmcosmetics.percentColor
@@ -27,20 +28,34 @@ class MenuParticles : Menu("Partículas", 5) {
 
     init {
         instance = this
-
         isAutoAlignItems = true
+
+        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 4, 5)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 2 * autoAlignPerLine
 
         for (particleCosmetic in ParticleSystem.particles) {
-
             button {
                 iconPerPlayer = {
-
                     val item = ItemBuilder(particleCosmetic.material)
                         .name("§a" + particleCosmetic.display)
+
+                    if (ParticleSystem.hasSelected(player)) {
+                        if (ParticleSystem.getSelectedParticle(player) == particleCosmetic) {
+                            item.name("§6${particleCosmetic.display}")
+                            item.glowed()
+                        } else if (player.hasPermission(particleCosmetic.permission)) {
+                            item.name("§a${particleCosmetic.display}")
+                        } else {
+                            item.name("§c${particleCosmetic.display}")
+                        }
+                    } else if (player.hasPermission(particleCosmetic.permission)) {
+                        item.name("§a${particleCosmetic.display}")
+                    } else {
+                        item.name("§c${particleCosmetic.display}")
+                    }
 
                     val particle = particleCosmetic
                     val particleprecoemgold = ParticleSystem.precoemgold[particle]!!
@@ -165,7 +180,7 @@ class MenuParticles : Menu("Partículas", 5) {
 
                                 if (particleUsed == particleCosmetic) {
                                     player.soundWhenEffect()
-                                    player.sendMessage("§cVocê removeu a partícula ${particleCosmetic.display}.")
+                                    player.sendMessage("§cVocê removeu a partícula '${particleCosmetic.display}'.")
                                     particle.stop()
                                     usingEffect.remove(player)
                                     ParticleSystem.deselect(player)
@@ -174,7 +189,7 @@ class MenuParticles : Menu("Partículas", 5) {
                                     particle = particleCosmetic.animationClass.constructors
                                         .first().call(player)
                                     player.soundWhenEffect()
-                                    player.sendMessage("§aVocê selecionou a partícula ${particleCosmetic.display}.")
+                                    player.sendMessage("§aVocê selecionou a partícula '${particleCosmetic.display}'.")
                                     particle.start()
                                     usingEffect[player] = particle
                                     ParticleSystem.select(player, particleCosmetic)
@@ -184,7 +199,7 @@ class MenuParticles : Menu("Partículas", 5) {
                                 val animation = particleCosmetic.animationClass.constructors
                                     .first().call(player)
                                 player.soundWhenEffect()
-                                player.sendMessage("§aVocê selecionou a partícula ${particleCosmetic.display}.")
+                                player.sendMessage("§aVocê selecionou a partícula '${particleCosmetic.display}'.")
                                 animation.restart()
                                 usingEffect[player] = animation
                                 ParticleSystem.select(player, particleCosmetic)
@@ -265,13 +280,13 @@ class MenuParticles : Menu("Partículas", 5) {
                         .lore(
                             "§8Partículas",
                             "",
-                            "§7Você pode encontrar novas partículas",
-                            "§7em §bCaixas Misteriosas §7ou comprá-las",
-                            "§7utilizando §6Gold §7e §bCash§7.",
+                            "§7Você pode encontrar novas partículas em",
+                            "§bCaixas Misteriosas de Cosméticos §7ou",
+                            "§7comprá-las utilizando §6Gold §7e §bCash§7.",
                             "",
                             "§fDesbloqueados: ${corNumero}${particlesDesbloqueados}/${ParticleSystem.particles.size} §8(${porcentagemTexto})",
                             "§fSelecionada atualmente:",
-                            "§a▸ ${usedParticleName}"
+                            "§a▸ $usedParticleName"
                         )
                 }
                 click = ClickEffect {
@@ -279,12 +294,10 @@ class MenuParticles : Menu("Partículas", 5) {
                 }
             }
 
-            backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                .name("§cVoltar")
-                .lore("§7Para Cosméticos.")
+            backPage.item = ItemBuilder(Material.ARROW)
+                .name("§aVoltar")
             backPage.setPosition(5, 5)
             backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
-
         }
     }
 }

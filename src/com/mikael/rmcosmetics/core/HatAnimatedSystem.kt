@@ -25,7 +25,9 @@ object HatAnimatedSystem {
     init {
 
         val chapeu1 = HatAnimated(
-            "Alegre", listOf(""), mutableMapOf(
+            "Alegre", listOf(""),
+            "epico",
+            mutableMapOf(
                 "http://textures.minecraft.net/texture/465b5611f8abc01d9bb8fcd62f3a64b5125534a428731f202e619d9ce1" to 5,
                 "http://textures.minecraft.net/texture/8d8f5fb387ca66fc2f65b91fcb231604548e8565895bb96c676984205e6f19" to 5,
                 "http://textures.minecraft.net/texture/01b9def55876c41c17c815f88115f02c95f89620fbed6a6cb2d38d46fe05" to 20
@@ -35,7 +37,9 @@ object HatAnimatedSystem {
         )
 
         val chapeu2 = HatAnimated(
-            "Assustado", listOf(""), mutableMapOf(
+            "Assustado", listOf(""),
+            "raro",
+            mutableMapOf(
                 "http://textures.minecraft.net/texture/1b9932b5658f4cac4f4f8d9e98f6dcee2e17744169ccb5c8145365f17d445f3" to 2,
                 "http://textures.minecraft.net/texture/ef82e9d0170f1330ba84d57c4689b75e916ab5e96ea0313aed651c8777f7573" to 2,
                 "http://textures.minecraft.net/texture/b328db1c323585adeba1907ced306050e02aa77591588fb182fdeaf423ad6" to 2,
@@ -46,7 +50,9 @@ object HatAnimatedSystem {
         )
 
         val chapeu3 = HatAnimated(
-            "Piscadela", listOf(""), mutableMapOf(
+            "Piscadela", listOf(""),
+            "epico",
+            mutableMapOf(
                 "http://textures.minecraft.net/texture/465b5611f8abc01d9bb8fcd62f3a64b5125534a428731f202e619d9ce1" to 5,
                 "http://textures.minecraft.net/texture/8d8f5fb387ca66fc2f65b91fcb231604548e8565895bb96c676984205e6f19" to 5,
                 "http://textures.minecraft.net/texture/f4ea2d6f939fefeff5d122e63dd26fa8a427df90b2928bc1fa89a8252a7e" to 10
@@ -56,7 +62,9 @@ object HatAnimatedSystem {
         )
 
         val chapeu4 = HatAnimated(
-            "Apaixonado", listOf(""), mutableMapOf(
+            "Apaixonado", listOf(""),
+            "raro",
+            mutableMapOf(
                 "http://textures.minecraft.net/texture/196b8e272c54a422d9df36d85caff26624c733e7b3f6040d3e4c9cd6e" to 5,
                 "http://textures.minecraft.net/texture/129fb9f593b6ae533dfa8ce79615fcc35894a42cbb41de598d694767352fe" to 5,
                 "http://textures.minecraft.net/texture/42737e99e4c0596a3712e7711baecae8d1ddb774ac1cf531896862380753e16" to 10,
@@ -68,7 +76,9 @@ object HatAnimatedSystem {
         )
 
         val chapeu5 = HatAnimated(
-            "Slime Multicolor", listOf(""), mutableMapOf(
+            "Slime Multicolor", listOf(""),
+            "epico",
+            mutableMapOf(
                 "http://textures.minecraft.net/texture/cce5609e53370fcb51c74333bfe03414af94fa419b5c3f09a8d59dadc51ff6f8" to 3,
                 "http://textures.minecraft.net/texture/895aeec6b842ada8669f846d65bc49762597824ab944f22f45bf3bbb941abe6c" to 3,
                 "http://textures.minecraft.net/texture/76f286039bdd40cfc96a5c597f9f4bded4339ec95732da6551972e0f1d573" to 3,
@@ -81,7 +91,9 @@ object HatAnimatedSystem {
         )
 
         val chapeu6 = HatAnimated(
-            "Sirene", listOf(""), mutableMapOf(
+            "Sirene", listOf(""),
+            "raro",
+            mutableMapOf(
                 "http://textures.minecraft.net/texture/71e08d547f992949f013a1e2c7e3cd226ab485e3bc8c0c0c39c15d5b7c9e820" to 3,
                 "http://textures.minecraft.net/texture/15742475ee5ad5bef398bb41943a515dcaa77dcd72228b519ef69c3aa86c4" to 3
             ), "rmcosmetics.animatedhat.sirene",
@@ -90,7 +102,9 @@ object HatAnimatedSystem {
         )
 
         val chapeu7 = HatAnimated(
-            "Notificação do Discord", listOf(""), mutableMapOf(
+            "Notificação do Discord", listOf(""),
+            "comum",
+            mutableMapOf(
                 "http://textures.minecraft.net/texture/dc59e5c7b0738b579f3b444c13a47bed496b30838b2ee2b127cc59cd798aee77" to 5,
                 "http://textures.minecraft.net/texture/ad833b51566565658f9011de8784e90c1ad9ba5d3337f8c069213bbdee986523" to 5
             ), "rmcosmetics.animatedhat.notificacao_do_discord",
@@ -148,23 +162,23 @@ object HatAnimatedSystem {
         }
         precoemgold[animatedHatsByName["Alegre"]!!] = 650.0
         precoemgold[animatedHatsByName["Assustado"]!!] = 550.0
-        precoemgold[animatedHatsByName["Piscadela"]!!] = 0.0
-        precoemgold[animatedHatsByName["Apaixonado"]!!] = 0.0
+        precoemgold[animatedHatsByName["Piscadela"]!!] = Double.MAX_VALUE
+        precoemgold[animatedHatsByName["Apaixonado"]!!] = Double.MAX_VALUE
         precoemgold[animatedHatsByName["Slime Multicolor"]!!] = 500.0
         precoemgold[animatedHatsByName["Sirene"]!!] = 450.0
-        precoemgold[animatedHatsByName["Notificação do Discord"]!!] = 0.0
+        precoemgold[animatedHatsByName["Notificação do Discord"]!!] = Double.MAX_VALUE
 
         for (animatedHat in animatedHats) {
             precoemcash[animatedHat] = 500.0
             animatedHatsByName[animatedHat.display] = animatedHat
         }
-        precoemcash[animatedHatsByName["Alegre"]!!] = 0.0
-        precoemcash[animatedHatsByName["Assustado"]!!] = 0.0
-        precoemcash[animatedHatsByName["Piscadela"]!!] = 0.0
-        precoemcash[animatedHatsByName["Apaixonado"]!!] = 0.0
+        precoemcash[animatedHatsByName["Alegre"]!!] = Double.MAX_VALUE
+        precoemcash[animatedHatsByName["Assustado"]!!] = Double.MAX_VALUE
+        precoemcash[animatedHatsByName["Piscadela"]!!] = Double.MAX_VALUE
+        precoemcash[animatedHatsByName["Apaixonado"]!!] = Double.MAX_VALUE
         precoemcash[animatedHatsByName["Slime Multicolor"]!!] = 650.0
         precoemcash[animatedHatsByName["Sirene"]!!] = 550.0
-        precoemcash[animatedHatsByName["Notificação do Discord"]!!] = 0.0
+        precoemcash[animatedHatsByName["Notificação do Discord"]!!] = Double.MAX_VALUE
 
         MiftCosmetics.instance.asyncTimer(1, 1) {
             for (hat in animatedHats) {
@@ -185,7 +199,7 @@ object HatAnimatedSystem {
         val selected = getOrCreate(user)
         selected.animatedHat = hatAnimated.display
         usingAnimatedHat[player] = hatAnimated
-        selected.updateQueue()
+        selected.updateOnlyQueue("animatedHat")
     }
 
     fun hasSelected(player: Player): Boolean {
@@ -201,7 +215,7 @@ object HatAnimatedSystem {
         val selected = getOrCreate(user)
         selected.animatedHat = null
         usingAnimatedHat.remove(player)
-        selected.updateQueue()
+        selected.updateOnlyQueue("animatedHat")
     }
 
     fun load(player: Player) {

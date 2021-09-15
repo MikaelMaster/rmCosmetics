@@ -25,8 +25,9 @@ class MenuBanners : Menu("Banners", 6) {
     init {
         instance = this
 
+        cooldownBetweenInteractions = 0
         isAutoAlignItems = true
-        autoAlignSkipLines = listOf(1, 5, 6)
+        autoAlignSkipLines = listOf(1, 4, 5)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
@@ -34,12 +35,25 @@ class MenuBanners : Menu("Banners", 6) {
 
         for (banner in BannerSystem.banners) {
             button {
-
                 iconPerPlayer = {
                     val item = banner.icon()
 
-                    if (hasPermission(banner.permission)) {
+                    if (BannerSystem.hasSelected(player)) {
+                        if (BannerSystem.getSelectedBanner(player) == banner) {
+                            item.name("§6${banner.display}")
+                            item.glowed()
+                        } else if (player.hasPermission(banner.permission)) {
+                            item.name("§a${banner.display}")
+                        } else {
+                            item.name("§c${banner.display}")
+                        }
+                    } else if (player.hasPermission(banner.permission)) {
+                        item.name("§a${banner.display}")
+                    } else {
+                        item.name("§c${banner.display}")
+                    }
 
+                    if (hasPermission(banner.permission)) {
                         if (BannerSystem.hasSelected(player)) {
                             val bannerUsed = BannerSystem.getSelectedBanner(player)
                             if (bannerUsed == banner) {
@@ -92,7 +106,7 @@ class MenuBanners : Menu("Banners", 6) {
                             val bannerUsed = BannerSystem.getSelectedBanner(player)
                             if (bannerUsed == banner) {
                                 player.soundWhenEffect()
-                                player.sendMessage("§cVocê removeu o banner ${banner.display}.")
+                                player.sendMessage("§cVocê removeu o banner '${banner.display}'.")
                                 player.equipment.helmet = null
                                 BannerSystem.deselect(player)
                                 open(player, getPageOpen(player))
@@ -113,7 +127,7 @@ class MenuBanners : Menu("Banners", 6) {
                                     closet.updateQueue()
                                 }
                                 player.equipment.helmet = null
-                                player.sendMessage("§aVocê equipou o banner ${banner.display}.")
+                                player.sendMessage("§aVocê equipou o banner '${banner.display}'.")
                                 player.equipment.helmet = banner.icon()
                                 BannerSystem.select(player, banner)
                                 open(player, getPageOpen(player))
@@ -135,7 +149,7 @@ class MenuBanners : Menu("Banners", 6) {
                                 closet.updateQueue()
                             }
                             player.equipment.helmet = null
-                            player.sendMessage("§aVocê equipou o banner ${banner.display}.")
+                            player.sendMessage("§aVocê equipou o banner '${banner.display}'.")
                             player.equipment.helmet = banner.icon()
                             BannerSystem.select(player, banner)
                             open(player, getPageOpen(player))
@@ -198,12 +212,12 @@ class MenuBanners : Menu("Banners", 6) {
                     .lore(
                         "§8Banners",
                         "",
-                        "§7Você pode encontrar novos",
-                        "§7banners em §bCaixas Misteriosas§7.",
+                        "§7Você pode encontrar novos banners",
+                        "§7em §bCaixas Misteriosas de Cosméticos§7.",
                         "",
                         "§fDesbloqueados: ${corNumero}${bannersDesbloqueados}/${BannerSystem.banners.size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",
-                        "§a▸ ${usedBannerName}"
+                        "§a▸ $usedBannerName"
                     )
             }
             click = ClickEffect {
@@ -211,22 +225,19 @@ class MenuBanners : Menu("Banners", 6) {
             }
         }
 
-        backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-            .name("§cVoltar")
-            .lore("§7Para Cosméticos.")
+        backPage.item = ItemBuilder(Material.ARROW)
+            .name("§aVoltar")
         backPage.setPosition(5, 6)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
-        nextPage.item = ItemBuilder(Material.INK_SACK).data(10)
+        nextPage.item = ItemBuilder(Material.ARROW)
             .name("§aPágina %page")
-            .lore("§7Ir até a página %page.")
-        nextPage.setPosition(9, 6)
+        nextPage.setPosition(9, 3)
         nextPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
-        previousPage.item = ItemBuilder(Material.INK_SACK).data(8)
+        previousPage.item = ItemBuilder(Material.ARROW)
             .name("§aPágina %page")
-            .lore("§7Ir até a página %page.")
-        previousPage.setPosition(1, 6)
+        previousPage.setPosition(1, 3)
         previousPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
     }

@@ -11,18 +11,23 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
 
-class GraveStoneGadget : Gadget("Tumba Amaldiçoada", listOf(
-    "§7Com essa engenhoca, você dará vida",
-    "§7a um corpo inanimado!",
-), ItemBuilder(Material.SOUL_SAND),60, "rmcosmetics.gadget.gravestone") {
+class GraveStoneGadget : Gadget(
+    "Tumba Amaldiçoada",
+    "comum",
+    listOf(
+        "§7Com essa engenhoca, você dará vida",
+        "§7a um corpo inanimado!",
+    ), ItemBuilder(Material.SOUL_SAND), 60, "rmcosmetics.gadget.gravestone"
+) {
 
     val cooldown = CooldownManager(20 * 5)
+
     init {
         cooldown.msgCooldown = "§cVocê precisa esperar mais %times para utilizar esta engenhoca novamente!"
     }
 
     @EventHandler
-    fun clicando (event : PlayerInteractEvent){
+    fun clicando(event: PlayerInteractEvent) {
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return

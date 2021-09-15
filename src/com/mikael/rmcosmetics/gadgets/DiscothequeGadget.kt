@@ -9,7 +9,9 @@ import net.eduard.api.lib.game.ParticleType
 import net.eduard.api.lib.kotlin.isPlayer
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Bukkit
 import org.bukkit.Effect
 import org.bukkit.Material
@@ -24,7 +26,9 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
 class DiscothequeGadget : Gadget(
-    "Discoteca", listOf(
+    "Discoteca",
+    "epico",
+    listOf(
         "§7Invoque uma discoteca no lobby",
         "§7e dance com todos!"
     ), ItemBuilder(Material.GOLD_RECORD), 45, "rmcosmetics.gadget.discotheque"
@@ -47,6 +51,13 @@ class DiscothequeGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

@@ -11,7 +11,10 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
 
-class ChristmasTreeGadget : Gadget("Árvore de Natal", listOf(
+class ChristmasTreeGadget : Gadget(
+    "Árvore de Natal",
+    "comum",
+    listOf(
     "§7O Natal já está chegando... E o que você",
     "§7está esperando? Monte logo a sua árvore!",
     "",

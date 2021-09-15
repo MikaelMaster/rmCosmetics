@@ -5,6 +5,8 @@ import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
+import net.eduard.redemikael.core.spigot.CoreMain
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Entity
@@ -16,6 +18,7 @@ import org.bukkit.util.Vector
 
 class GiftGadget : Gadget(
     "Chuva de Presentes",
+    "raro",
     listOf(
         "§7Quem nunca sonhou com uma",
         "§7chuva de presentes?"
@@ -42,6 +45,13 @@ class GiftGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

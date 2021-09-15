@@ -8,6 +8,7 @@ import kotlin.reflect.KClass
 open class ParticleCosmetic(
 
     var display: String = "Partícula",
+    var rarity: String = "comum",
     var type: ParticleType = ParticleType.HEART,
     var material: Material = Material.RED_ROSE,
     var permission: String = "rmcosmetics.particle.particle",

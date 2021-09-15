@@ -28,6 +28,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
     init {
         instance = this
 
+        cooldownBetweenInteractions = 0
         isAutoAlignItems = true
         autoAlignSkipLines = listOf(1, 4, 5)
         autoAlignSkipColumns = listOf(9, 1)
@@ -43,6 +44,21 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
                     val item = ItemBuilder().skin(hat.urls.keys.last())
                         .name("§a" + hat.display)
+
+                    if (HatAnimatedSystem.hasSelected(player)) {
+                        if (HatAnimatedSystem.getSelectedAnimatedHat(player) == hat) {
+                            item.name("§6${hat.display}")
+                            item.glowed()
+                        } else if (player.hasPermission(hat.permission)) {
+                            item.name("§a${hat.display}")
+                        } else {
+                            item.name("§c${hat.display}")
+                        }
+                    } else if (player.hasPermission(hat.permission)) {
+                        item.name("§a${hat.display}")
+                    } else {
+                        item.name("§c${hat.display}")
+                    }
 
                     val hatprecogold = HatAnimatedSystem.precoemgold[hat]!!
                     val hatprecocash = HatAnimatedSystem.precoemcash[hat]!!
@@ -141,12 +157,11 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
                     if (player.hasPermission(hat.groupPermission)) {
                         if (player.hasPermission(hat.permission)) {
-
                             if (HatAnimatedSystem.hasSelected(player)) {
                                 val hatUsed = HatAnimatedSystem.getSelectedAnimatedHat(player)
                                 if (hatUsed == hat) {
                                     player.soundWhenEffect()
-                                    player.sendMessage("§cVocê removeu o chapéu animado ${hat.display}.")
+                                    player.sendMessage("§cVocê removeu o chapéu animado '${hat.display}'.")
                                     player.equipment.helmet = null
                                     HatAnimatedSystem.deselect(player)
                                     open(player, getPageOpen(player))
@@ -167,7 +182,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
                                         closet.updateQueue()
                                     }
                                     player.equipment.helmet = null
-                                    player.sendMessage("§aVocê equipou o chapéu animado ${hat.display}.")
+                                    player.sendMessage("§aVocê equipou o chapéu animado '${hat.display}'.")
                                     player.equipment.helmet = ItemBuilder().skin(hat.urls.keys.first())
                                         .name("§a${hat.display}")
                                     HatAnimatedSystem.select(player, hat)
@@ -190,7 +205,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
                                     closet.updateQueue()
                                 }
                                 player.equipment.helmet = null
-                                player.sendMessage("§aVocê equipou o chapéu animado ${hat.display}.")
+                                player.sendMessage("§aVocê equipou o chapéu animado '${hat.display}'.")
                                 player.equipment.helmet = ItemBuilder().skin(hat.urls.keys.first())
                                     .name("§a${hat.display}")
                                 HatAnimatedSystem.select(player, hat)
@@ -271,13 +286,13 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
                     .lore(
                         "§8Chapéus Animados",
                         "",
-                        "§7Você pode encontrar novos chapéus",
-                        "§7animados em §bCaixas Misteriosas §7ou",
+                        "§7Você pode encontrar novos chapéus animados",
+                        "§7em §bCaixas Misteriosas de Cosméticos §7ou",
                         "§7comprá-los utilizando §6Gold §7e §bCash§7.",
                         "",
                         "§fDesbloqueados: ${corNumero}${animatedHatsDesbloqueados}/${HatAnimatedSystem.animatedHats.size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",
-                        "§a▸ ${usedHatName}"
+                        "§a▸ $usedHatName"
                     )
             }
             click = ClickEffect {
@@ -285,11 +300,9 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
             }
         }
 
-        backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-            .name("§cVoltar")
-            .lore("§7Para Cosméticos.")
+        backPage.item = ItemBuilder(Material.ARROW)
+            .name("§aVoltar")
         backPage.setPosition(5, 5)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
-
     }
 }

@@ -16,7 +16,10 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 
-class SnowStormGadget : Gadget("Tempestade de Neve", listOf(
+class SnowStormGadget : Gadget(
+    "Tempestade de Neve",
+    "comum",
+    listOf(
     "§7Tenha o poder de controlar a neve!",
     "§7Com esta engenhoca, você invocará uma",
     "§7tempestade de neve em todo o lobby que",

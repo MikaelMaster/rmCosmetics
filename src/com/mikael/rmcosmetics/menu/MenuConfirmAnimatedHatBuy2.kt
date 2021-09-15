@@ -1,5 +1,6 @@
 package com.mikael.rmcosmetics.menu
 
+import com.mikael.rmcosmetics.MiftCosmetics
 import com.mikael.rmcosmetics.core.HatAnimatedSystem
 import com.mikael.rmcosmetics.objects.HatAnimated
 import net.eduard.api.lib.game.ItemBuilder
@@ -9,6 +10,7 @@ import net.eduard.api.lib.kotlin.player
 import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.util.CoreGeneralUtils
 import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -23,6 +25,8 @@ class MenuConfirmAnimatedHatBuy2 : Menu("Confirmar Compra?", 4) {
 
     init {
         instance = this
+        cooldownBetweenInteractions = 0
+
         button("confirm-buy") {
             setPosition(5, 2)
 
@@ -76,18 +80,14 @@ class MenuConfirmAnimatedHatBuy2 : Menu("Confirmar Compra?", 4) {
 
                     if (user.cash >= hatpreco) {
                         player.closeInventory()
-                        user.cash -= hatpreco
-                        user.updateQueue()
+                        CoreGeneralUtils.buyProductWithCash(player, hatpreco, "Chapéu Animado - ${hat.display}")
                         Mine.makeCommand("lp user ${player.name} permission set ${hat.permission}")
-                        player.sendMessage(
-                            "§Chapéu Animado '${hat.display}' adquirido com sucesso! Valor gasto: §b${
-                                hatpreco.format(
-                                    false
-                                )
-                            } Cash§a."
-                        )
+                        player.sendMessage("§aChapéu Animado '${hat.display}' adquirido com sucesso!")
+                        player.sendMessage("§aValor gasto: §b${hatpreco.format(false)} Cash§a.")
                         player.playSound(player.location, Sound.VILLAGER_YES, 2f, 1f)
-                        MenuAnimatedHats.instance.open(player)
+                        MiftCosmetics.instance.syncDelay(10) {
+                            MenuAnimatedHats.instance.open(player)
+                        }
                     }
                 }
             }

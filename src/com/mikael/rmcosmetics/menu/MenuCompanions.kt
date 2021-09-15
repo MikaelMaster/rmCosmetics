@@ -75,13 +75,19 @@ class MenuCompanions : Menu("Companheiros", 6) {
     init {
         instance = this
         isAutoAlignItems = true
+
         openWithCommand = "/companions"
+        cooldownBetweenInteractions = 0
+        autoAlignSkipLines = listOf(1, 5, 6)
+        autoAlignSkipColumns = listOf(9, 1)
+        autoAlignPerLine = 7
+        autoAlignPerPage = 3 * autoAlignPerLine
 
         for (pet in PetLoader.getPets()) {
             button {
 
                 iconPerPlayer = {
-                    val item = ItemBuilder(pet.symbol).name("§a" + pet.name)
+                    val item = ItemBuilder(pet.symbol).clone().name("§a" + pet.name)
                     val user = player.user
 
                     val companion = pet
@@ -93,9 +99,23 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     val companionGroup = CompanionSystem.groupPermission[companion]!!
                     val exclusiveGroupName = CompanionSystem.exclusiveGroupName[companion]!!
 
+                    if (PetManager.hasPet(player)) {
+                        if (PetManager.getPet(player).container == pet) {
+                            item.name("§6${pet.name}")
+                            item.glowed()
+                        } else if (player.hasPermission(pet.permission)) {
+                            item.name("§a${pet.name}")
+                        } else {
+                            item.name("§c${pet.name}")
+                        }
+                    } else if (player.hasPermission(pet.permission)) {
+                        item.name("§a${pet.name}")
+                    } else {
+                        item.name("§c${pet.name}")
+                    }
+
                     if (hasPermission(companionGroup)) {
                         if (hasPermission(pet.permission)) {
-
                             if (PetManager.hasPet(player)) {
                                 val companionUsed = PetManager.getPet(player).container
                                 if (companionUsed == pet) {
@@ -178,7 +198,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     val companionemgold = CompanionSystem.precoemgold[companion]!!
                     val companionemcash = CompanionSystem.precoemcash[companion]!!
                     val companionGroup = CompanionSystem.groupPermission[companion]!!
-                    val exclusiveGroupName = CompanionSystem.exclusiveGroupName[companion]!!
 
                     if (player.hasPermission(companionGroup)) {
                         if (player.hasPermission(pet.permission)) {
@@ -187,13 +206,13 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                 val companionUsed = PetManager.getPet(player).container
                                 if (companionUsed == pet) {
                                     player.soundWhenEffect()
-                                    player.sendMessage("§cVocê removeu o companheiro ${pet.name}.")
+                                    player.sendMessage("§cVocê removeu o companheiro '${pet.name}'.")
                                     PetManager.getPet(player).remove()
                                     CompanionSystem.deselect(player)
                                     open(player, getPageOpen(player))
                                 } else {
                                     player.soundWhenEffect()
-                                    player.sendMessage("§aVocê selecionou o companheiro ${pet.name}.")
+                                    player.sendMessage("§aVocê selecionou o companheiro '${pet.name}'.")
                                     pet.spawnPet(player)
                                     val companionSelected = PetManager.getPet(player)
                                     CompanionSystem.select(player, companionSelected)
@@ -208,7 +227,7 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                 }
                             } else {
                                 player.soundWhenEffect()
-                                player.sendMessage("§aVocê selecionou o companheiro ${pet.name}.")
+                                player.sendMessage("§aVocê selecionou o companheiro '${pet.name}'.")
                                 pet.spawnPet(player)
                                 val companionSelected = PetManager.getPet(player)
                                 CompanionSystem.select(player, companionSelected)
@@ -284,9 +303,9 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     item.lore(
                         "§8Companheiros",
                         "",
-                        "§7Você pode encontrar novos companheiros",
-                        "§7em §bCaixas Misteriosas §7ou comprá-los",
-                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "§7Você pode encontrar novos companheiros em",
+                        "§bCaixas Misteriosas de Cosméticos §7ou",
+                        "§7comprá-los utilizando §6Gold §7e §bCash§7.",
                         "",
                         "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",
@@ -296,9 +315,9 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     item.lore(
                         "§8Companheiros",
                         "",
-                        "§7Você pode encontrar novos companheiros",
-                        "§7em §bCaixas Misteriosas §7ou comprá-los",
-                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "§7Você pode encontrar novos companheiros em",
+                        "§bCaixas Misteriosas de Cosméticos §7ou",
+                        "§7comprá-los utilizando §6Gold §7e §bCash§7.",
                         "",
                         "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",
@@ -372,7 +391,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     text.hoverEvent = hoverEvent
                     player.spigot().sendMessage(text)
 
-                    // SpigotAPI.sendMessage(player,"","","comandinho")
                     player.sendMessage("")
                     player.closeInventory()
                 } else {
@@ -381,11 +399,9 @@ class MenuCompanions : Menu("Companheiros", 6) {
             }
         }
 
-        backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-            .name("§cVoltar")
-            .lore("§7Para Cosméticos.")
+        backPage.item = ItemBuilder(Material.ARROW)
+            .name("§aVoltar")
         backPage.setPosition(5, 6)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
-
     }
 }

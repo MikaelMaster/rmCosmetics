@@ -8,6 +8,8 @@ import net.eduard.api.lib.game.Particle
 import net.eduard.api.lib.game.ParticleType
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.CoreMain
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Material
@@ -17,10 +19,11 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.util.Vector
 
 class CreeperGadget : Gadget(
-    "Creeper Voador", listOf(
+    "Creeper Voador",
+    "epico",
+    listOf(
         "§7Lance um creeper para os ares",
         "§7e aproveite um maravilhoso show",
         "§7quando o mesmo chegar no céu!"
@@ -44,6 +47,13 @@ class CreeperGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return
@@ -51,7 +61,6 @@ class CreeperGadget : Gadget(
 
         if (cooldown.cooldown(player)) {
             player.sendMessage("§aVocê ativou a engenhoca Creeper Voador!")
-            player.sendMessage("§c§lDecolando Creeper!")
             GadgetSystem.putActiveGadget(player)
 
             val local = event.clickedBlock.location.add(0.0, 1.0, 0.0)
@@ -62,7 +71,10 @@ class CreeperGadget : Gadget(
             creeper.customName = "§2Creeper Voador"
             creeper.isPowered = false
             creeper.isCustomNameVisible = true
-            creeper.velocity = Vector(0.0, 2.0, 0.0)
+            val firework = Mine.newFirework(local, 3, Color.GRAY, Color.GRAY, true, true, FireworkEffect.Type.BURST)
+            firework.passenger = creeper
+            player.sendMessage("§c§lDecolando Creeper!")
+           // creeper.velocity = Vector(0.0, 2.0, 0.0)
 
             object : BukkitRunnable() {
                 override fun run() {
@@ -84,7 +96,7 @@ class CreeperGadget : Gadget(
                     Mine.newFirework(loc, 0, Color.GRAY, Color.WHITE, true, true, FireworkEffect.Type.BURST)
                     creeper.remove()
                 }
-            }.runTaskLater(MiftCosmetics.instance, 20)
+            }.runTaskLater(MiftCosmetics.instance, 40)
 
             object : BukkitRunnable() {
                 override fun run() {

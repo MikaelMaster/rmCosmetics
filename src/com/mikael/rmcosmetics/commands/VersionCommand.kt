@@ -12,5 +12,6 @@ class VersionCommand : CommandManager("rmcosmetics", "rmcs") {
 
     override fun command(sender: CommandSender, args: Array<String>) {
         sender.sendMessage("§armCosmetics §ev1.3 §f- §bby Mikael.")
+        sender.sendMessage("§6Website: §ehttps://www.redemift.com")
     }
 }

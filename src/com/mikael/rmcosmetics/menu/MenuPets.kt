@@ -14,8 +14,9 @@ class MenuPets : Menu("Pets", 6) {
 
     init {
         openWithCommand = "/pets"
-
         isAutoAlignItems = true
+
+        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
@@ -66,9 +67,9 @@ class MenuPets : Menu("Pets", 6) {
                     .lore(
                         "§8Pets",
                         "",
-                        "§7Você pode encontrar novos pets",
-                        "§7em §bCaixas Misteriosas §7ou comprá-los",
-                        "§7utilizando §6Gold §7e §bCash§7.",
+                        "§7Você pode encontrar novos pets em",
+                        "§bCaixas Misteriosas de Cosméticos §7ou",
+                        "§7comprá-los utilizando §6Gold §7e §bCash§7.",
                         "",
                         "§fDesbloqueados: §c0/0 §8(0%)",
                         "§fSelecionado atualmente:",
@@ -99,11 +100,9 @@ class MenuPets : Menu("Pets", 6) {
             }
         }
 
-        backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-            .name("§cVoltar")
-            .lore("§7Para Cosméticos.")
+        backPage.item = ItemBuilder(Material.ARROW)
+            .name("§aVoltar")
         backPage.setPosition(5, 6)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
-
     }
 }

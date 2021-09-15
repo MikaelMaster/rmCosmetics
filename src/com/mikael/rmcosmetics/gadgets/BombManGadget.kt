@@ -6,7 +6,9 @@ import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Material
@@ -21,7 +23,9 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
 class BombManGadget : Gadget(
-    "Homem Bomba", listOf(
+    "Homem Bomba",
+    "raro",
+    listOf(
         "§7Tenha o poder de invocar TNTs que",
         "§7causarão uma enorme explosão no",
         "§7meio dos lobbies e jogará todos",
@@ -46,6 +50,13 @@ class BombManGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

@@ -18,7 +18,7 @@ object CompanionSystem {
         val selected = getOrCreate(user)
         selected.companion = pet.container.name
         usingCompanion[player] = pet
-        selected.updateQueue()
+        selected.updateOnlyQueue("companion")
     }
 
     fun hasSelected(player: Player): Boolean {
@@ -41,14 +41,14 @@ object CompanionSystem {
         val selected = getOrCreate(user)
         selected.companion = null
         usingCompanion.remove(player)
-        selected.updateQueue()
+        selected.updateOnlyQueue("companion")
     }
 
     fun setCustomName(player: Player, name: String) {
         val user = player.user
         val selected = getOrCreate(user)
         selected.customNames.customNames[selected.companion!!] = name
-        selected.updateQueue()
+        selected.updateOnlyQueue("customNames")
     }
 
     fun getCustomName(player: Player): String? {
@@ -76,6 +76,7 @@ object CompanionSystem {
     val compravelporcash: MutableMap<PetContainer, Boolean> = mutableMapOf<PetContainer, Boolean>()
     val groupPermission: MutableMap<PetContainer, String> = mutableMapOf<PetContainer, String>()
     val exclusiveGroupName: MutableMap<PetContainer, String> = mutableMapOf<PetContainer, String>()
+    val rarity: MutableMap<PetContainer, String> = mutableMapOf<PetContainer, String>()
     val petsByName = mutableMapOf<String, PetContainer>()
 
     init {
@@ -103,6 +104,7 @@ object CompanionSystem {
         compravel[petsByName["pug"]!!] = true
         compravel[petsByName["tartaruga"]!!] = true
         compravel[petsByName["logo do youtube"]!!] = false
+        compravel[petsByName["logo da twitch"]!!] = false
 
         for (pet in PetLoader.getPets()) {
             compravelporgold[pet] = true
@@ -127,6 +129,7 @@ object CompanionSystem {
         compravelporgold[petsByName["pug"]!!] = true
         compravelporgold[petsByName["tartaruga"]!!] = true
         compravelporgold[petsByName["logo do youtube"]!!] = false
+        compravelporgold[petsByName["logo da twitch"]!!] = false
 
         for (pet in PetLoader.getPets()) {
             compravelporcash[pet] = true
@@ -151,6 +154,7 @@ object CompanionSystem {
         compravelporcash[petsByName["pug"]!!] = true
         compravelporcash[petsByName["tartaruga"]!!] = false
         compravelporcash[petsByName["logo do youtube"]!!] = false
+        compravelporgold[petsByName["logo da twitch"]!!] = false
 
         for (pet in PetLoader.getPets()) {
             precoemgold[pet] = 0.0
@@ -174,17 +178,18 @@ object CompanionSystem {
         precoemgold[petsByName["pinguim"]!!] = 750.0
         precoemgold[petsByName["pug"]!!] = 850.0
         precoemgold[petsByName["tartaruga"]!!] = 1000.0
-        precoemgold[petsByName["logo do youtube"]!!] = 0.0
+        precoemgold[petsByName["logo do youtube"]!!] = Double.MAX_VALUE
+        precoemgold[petsByName["logo da twitch"]!!] = Double.MAX_VALUE
 
         for (pet in PetLoader.getPets()) {
             precoemcash[pet] = 0.0
             petsByName[pet.name.toLowerCase()] = pet
         }
         precoemcash[petsByName["urso"]!!] = 650.0
-        precoemcash[petsByName["panda gigante"]!!] = 1850.0
+        precoemcash[petsByName["panda gigante"]!!] = Double.MAX_VALUE
         precoemcash[petsByName["boxer"]!!] = 1000.0
         precoemcash[petsByName["macaco"]!!] = 1350.0
-        precoemcash[petsByName["diglet"]!!] = 650.0
+        precoemcash[petsByName["diglet"]!!] = Double.MAX_VALUE
         precoemcash[petsByName["pato"]!!] = 500.0
         precoemcash[petsByName["dragão de fogo"]!!] = 1500.0
         precoemcash[petsByName["girafa"]!!] = 1850.0
@@ -194,11 +199,12 @@ object CompanionSystem {
         precoemcash[petsByName["leão"]!!] = 1000.0
         precoemcash[petsByName["minime"]!!] = 750.0
         precoemcash[petsByName["bb-8"]!!] = 1500.0
-        precoemcash[petsByName["ursinho de pelúcia"]!!] = 500.0
-        precoemcash[petsByName["pinguim"]!!] = 900.0
+        precoemcash[petsByName["ursinho de pelúcia"]!!] = Double.MAX_VALUE
+        precoemcash[petsByName["pinguim"]!!] = Double.MAX_VALUE
         precoemcash[petsByName["pug"]!!] = 1000.0
-        precoemcash[petsByName["tartaruga"]!!] = 1500.0
-        precoemcash[petsByName["logo do youtube"]!!] = 0.0
+        precoemcash[petsByName["tartaruga"]!!] = Double.MAX_VALUE
+        precoemcash[petsByName["logo do youtube"]!!] = Double.MAX_VALUE
+        precoemcash[petsByName["logo da twitch"]!!] = Double.MAX_VALUE
 
         for (pet in PetLoader.getPets()) {
             groupPermission[pet] = "rmcosmetics.defaultperm"
@@ -222,8 +228,8 @@ object CompanionSystem {
         groupPermission[petsByName["pinguim"]!!] = "rmcosmetics.defaultperm"
         groupPermission[petsByName["pug"]!!] = "rmcosmetics.benefits.mvpplus"
         groupPermission[petsByName["tartaruga"]!!] = "rmcosmetics.benefits.mvpplus"
-        groupPermission[petsByName["logo do youtube"]!!] = "rmcosmetics.defaultperm"
-
+        groupPermission[petsByName["logo do youtube"]!!] = "rmcosmetics.benefits.youtuber"
+        groupPermission[petsByName["logo da twitch"]!!] = "rmcosmetics.benefits.streamer"
 
         for (pet in PetLoader.getPets()) {
             exclusiveGroupName[pet] = "§fExclusivo para §7Membro §fou superior."
@@ -247,6 +253,32 @@ object CompanionSystem {
         exclusiveGroupName[petsByName["pinguim"]!!] = "§fExclusivo para §7Membro §fou superior."
         exclusiveGroupName[petsByName["pug"]!!] = "§fExclusivo para §bMVP§6+ §fou superior."
         exclusiveGroupName[petsByName["tartaruga"]!!] = "§fExclusivo para §bMVP§6+ §fou superior."
-        exclusiveGroupName[petsByName["logo do youtube"]!!] = "§fExclusivo para §7Membro §fou superior."
+        exclusiveGroupName[petsByName["logo do youtube"]!!] = "§fExclusivo para §cYouTuber §fou superior."
+        exclusiveGroupName[petsByName["logo da twitch"]!!] = "§fExclusivo para §9Streamer §fou superior."
+
+        for (pet in PetLoader.getPets()) {
+            rarity[pet] = "comum"
+            petsByName[pet.name.toLowerCase()] = pet
+        }
+        rarity[petsByName["urso"]!!] = "raro"
+        rarity[petsByName["panda gigante"]!!] = "divino"
+        rarity[petsByName["boxer"]!!] = "epico"
+        rarity[petsByName["macaco"]!!] = "epico"
+        rarity[petsByName["diglet"]!!] = "comum"
+        rarity[petsByName["pato"]!!] = "raro"
+        rarity[petsByName["dragão de fogo"]!!] = "divino"
+        rarity[petsByName["girafa"]!!] = "divino"
+        rarity[petsByName["gorila"]!!] = "divino"
+        rarity[petsByName["dragão de gelo"]!!] = "divino"
+        rarity[petsByName["coala"]!!] = "epico"
+        rarity[petsByName["leão"]!!] = "divino"
+        rarity[petsByName["minime"]!!] = "raro"
+        rarity[petsByName["bb-8"]!!] = "epico"
+        rarity[petsByName["ursinho de pelúcia"]!!] = "comum"
+        rarity[petsByName["pinguim"]!!] = "raro"
+        rarity[petsByName["pug"]!!] = "epico"
+        rarity[petsByName["tartaruga"]!!] = "epico"
+        rarity[petsByName["logo do youtube"]!!] = "divino"
+        rarity[petsByName["logo da twitch"]!!] = "divino"
     }
 }

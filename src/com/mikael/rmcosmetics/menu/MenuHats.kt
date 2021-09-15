@@ -18,8 +18,9 @@ import org.bukkit.*
 class MenuHats : Menu("Chapéus", 6) {
 
     init {
-
         isAutoAlignItems = true
+
+        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
@@ -34,8 +35,22 @@ class MenuHats : Menu("Chapéus", 6) {
                     val item = ItemBuilder()
                         .skin(hat.url).name("§a" + hat.display)
 
-                    if (hasPermission(hat.permission)) {
+                    if (HatSystem.hasSelected(player)) {
+                        if (HatSystem.getSelectedHat(player) == hat) {
+                            item.name("§6${hat.display}")
+                            item.glowed()
+                        } else if (player.hasPermission(hat.permission)) {
+                            item.name("§a${hat.display}")
+                        } else {
+                            item.name("§c${hat.display}")
+                        }
+                    } else if (player.hasPermission(hat.permission)) {
+                        item.name("§a${hat.display}")
+                    } else {
+                        item.name("§c${hat.display}")
+                    }
 
+                    if (hasPermission(hat.permission)) {
                         if (HatSystem.hasSelected(player)) {
                             val hatUsed = HatSystem.getSelectedHat(player)
                             if (hatUsed == hat) {
@@ -93,7 +108,7 @@ class MenuHats : Menu("Chapéus", 6) {
                             val hatUsed = HatSystem.getSelectedHat(player)
                             if (hatUsed == hat) {
                                 player.soundWhenEffect()
-                                player.sendMessage("§cVocê removeu o chapéu ${hat.display}.")
+                                player.sendMessage("§cVocê removeu o chapéu '${hat.display}'.")
                                 player.equipment.helmet = null
                                 HatSystem.deselect(player)
                                 open(player, getPageOpen(player))
@@ -114,7 +129,7 @@ class MenuHats : Menu("Chapéus", 6) {
                                     closet.updateQueue()
                                 }
                                 player.equipment.helmet = null
-                                player.sendMessage("§aVocê equipou o chapéu ${hat.display}.")
+                                player.sendMessage("§aVocê equipou o chapéu '${hat.display}'.")
                                 player.equipment.helmet = ItemBuilder().skin(hat.url)
                                     .name("§a${hat.display}")
                                 HatSystem.select(player, hat)
@@ -137,7 +152,7 @@ class MenuHats : Menu("Chapéus", 6) {
                                 closet.updateQueue()
                             }
                             player.equipment.helmet = null
-                            player.sendMessage("§aVocê equipou o chapéu ${hat.display}.")
+                            player.sendMessage("§aVocê equipou o chapéu '${hat.display}'.")
                             player.equipment.helmet = ItemBuilder().skin(hat.url)
                                 .name("§a${hat.display}")
                             HatSystem.select(player, hat)
@@ -198,12 +213,12 @@ class MenuHats : Menu("Chapéus", 6) {
                         .lore(
                             "§8Chapéus",
                             "",
-                            "§7Você pode encontrar novos",
-                            "§7chapéus em §bCaixas Misteriosas§7.",
+                            "§7Você pode encontrar novos chapéus",
+                            "§7em §bCaixas Misteriosas de Cosméticos§7.",
                             "",
                             "§fDesbloqueados: ${corNumero}${hatsDesbloqueados}/${HatSystem.hats.size} §8(${porcentagemTexto})",
                             "§fSelecionado atualmente:",
-                            "§a▸ ${usedHatName}"
+                            "§a▸ $usedHatName"
                         )
                 }
                 click = ClickEffect {
@@ -211,24 +226,20 @@ class MenuHats : Menu("Chapéus", 6) {
                 }
             }
 
-            backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                .name("§cVoltar")
-                .lore("§7Para Cosméticos.")
+            backPage.item = ItemBuilder(Material.ARROW)
+                .name("§aVoltar")
             backPage.setPosition(5, 6)
             backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
-            nextPage.item = ItemBuilder(Material.INK_SACK).data(10)
+            nextPage.item = ItemBuilder(Material.ARROW)
                 .name("§aPágina %page")
-                .lore("§7Ir até a página %page.")
-            nextPage.setPosition(9, 6)
+            nextPage.setPosition(9, 3)
             nextPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
-            previousPage.item = ItemBuilder(Material.INK_SACK).data(8)
+            previousPage.item = ItemBuilder(Material.ARROW)
                 .name("§aPágina %page")
-                .lore("§7Ir até a página %page.")
-            previousPage.setPosition(1, 6)
+            previousPage.setPosition(1, 3)
             previousPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
-
         }
     }
 }

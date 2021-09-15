@@ -6,6 +6,7 @@ import org.bukkit.Material
 
 open class Gadget(
     var name: String = "Engenhoca",
+    var rarity: String = "comum",
     var lore: List<String> = listOf(""),
     var material: ItemBuilder = ItemBuilder(Material.BARRIER),
     var delay: Int = 35,

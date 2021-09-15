@@ -5,7 +5,8 @@ import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
-import net.eduard.redemikael.core.user
+import net.eduard.redemikael.core.spigot.CoreMain
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Material
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
@@ -14,7 +15,9 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
 
 class BatsGadget : Gadget(
-    "Enxame de Morcegos", listOf(
+    "Enxame de Morcegos",
+    "raro",
+    listOf(
         "§7Invoque um grande enxame de",
         "§7morcegos nos lobbies!"
     ), ItemBuilder(Material.DEAD_BUSH), 35, "rmcosmetics.gadget.bats"
@@ -37,6 +40,13 @@ class BatsGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

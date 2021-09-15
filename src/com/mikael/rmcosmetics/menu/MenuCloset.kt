@@ -9,10 +9,7 @@ import net.eduard.api.lib.kotlin.name
 import net.eduard.api.lib.kotlin.player
 import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
-import net.eduard.redemikael.core.soundWhenEffect
-import net.eduard.redemikael.core.soundWhenNoEffect
-import net.eduard.redemikael.core.soundWhenSwitchMenu
-import net.eduard.redemikael.core.user
+import net.eduard.redemikael.core.*
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 
@@ -28,6 +25,7 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
         openWithCommand = "/closet"
         openNeedPermission = "rmcosmetics.use.closet"
         messagePermission = "§cVocê precisa do Grupo §aVIP §cou superior para utilizar o Guarda-Roupa!"
+        cooldownBetweenInteractions = 0
 
         button("turn-bright-helmet") {
             setPosition(9, 2)
@@ -209,13 +207,11 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
             setPosition(5, 6)
 
             iconPerPlayer = {
-                ItemBuilder(Material.INK_SACK).data(1)
-                    .name("§cVoltar")
-                    .lore("§7Para Cosméticos.")
+                ItemBuilder(Material.ARROW)
+                    .name("§aVoltar")
             }
             click = ClickEffect {
                 val player = it.player
-
                 player.soundWhenSwitchMenu()
                 MenuCosmetics.instance.open(player)
             }
@@ -344,14 +340,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
 
                 if (HatSystem.hasSelected(player)) {
                     HatSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (HatAnimatedSystem.hasSelected(player)) {
                     HatAnimatedSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (BannerSystem.hasSelected(player)) {
                     BannerSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
-                player.equipment.helmet = null
+
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.LEATHER_HELMET) {
                         player.equipment.helmet = null
@@ -520,14 +519,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
 
                 if (HatSystem.hasSelected(player)) {
                     HatSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (HatAnimatedSystem.hasSelected(player)) {
                     HatAnimatedSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (BannerSystem.hasSelected(player)) {
                     BannerSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
-                player.equipment.helmet = null
+
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.IRON_HELMET) {
                         player.equipment.helmet = null
@@ -695,14 +697,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
 
                 if (HatSystem.hasSelected(player)) {
                     HatSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (HatAnimatedSystem.hasSelected(player)) {
                     HatAnimatedSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (BannerSystem.hasSelected(player)) {
                     BannerSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
-                player.equipment.helmet = null
+
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.GOLD_HELMET) {
                         player.equipment.helmet = null
@@ -870,14 +875,17 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
 
                 if (HatSystem.hasSelected(player)) {
                     HatSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (HatAnimatedSystem.hasSelected(player)) {
                     HatAnimatedSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
                 if (BannerSystem.hasSelected(player)) {
                     BannerSystem.deselect(player)
+                    player.equipment.helmet = null
                 }
-                player.equipment.helmet = null
+
                 if (player.equipment.helmet != null) {
                     if (player.equipment.helmet.data.itemType == Material.DIAMOND_HELMET) {
                         player.equipment.helmet = null

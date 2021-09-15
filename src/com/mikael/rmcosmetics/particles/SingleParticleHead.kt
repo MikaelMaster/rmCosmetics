@@ -15,9 +15,14 @@ class SingleParticleHead(player: Player) : ParticleAnimation(player) {
 
             val usedParticle = ParticleSystem.getSelectedParticle(player)
             val particletype = usedParticle.type
-
-            Particle(particletype, 1, 0f, 0f, 0f, 0f)
-                .create(localparticle)
+            
+            if (particletype == ParticleType.NOTE) {
+                Particle(particletype, 1, 0.1f, 0f, 0f, 0f)
+                    .create(localparticle)
+            } else {
+                Particle(particletype, 1, 0f, 0f, 0f, 0f)
+                    .create(localparticle)
+            }
         }
     }
 }

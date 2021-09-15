@@ -14,7 +14,6 @@ import org.bukkit.entity.Player
 
 class RemoveCosmeticsCommand : CommandManager("removeallcosmetics") {
 
-
     init {
         permission = "rmcosmetics.cmd.removeall"
         permissionMessage = "§cVocê precisa do Grupo §4Gerente §cou superior para utilizar este comando!"

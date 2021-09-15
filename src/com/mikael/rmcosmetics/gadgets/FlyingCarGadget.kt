@@ -5,6 +5,8 @@ import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
+import net.eduard.redemikael.core.spigot.CoreMain
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.block.Action
@@ -15,7 +17,9 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 class FlyingCarGadget : Gadget(
-    "Carro Voador", listOf(
+    "Carro Voador",
+    "epico",
+    listOf(
         "§7Em que ano estamos? Já tem",
         "§7até carro voador! OMG!"
     ), ItemBuilder(Material.MINECART), 60, "rmcosmetics.gadget.flyingcar"
@@ -33,6 +37,13 @@ class FlyingCarGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

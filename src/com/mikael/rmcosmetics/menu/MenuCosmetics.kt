@@ -11,7 +11,6 @@ import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
 import net.eduard.redemikael.core.soundWhenNoEffect
 import net.eduard.redemikael.core.soundWhenSwitchMenu
-import net.eduard.redemikael.core.user
 import org.bukkit.DyeColor
 import org.bukkit.Material
 import org.bukkit.block.banner.PatternType
@@ -26,6 +25,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
     init {
         instance = this
 
+        cooldownBetweenInteractions = 0
         openWithCommand = "/cosmeticos"
         openWithCommandText = "/cosmetics"
 
@@ -100,7 +100,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 ItemBuilder(Material.SKULL_ITEM)
-                    .skin("http://textures.minecraft.net/texture/c25af966a326f9d98466a7bf8582ca4da6453de271b3bc9e59f57a99b63511c6")
+                    .skin("http://textures.minecraft.net/texture/d43d4b7ac24a1d650ddf73bd140f49fc12d2736fc14a8dc25c0f3f29d85f8f")
                     .name("§aChapéus")
                     .lore(
                         "§7Passeie em nossos lobbies",
@@ -109,7 +109,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                         "",
                         "§fDesbloqueados: ${corNumero}${hatsDesbloqueados}/${HatSystem.hats.size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",
-                        "§a▸ ${usedHatName}",
+                        "§a▸ $usedHatName",
                         "",
                         "§eClique para abrir!"
                     )
@@ -151,7 +151,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                         "",
                         "§fDesbloqueados: ${corNumero}${animatedHatsDesbloqueados}/${HatAnimatedSystem.animatedHats.size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",
-                        "§a▸ ${usedHatName}",
+                        "§a▸ $usedHatName",
                         "",
                         "§eClique para abrir!"
                     )
@@ -196,7 +196,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                     boots = "§a▸ ${closet.bootsName} §e(Brilho ativo)"
                 }
 
-                val item = ItemBuilder(Material.LEATHER_CHESTPLATE).name("§aGuarda-Roupa")
+                val item = ItemBuilder(Material.ARMOR_STAND).name("§aGuarda-Roupa")
 
                 if (player.hasPermission("rmcosmetics.use.closet")) {
                     item.lore(
@@ -293,7 +293,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                         "",
                         "§fDesbloqueados: ${corNumero}${bannersDesbloqueados}/${BannerSystem.banners.size} §8(${porcentagemTexto})",
                         "§fSelecionado atualmente:",
-                        "§a▸ ${usedBannerName}",
+                        "§a▸ $usedBannerName",
                         "",
                         "§eClique para abrir!"
                     )
@@ -341,8 +341,8 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                         "§7estilo em nossos lobbies.",
                         "",
                         "§fDesbloqueadas: ${corNumero}${particlesDesbloqueados}/${ParticleSystem.particles.size} §8(${porcentagemTexto})",
-                        "§fSelecionado atualmente:",
-                        "§a▸ ${usedParticleName}",
+                        "§fSelecionada atualmente:",
+                        "§a▸ $usedParticleName",
                         "",
                         "§eClique para abrir!",
                     )
@@ -357,7 +357,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
             iconPerPlayer = {
                 val player = this
-                var usedGadgetName = "Nenhum"
+                var usedGadgetName = "Nenhuma"
 
                 if (GadgetSystem.hasSelected(player)) {
 
@@ -374,15 +374,15 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
-                ItemBuilder(Material.PISTON_BASE)
+                ItemBuilder(Material.DISPENSER)
                     .name("§aEngenhocas")
                     .lore(
                         "§7Escolha entre diversos brinquedos",
                         "§7para se divertir nos lobbies.",
                         "",
-                        "§fDesbloqueados: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
-                        "§fSelecionado atualmente:",
-                        "§a▸ ${usedGadgetName}",
+                        "§fDesbloqueadas: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
+                        "§fSelecionada atualmente:",
+                        "§a▸ $usedGadgetName",
                         "",
                         "§eClique para abrir!"
                     )

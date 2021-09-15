@@ -1,5 +1,6 @@
 package com.mikael.rmcosmetics.menu
 
+import com.mikael.rmcosmetics.MiftCosmetics
 import com.mikael.rmcosmetics.core.ParticleSystem
 import com.mikael.rmcosmetics.objects.ParticleCosmetic
 import net.eduard.api.lib.game.ItemBuilder
@@ -9,6 +10,7 @@ import net.eduard.api.lib.kotlin.player
 import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.util.CoreGeneralUtils
 import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -24,6 +26,8 @@ class MenuConfirmParticleBuy2 : Menu("Confirmar Compra?", 4) {
 
     init {
         instance = this
+        cooldownBetweenInteractions = 0
+
         button("confirm-buy") {
             setPosition(5, 2)
 
@@ -78,18 +82,14 @@ class MenuConfirmParticleBuy2 : Menu("Confirmar Compra?", 4) {
 
                     if (user.cash >= particlepreco) {
                         player.closeInventory()
-                        user.cash -= particlepreco
-                        user.updateQueue()
+                        CoreGeneralUtils.buyProductWithCash(player, particlepreco, "Partícula - ${particle.display}")
                         Mine.makeCommand("lp user ${player.name} permission set ${particle.permission}")
-                        player.sendMessage(
-                            "§aPartícula '${particle.display}' adquirida com sucesso! Valor gasto: §b${
-                                particlepreco.format(
-                                    false
-                                )
-                            } Cash§a."
-                        )
+                        player.sendMessage("§aPartícula '${particle.display}' adquirida com sucesso!")
+                        player.sendMessage("§aValor gasto: §b${particlepreco.format(false)} Cash§a.")
                         player.playSound(player.location, Sound.VILLAGER_YES, 2f, 1f)
-                        MenuParticles.instance.open(player)
+                        MiftCosmetics.instance.syncDelay(10) {
+                            MenuParticles.instance.open(player)
+                        }
                     }
                 }
             }

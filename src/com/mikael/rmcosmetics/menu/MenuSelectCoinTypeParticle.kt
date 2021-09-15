@@ -23,6 +23,7 @@ class MenuSelectCoinTypeParticle : Menu("Qual moeda deseja usar?", 3) {
 
     init {
         instance = this
+        cooldownBetweenInteractions = 0
 
         button("gold") {
             setPosition(3, 2)

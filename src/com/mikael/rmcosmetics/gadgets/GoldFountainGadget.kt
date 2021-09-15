@@ -6,6 +6,8 @@ import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.CoreMain
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Entity
@@ -19,7 +21,9 @@ import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.util.Vector
 
 class GoldFountainGadget : Gadget(
-    "Fonte Dourada", listOf(
+    "Fonte Dourada",
+    "raro",
+    listOf(
         "§7Qual o jeito melhor de exibir sua",
         "§7riqueza do que fazendo ela chover?"
     ), ItemBuilder(Material.GOLD_INGOT), 30, "rmcosmetics.gadget.goldfountain"
@@ -42,6 +46,13 @@ class GoldFountainGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

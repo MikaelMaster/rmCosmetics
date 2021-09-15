@@ -28,7 +28,7 @@ object ParticleSystem {
         val selected = getOrCreate(user)
         selected.particle = particle.display
         usingParticle[player] = particle
-        selected.updateQueue()
+        selected.updateOnlyQueue("particle")
     }
 
     fun deselect(player: Player) {
@@ -36,7 +36,7 @@ object ParticleSystem {
         val selected = getOrCreate(user)
         selected.particle = null
         usingParticle.remove(player)
-        selected.updateQueue()
+        selected.updateOnlyQueue("particle")
     }
 
     fun hasSelected(player: Player): Boolean {
@@ -46,7 +46,6 @@ object ParticleSystem {
     fun getSelectedParticle(player: Player): ParticleCosmetic {
         return usingParticle[player]!!
     }
-
 
     fun load(player: Player) {
         val profile = player.user
@@ -71,15 +70,17 @@ object ParticleSystem {
 
         val particle1 = ParticleCosmetic(
             "Corações",
+            "divino",
             ParticleType.HEART,
             Material.RED_ROSE,
             "rmcosmetics.particle.heart",
-            "rmcosmetics.animatedhat.mvp",
+            "rmcosmetics.benefits.mvp",
             "§fExclusivo para §6MVP §fou superior.",
             SingleParticleHead::class
         )
         val particle2 = ParticleCosmetic(
             "Chamas",
+            "divino",
             ParticleType.FLAME,
             Material.BLAZE_POWDER,
             "rmcosmetics.particle.flame",
@@ -89,6 +90,7 @@ object ParticleSystem {
         )
         val particle3 = ParticleCosmetic(
             "Críticos",
+            "raro",
             ParticleType.CRIT,
             Material.DEAD_BUSH,
             "rmcosmetics.particle.crit",
@@ -98,6 +100,7 @@ object ParticleSystem {
         )
         val particle4 = ParticleCosmetic(
             "Críticos Mágicos",
+            "raro",
             ParticleType.MAGIC_CRIT,
             Material.PRISMARINE_CRYSTALS,
             "rmcosmetics.particle.magic_crit",
@@ -107,24 +110,27 @@ object ParticleSystem {
         )
         val particle5 = ParticleCosmetic(
             "Foguetes",
+            "raro",
             ParticleType.FIREWORKS_SPARK,
             Material.FIREWORK,
             "rmcosmetics.particle.fireworks_spark",
-            "rmcosmetics.animatedhat.vip",
+            "rmcosmetics.benefits.vip",
             "§fExclusivo para §aVIP §fou superior.",
             SingleParticleHead::class
         )
         val particle6 = ParticleCosmetic(
             "Magia Bruxesca",
+            "divino",
             ParticleType.WITCH_MAGIC,
             Material.FERMENTED_SPIDER_EYE,
             "rmcosmetics.particle.witch_magic",
-            "rmcosmetics.animatedhat.mvp",
+            "rmcosmetics.benefits.mvp",
             "§fExclusivo para §6MVP §fou superior.",
             SingleParticleHead::class
         )
         val particle7 = ParticleCosmetic(
             "Gotas de Água",
+            "raro",
             ParticleType.DRIP_WATER,
             Material.WATER_BUCKET,
             "rmcosmetics.particle.drip_water",
@@ -134,6 +140,7 @@ object ParticleSystem {
         )
         val particle8 = ParticleCosmetic(
             "Gotas de Lava",
+            "raro",
             ParticleType.DRIP_LAVA,
             Material.LAVA_BUCKET,
             "rmcosmetics.particle.drip_lava",
@@ -143,15 +150,17 @@ object ParticleSystem {
         )
         val particle9 = ParticleCosmetic(
             "Aldeão Zangado",
+            "epico",
             ParticleType.ANGRY_VILLAGER,
             Material.BLAZE_ROD,
             "rmcosmetics.particle.angry_villager",
-            "rmcosmetics.animatedhat.mvpplus",
+            "rmcosmetics.benefits.mvpplus",
             "§fExclusivo para §bMVP§6+ §fou superior.",
             SingleParticleHead::class
         )
         val particle10 = ParticleCosmetic(
             "Aldeão Feliz",
+            "epico",
             ParticleType.HAPPY_VILLAGER,
             Material.EMERALD,
             "rmcosmetics.particle.happy_villager",
@@ -161,15 +170,17 @@ object ParticleSystem {
         )
         val particle11 = ParticleCosmetic(
             "Notas Musicais",
+            "raro",
             ParticleType.NOTE,
             Material.RECORD_4,
             "rmcosmetics.particle.note",
-            "rmcosmetics.animatedhat.vip",
+            "rmcosmetics.benefits.vip",
             "§fExclusivo para §aVIP §fou superior.",
             SingleParticleHead::class
         )
         val particle12 = ParticleCosmetic(
             "Portal",
+            "raro",
             ParticleType.PORTAL,
             Material.EYE_OF_ENDER,
             "rmcosmetics.particle.portal",
@@ -179,10 +190,11 @@ object ParticleSystem {
         )
         val particle13 = ParticleCosmetic(
             "Letras Encantadas",
+            "comum",
             ParticleType.ENCHANTMENT_TABLE,
             Material.MAP,
             "rmcosmetics.particle.enchantment_table",
-            "rmcosmetics.animatedhat.mvpplus",
+            "rmcosmetics.benefits.mvpplus",
             "§fExclusivo para §bMVP§6+ §fou superior.",
             SingleParticleHead::class
         )
@@ -276,16 +288,16 @@ object ParticleSystem {
             precoemcash[particle] = 350.0
             particlesByName[particle.display] = particle
         }
-        precoemcash[particlesByName["Corações"]!!] = 0.0
+        precoemcash[particlesByName["Corações"]!!] = Double.MAX_VALUE
         precoemcash[particlesByName["Chamas"]!!] = 650.0
         precoemcash[particlesByName["Críticos"]!!] = 400.0
         precoemcash[particlesByName["Críticos Mágicos"]!!] = 400.0
-        precoemcash[particlesByName["Foguetes"]!!] = 0.0
-        precoemcash[particlesByName["Magia Bruxesca"]!!] = 0.0
+        precoemcash[particlesByName["Foguetes"]!!] = Double.MAX_VALUE
+        precoemcash[particlesByName["Magia Bruxesca"]!!] = Double.MAX_VALUE
         precoemcash[particlesByName["Gotas de Água"]!!] = 600.0
         precoemcash[particlesByName["Gotas de Lava"]!!] = 600.0
-        precoemcash[particlesByName["Aldeão Zangado"]!!] = 0.0
-        precoemcash[particlesByName["Aldeão Feliz"]!!] = 0.0
+        precoemcash[particlesByName["Aldeão Zangado"]!!] = Double.MAX_VALUE
+        precoemcash[particlesByName["Aldeão Feliz"]!!] = Double.MAX_VALUE
         precoemcash[particlesByName["Notas Musicais"]!!] = 800.0
         precoemcash[particlesByName["Portal"]!!] = 550.0
         precoemcash[particlesByName["Letras Encantadas"]!!] = 500.0

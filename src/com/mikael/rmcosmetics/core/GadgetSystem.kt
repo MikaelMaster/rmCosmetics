@@ -8,6 +8,7 @@ import net.eduard.redemikael.core.objects.MiftProfile
 import net.eduard.redemikael.core.user
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import javax.swing.Painter
 
 object GadgetSystem {
 
@@ -44,7 +45,7 @@ object GadgetSystem {
         val selected = getOrCreate(user)
         selected.gadget = gadget.name
         usingGadget[player] = gadget
-        selected.updateQueue()
+        selected.updateOnlyQueue("gadget")
     }
 
     fun hasSelected(player: Player): Boolean {
@@ -60,9 +61,8 @@ object GadgetSystem {
         val selected = getOrCreate(user)
         selected.gadget = null
         usingGadget.remove(player)
-        selected.updateQueue()
+        selected.updateOnlyQueue("gadget")
     }
-
 
     fun load(player: Player) {
         val profile = player.user
@@ -93,7 +93,7 @@ object GadgetSystem {
         gadgets.add(RabbitsFamilyGadget())
         gadgets.add(FlyingHorseGadget())
         // gadgets.add(FlyingCarGadget())
-        gadgets.add(EnderDragonGadget())
+        // gadgets.add(EnderDragonGadget())
         gadgets.add(FireworkGadget())
         gadgets.add(StrawManGadget())
         gadgets.add(GhostsGadget())
@@ -103,6 +103,9 @@ object GadgetSystem {
         gadgets.add(GiftGadget())
         gadgets.add(DiscothequeGadget())
         gadgets.add(BatsGadget())
+        gadgets.add(FireFootsGadget())
+        gadgets.add(PainterGadget())
+        gadgets.add(ExplosiveSheepGadget())
         // gadgets.add(SnowStormGadget())
         // gadgets.add(ChristmasTreeGadget())
         // gadgets.add(GraveStoneGadget())

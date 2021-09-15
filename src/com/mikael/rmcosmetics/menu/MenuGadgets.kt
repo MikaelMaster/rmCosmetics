@@ -10,6 +10,7 @@ import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
 import net.eduard.redemikael.core.soundWhenEffect
 import net.eduard.redemikael.core.soundWhenNoEffect
+import net.eduard.redemikael.core.spigot.CoreMain
 import org.bukkit.Material
 import org.bukkit.Sound
 
@@ -18,21 +19,33 @@ class MenuGadgets : Menu("Engenhocas", 6) {
     init {
         isAutoAlignItems = true
 
+        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
 
         for (gadget in GadgetSystem.gadgets) {
-
             button {
-
                 iconPerPlayer = {
-                    val player = this
                     val item = ItemBuilder(gadget.material).name("§a" + gadget.name)
 
-                    if (hasPermission(gadget.permission)) {
+                    if (GadgetSystem.hasSelected(player)) {
+                        if (GadgetSystem.getSelectedGadget(player) == gadget) {
+                            item.name("§6${gadget.name}")
+                            item.glowed()
+                        } else if (player.hasPermission(gadget.permission)) {
+                            item.name("§a${gadget.name}")
+                        } else {
+                            item.name("§c${gadget.name}")
+                        }
+                    } else if (player.hasPermission(gadget.permission)) {
+                        item.name("§a${gadget.name}")
+                    } else {
+                        item.name("§c${gadget.name}")
+                    }
 
+                    if (hasPermission(gadget.permission)) {
                         if (GadgetSystem.hasSelected(player)) {
                             val gadgetUsed = GadgetSystem.getSelectedGadget(player)
                             if (gadgetUsed == gadget) {
@@ -93,21 +106,33 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                             val gadgetUsed = GadgetSystem.getSelectedGadget(player)
                             if (gadgetUsed == gadget) {
                                 player.soundWhenEffect()
-                                player.sendMessage("§cVocê removeu a engenhoca ${gadget.name}.")
-                                player.inventory.setItem(5, ItemBuilder(Material.AIR))
+                                player.sendMessage("§cVocê removeu a engenhoca '${gadget.name}'.")
+                                var slot = 5
+                                if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+                                    slot = 6
+                                }
+                                player.inventory.setItem(slot, ItemBuilder(Material.AIR))
                                 GadgetSystem.deselect(player)
                                 open(player, getPageOpen(player))
                             } else {
                                 player.soundWhenEffect()
-                                player.sendMessage("§aVocê selecionou a engenhoca ${gadget.name}.")
-                                player.inventory.setItem(5, gadget.icon)
+                                player.sendMessage("§aVocê selecionou a engenhoca '${gadget.name}'.")
+                                var slot = 5
+                                if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+                                    slot = 6
+                                }
+                                player.inventory.setItem(slot, gadget.icon)
                                 GadgetSystem.select(player, gadget)
                                 open(player, getPageOpen(player))
                             }
                         } else {
                             player.soundWhenEffect()
-                            player.sendMessage("§aVocê selecionou a engenhoca ${gadget.name}.")
-                            player.inventory.setItem(5, gadget.icon)
+                            player.sendMessage("§aVocê selecionou a engenhoca '${gadget.name}'.")
+                            var slot = 5
+                            if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+                                slot = 6
+                            }
+                            player.inventory.setItem(slot, gadget.icon)
                             GadgetSystem.select(player, gadget)
                             open(player, getPageOpen(player))
                         }
@@ -130,7 +155,11 @@ class MenuGadgets : Menu("Engenhocas", 6) {
 
                         player.soundWhenEffect()
                         if (GadgetSystem.hasSelected(player)) {
-                            player.inventory.setItem(5, ItemBuilder(Material.AIR))
+                            var slot = 5
+                            if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+                                slot = 6
+                            }
+                            player.inventory.setItem(slot, ItemBuilder(Material.AIR))
                             GadgetSystem.deselect(player)
                             player.sendMessage("§cVocê removeu sua engenhoca atual.")
                             open(player, getPageOpen(player))
@@ -140,13 +169,14 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                     }
                 }
             }
+
             button("info") {
                 setPosition(6, 6)
 
                 fixed = true
                 iconPerPlayer = {
                     val player = this
-                    var usedGadgetName = "Nenhum"
+                    var usedGadgetName = "Nenhuma"
 
                     if (GadgetSystem.hasSelected(player)) {
 
@@ -168,12 +198,12 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                         .lore(
                             "§8Engenhocas",
                             "",
-                            "§7Você pode encontrar novas",
-                            "§7engenhocas em §bCaixas Misteriosas§7.",
+                            "§7Você pode encontrar novas engenhocas",
+                            "§7em §bCaixas Misteriosas de Cosméticos§7.",
                             "",
-                            "§fDesbloqueados: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
-                            "§fSelecionado atualmente:",
-                            "§a▸ ${usedGadgetName}"
+                            "§fDesbloqueadas: ${corNumero}${gadgetsDesbloqueados}/${GadgetSystem.gadgets.size} §8(${porcentagemTexto})",
+                            "§fSelecionada atualmente:",
+                            "§a▸ $usedGadgetName"
                         )
                 }
                 click = ClickEffect {
@@ -181,24 +211,20 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                 }
             }
 
-            backPage.item = ItemBuilder(Material.INK_SACK).data(1)
-                .name("§cVoltar")
-                .lore("§7Para Cosméticos.")
+            backPage.item = ItemBuilder(Material.ARROW)
+                .name("§aVoltar")
             backPage.setPosition(5, 6)
             backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
-            nextPage.item = ItemBuilder(Material.INK_SACK).data(10)
+            nextPage.item = ItemBuilder(Material.ARROW)
                 .name("§aPágina %page")
-                .lore("§7Ir até a página %page.")
-            nextPage.setPosition(9, 6)
+            nextPage.setPosition(9, 3)
             nextPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
 
-            previousPage.item = ItemBuilder(Material.INK_SACK).data(8)
+            previousPage.item = ItemBuilder(Material.ARROW)
                 .name("§aPágina %page")
-                .lore("§7Ir até a página %page.")
-            previousPage.setPosition(1, 6)
+            previousPage.setPosition(1, 3)
             previousPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
-
         }
     }
 }

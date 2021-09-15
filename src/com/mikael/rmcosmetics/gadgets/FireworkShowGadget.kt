@@ -6,7 +6,9 @@ import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Material
@@ -18,7 +20,9 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
 
 class FireworkShowGadget : Gadget(
-    "Show de Fogos", listOf(
+    "Show de Fogos",
+    "raro",
+    listOf(
         "§7Faça um show pirotécnico no",
         "§7meio de nossos lobbies!"
     ), ItemBuilder(Material.FIREWORK_CHARGE), 45, "rmcosmetics.gadget.fireworkshow"
@@ -41,6 +45,13 @@ class FireworkShowGadget : Gadget(
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
+
         if (GadgetSystem.hasActiveGadget(player)) {
             player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
             return

@@ -8,16 +8,17 @@ import org.bukkit.inventory.ItemFlag
 class Banner(
     var display: String = "§aBanner",
     var lore: List<String> = listOf(""),
+    var rarity: String = "comum",
+    var permission: String = "rmcosmetics.banner.banner",
 
     var basecolor: DyeColor = DyeColor.BLACK,
     vararg var patterns: Pattern = arrayOf(),
-    var permission: String = "rmcosmetics.banner.banner"
 ) {
 
     fun icon(): ItemBuilder {
         val item = ItemBuilder()
 
-            .name("§a" + display)
+            .name("§a$display")
             .lore(lore)
 
         for (pattern in patterns) {
@@ -26,5 +27,4 @@ class Banner(
         item.addFlags(*ItemFlag.values())
         return item
     }
-
 }

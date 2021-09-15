@@ -3,6 +3,7 @@ package com.mikael.rmcosmetics.objects
 class HatAnimated(
     var display: String = "§aChapéu Animado",
     var lore: List<String> = listOf(""),
+    var rarity: String = "comum",
 
     var urls: MutableMap<String, Int> = mutableMapOf<String, Int>(),
     var permission: String = "rmcosmetics.animatedhat.hat",
