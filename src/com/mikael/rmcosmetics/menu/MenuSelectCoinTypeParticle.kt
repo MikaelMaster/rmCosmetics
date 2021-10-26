@@ -22,7 +22,7 @@ class MenuSelectCoinTypeParticle : Menu("Qual moeda deseja usar?", 3) {
     val comprando = mutableMapOf<Player, ParticleCosmetic>()
 
     init {
-        instance = this
+        instance = this@MenuSelectCoinTypeParticle
         cooldownBetweenInteractions = 0
 
         button("gold") {

@@ -7,6 +7,12 @@ import org.bukkit.entity.Player
 
 object ClosetSystem {
 
+    /**
+     * Sistema de Closet do rmCosmetics
+     *
+     * Desenvolvido por Mikael e Eduard
+     */
+
     var closets = mutableMapOf<MiftProfile, ClosetData>()
 
     fun getPlayerCloset(player: Player): ClosetData {

@@ -158,7 +158,11 @@ class FireworkShowGadget : Gadget(
                         listaDeEntityParaRemover.remove(stand)
                         stand2.remove()
                         listaDeEntityParaRemover.remove(stand2)
-                        player.world.time = 1000
+                        var time = 1000.toLong()
+                        if (CoreMain.instance.getBoolean("is-halloween")) {
+                            time = 16000
+                        }
+                        player.world.time = time
                     }
                 }
             }.runTaskTimer(MiftCosmetics.instance, 10, 10);

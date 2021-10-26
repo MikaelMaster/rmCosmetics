@@ -16,5 +16,4 @@ class BannerData : MiftData {
 
     @ColumnNullable
     var banner: String? = null
-
 }

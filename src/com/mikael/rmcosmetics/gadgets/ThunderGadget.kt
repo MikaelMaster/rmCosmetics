@@ -76,7 +76,12 @@ class ThunderGadget : Gadget(
 
             object : BukkitRunnable() {
                 override fun run() {
-                    mundo.time = 1000
+                    var time = 1000.toLong()
+                    if (CoreMain.instance.getBoolean("is-halloween")) {
+                        time = 16000
+                    }
+
+                    mundo.time = time
 
                     val bruxa = local.world.spawn(localbat, Witch::class.java)
                     listaDeEntityParaRemover.add(bruxa)

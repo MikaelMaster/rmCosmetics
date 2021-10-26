@@ -1,6 +1,5 @@
 package com.mikael.rmcosmetics.menu
 
-import com.mikael.rmcosmetics.core.BannerSystem
 import com.mikael.rmcosmetics.core.ParticleSystem
 import com.mikael.rmcosmetics.objects.ParticleAnimation
 import com.mikael.rmcosmetics.percentColor
@@ -27,9 +26,8 @@ class MenuParticles : Menu("Partículas", 5) {
     }
 
     init {
-        instance = this
+        instance = this@MenuParticles
         isAutoAlignItems = true
-
         cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 4, 5)
         autoAlignSkipColumns = listOf(9, 1)
@@ -64,6 +62,10 @@ class MenuParticles : Menu("Partículas", 5) {
                     val particleporgold = ParticleSystem.compravelporgold[particle]!!
                     val particleporcash = ParticleSystem.compravelporcash[particle]!!
 
+                    var format = "Singular"
+                    if (particle.display == "Chamas") {
+                        format = "Bagunça"
+                    }
                     if (hasPermission(particleCosmetic.groupPermission)) {
                         if (hasPermission(particleCosmetic.permission)) {
                             if (ParticleSystem.hasSelected(player)) {
@@ -76,7 +78,7 @@ class MenuParticles : Menu("Partículas", 5) {
                                     loreUsada.add("§7Realce seu estilo em nossos lobbies")
                                     loreUsada.add("§7utilizando a partícula ${particle.display}.")
                                     loreUsada.add("")
-                                    loreUsada.add("§fFormato: §7Singular")
+                                    loreUsada.add("§fFormato: §7${format}")
                                     loreUsada.add("")
                                     loreUsada.add("§eClique para remover!")
                                     item.lore(loreUsada)
@@ -88,7 +90,7 @@ class MenuParticles : Menu("Partículas", 5) {
                                     loreUsada.add("§7Realce seu estilo em nossos lobbies")
                                     loreUsada.add("§7utilizando a partícula ${particle.display}.")
                                     loreUsada.add("")
-                                    loreUsada.add("§fFormato: §7Singular")
+                                    loreUsada.add("§fFormato: §7${format}")
                                     loreUsada.add("")
                                     loreUsada.add("§eClique para utilizar!")
                                     item.lore(loreUsada)
@@ -101,7 +103,7 @@ class MenuParticles : Menu("Partículas", 5) {
                                 loreUsada.add("§7Realce seu estilo em nossos lobbies")
                                 loreUsada.add("§7utilizando a partícula ${particle.display}.")
                                 loreUsada.add("")
-                                loreUsada.add("§fFormato: §7Singular")
+                                loreUsada.add("§fFormato: §7${format}")
                                 loreUsada.add("")
                                 loreUsada.add("§eClique para utilizar!")
                                 item.lore(loreUsada)
@@ -114,7 +116,7 @@ class MenuParticles : Menu("Partículas", 5) {
                             loreUsada.add("§7Realce seu estilo em nossos lobbies")
                             loreUsada.add("§7utilizando a partícula ${particle.display}.")
                             loreUsada.add("")
-                            loreUsada.add("§fFormato: §7Singular")
+                            loreUsada.add("§fFormato: §7${format}")
                             loreUsada.add("")
                             if (particlecompravel) {
                                 loreUsada.add("§eOpções de compra:")
@@ -149,7 +151,7 @@ class MenuParticles : Menu("Partículas", 5) {
                         loreUsada.add("§7Realce seu estilo em nossos lobbies")
                         loreUsada.add("§7utilizando a partícula ${particle.display}.")
                         loreUsada.add("")
-                        loreUsada.add("§fFormato: §7Singular")
+                        loreUsada.add("§fFormato: §7${format}")
                         loreUsada.add("")
                         loreUsada.add(particleCosmetic.exclusiveGroupName)
                         item.lore(loreUsada)
@@ -171,8 +173,8 @@ class MenuParticles : Menu("Partículas", 5) {
                         if (player.hasPermission(particleCosmetic.permission)) {
                             if (ParticleSystem.hasSelected(player)) {
                                 val particleUsed = ParticleSystem.getSelectedParticle(player)
-                                var particle = usingEffect[player]
-                                if (particle == null) {
+                                var particle1 = usingEffect[player]
+                                if (particle1 == null) {
                                     player.sendMessage("§cOcorreu um erro ao alterar sua partícula!")
                                     player.sendMessage("§cPor favor, troque de lobby para resolver esse problema.")
                                     return@ClickEffect
@@ -181,17 +183,17 @@ class MenuParticles : Menu("Partículas", 5) {
                                 if (particleUsed == particleCosmetic) {
                                     player.soundWhenEffect()
                                     player.sendMessage("§cVocê removeu a partícula '${particleCosmetic.display}'.")
-                                    particle.stop()
+                                    particle1.stop()
                                     usingEffect.remove(player)
                                     ParticleSystem.deselect(player)
                                     open(player)
                                 } else {
-                                    particle = particleCosmetic.animationClass.constructors
+                                    particle1 = particleCosmetic.animationClass.constructors
                                         .first().call(player)
                                     player.soundWhenEffect()
                                     player.sendMessage("§aVocê selecionou a partícula '${particleCosmetic.display}'.")
-                                    particle.start()
-                                    usingEffect[player] = particle
+                                    particle1.start()
+                                    usingEffect[player] = particle1
                                     ParticleSystem.select(player, particleCosmetic)
                                     open(player)
                                 }
@@ -246,8 +248,6 @@ class MenuParticles : Menu("Partículas", 5) {
                         ParticleSystem.deselect(player)
                         player.sendMessage("§cSua partícula atual foi removida.")
                         open(player)
-                    } else {
-                        player.sendMessage("§cVocê não possui uma partícula selecionada.")
                     }
                 }
             }

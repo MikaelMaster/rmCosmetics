@@ -1,9 +1,12 @@
 package com.mikael.rmcosmetics.gadgets
 
 import com.mikael.rmcosmetics.MiftCosmetics
+import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
+import net.eduard.redemikael.core.spigot.CoreMain
+import net.eduard.redemikael.parkour.isPlaying
 import org.bukkit.Material
 import org.bukkit.entity.ArmorStand
 import org.bukkit.event.EventHandler
@@ -13,11 +16,11 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class GraveStoneGadget : Gadget(
     "Tumba Amaldiçoada",
-    "comum",
+    "epico",
     listOf(
         "§7Com essa engenhoca, você dará vida",
         "§7a um corpo inanimado!",
-    ), ItemBuilder(Material.SOUL_SAND), 60, "rmcosmetics.gadget.gravestone"
+    ), ItemBuilder(Material.SOUL_SAND), 45, "rmcosmetics.gadget.gravestone"
 ) {
 
     val cooldown = CooldownManager(20 * 5)
@@ -28,12 +31,23 @@ class GraveStoneGadget : Gadget(
 
     @EventHandler
     fun clicando(event: PlayerInteractEvent) {
+        val player = event.player
         if (event.item == null) return
         if (event.action != Action.RIGHT_CLICK_BLOCK) return
         if (icon != event.item) return
-        val player = event.player
-        if (cooldown.cooldown(player)) {
+        if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
+            if (player.isPlaying) {
+                player.sendMessage("§cVocê não pode ativar uma engenhoca enquanto percorre o parkour.")
+                return
+            }
+        }
 
+        if (GadgetSystem.hasActiveGadget(player)) {
+            player.sendMessage("§cVocê já possui uma engenhoca ativa no momento!")
+            return
+        }
+
+        if (cooldown.cooldown(player)) {
             val local = event.clickedBlock.location
             val localstand = local.clone().add(0.5, 1.3, 0.5)
 
@@ -82,19 +96,16 @@ class GraveStoneGadget : Gadget(
                     stand.remove()
                 }
 
-            }.runTaskLater(MiftCosmetics.instance, 60);
+            }.runTaskLater(MiftCosmetics.instance, 60)
 
         }
     }
 
     init {
-
         icon = ItemBuilder(Material.SOUL_SAND).name("§aEngenhoca: §eTumba Amaldiçoada")
             .lore(
                 "§7Com essa engenhoca, você dará vida",
                 "§7a um corpo inanimado!"
             )
-
     }
-
 }

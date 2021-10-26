@@ -20,23 +20,26 @@ import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class MenuCompanions : Menu("Companheiros", 6) {
+    companion object {
+        lateinit var instance: MenuCompanions
+    }
 
     val editandoPetName = mutableMapOf<Player, Pet>()
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun chatCancelMessage(e: AsyncPlayerChatEvent) {
         val message = e.message
         val player = e.player
-
         if (message == "rmcosmetics:cancelchangename") {
             e.isCancelled = !editandoPetName.containsKey(player)
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun changePetName(e: AsyncPlayerChatEvent) {
         val newname = e.message.colored()
         val player = e.player
@@ -68,15 +71,12 @@ class MenuCompanions : Menu("Companheiros", 6) {
 
     }
 
-    companion object {
-        lateinit var instance: MenuCompanions
-    }
-
     init {
-        instance = this
+        instance = this@MenuCompanions
         isAutoAlignItems = true
 
         openWithCommand = "/companions"
+        openWithCommandText = "/companheiros"
         cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
@@ -201,7 +201,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
 
                     if (player.hasPermission(companionGroup)) {
                         if (player.hasPermission(pet.permission)) {
-
                             if (PetManager.hasPet(player)) {
                                 val companionUsed = PetManager.getPet(player).container
                                 if (companionUsed == pet) {
@@ -217,11 +216,12 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                     val companionSelected = PetManager.getPet(player)
                                     CompanionSystem.select(player, companionSelected)
 
-                                    val companionUsed = CompanionSystem.getSelectedCompanion(player)
+                                    val companionUsedVal = CompanionSystem.getSelectedCompanion(player)
                                     if (CompanionSystem.hasName(player)) {
-                                        companionUsed.customName = CompanionSystem.getCustomName(player)
+                                        companionUsedVal.customName = CompanionSystem.getCustomName(player)
                                     } else {
-                                        companionUsed.customName = "§6${companionUsed.container.name} §7de ${user.nick}"
+                                        companionUsedVal.customName =
+                                            "§6${companionUsedVal.container.name} §7de ${user.nick}"
                                     }
                                     open(player, getPageOpen(player))
                                 }
@@ -246,7 +246,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                     player.soundWhenSwitchMenu()
                                     MenuSelectCoinTypeCompanion.instance
                                         .comprando[player] = companion
-
                                     MenuSelectCoinTypeCompanion.instance.open(player)
                                 } else {
                                     player.soundWhenNoEffect()
@@ -272,18 +271,16 @@ class MenuCompanions : Menu("Companheiros", 6) {
             }
             click = ClickEffect {
                 val player = it.player
-
                 player.soundWhenEffect()
                 if (PetManager.hasPet(player)) {
                     PetManager.getPet(player).remove()
                     CompanionSystem.deselect(player)
                     player.sendMessage("§cSeu companheiro atual foi removido.")
                     open(player, getPageOpen(player))
-                } else {
-                    player.sendMessage("§cVocê não possui um companheiro selecionado.")
                 }
             }
         }
+
         button("info") {
             setPosition(6, 6)
 
@@ -294,8 +291,8 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     hasPermission(it.permission)
                 }
 
-                var porcentagemDesbloqueada = companionsDesbloqueados.toDouble() / PetLoader.getPets().size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = companionsDesbloqueados.toDouble() / PetLoader.getPets().size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 val item = ItemBuilder(Material.PAPER).name("§aInformações")
@@ -329,6 +326,7 @@ class MenuCompanions : Menu("Companheiros", 6) {
                 it.player.soundWhenNoEffect()
             }
         }
+
         button("companion-name") {
             setPosition(9, 1)
 
@@ -368,11 +366,9 @@ class MenuCompanions : Menu("Companheiros", 6) {
             }
             click = ClickEffect {
                 val player = it.player
-
                 if (PetManager.hasPet(player)) {
                     player.soundWhenEffect()
                     val companion = PetManager.getPet(player)
-
                     editandoPetName[player] = companion
 
                     player.sendMessage("")

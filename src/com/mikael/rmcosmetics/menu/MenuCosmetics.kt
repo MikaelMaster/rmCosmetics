@@ -23,8 +23,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
     }
 
     init {
-        instance = this
-
+        instance = this@MenuCosmetics
         cooldownBetweenInteractions = 0
         openWithCommand = "/cosmeticos"
         openWithCommandText = "/cosmetics"
@@ -37,15 +36,12 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val companionsDesbloqueados = PetLoader.getPets().count {
                     hasPermission(it.permission)
                 }
-
-                var porcentagemDesbloqueada = companionsDesbloqueados.toDouble() / PetLoader.getPets().size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = companionsDesbloqueados.toDouble() / PetLoader.getPets().size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
-
                 val item =
                     ItemBuilder(Material.SKULL_ITEM).skin("http://textures.minecraft.net/texture/47b4f84e19b52f31217712e7ba9f51d56da59d2445b4d7f39ef6c323b8166")
                         .name("§aCompanheiros")
-
                 if (PetManager.hasPet(player)) {
                     item.lore(
                         "§7Passeie em nossos lobbies",
@@ -77,28 +73,25 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 it.player.soundWhenSwitchMenu()
             }
         }
+
         button("hats") {
             setPosition(5, 2)
 
             iconPerPlayer = {
                 val player = this
                 var usedHatName = "Nenhum"
-
                 if (HatSystem.hasSelected(player)) {
 
                     val usedHat = HatSystem.getSelectedHat(player)
                     val hatName = usedHat.display
                     usedHatName = hatName
                 }
-
                 val hatsDesbloqueados = HatSystem.hats.count {
                     hasPermission(it.permission)
                 }
-
-                var porcentagemDesbloqueada = hatsDesbloqueados.toDouble() / HatSystem.hats.size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = hatsDesbloqueados.toDouble() / HatSystem.hats.size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
-
                 ItemBuilder(Material.SKULL_ITEM)
                     .skin("http://textures.minecraft.net/texture/d43d4b7ac24a1d650ddf73bd140f49fc12d2736fc14a8dc25c0f3f29d85f8f")
                     .name("§aChapéus")
@@ -119,29 +112,25 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 it.player.soundWhenSwitchMenu()
             }
         }
+
         button("animated-hats") {
             setPosition(7, 2)
 
             iconPerPlayer = {
                 val player = this
                 var usedHatName = "Nenhum"
-
                 if (HatAnimatedSystem.hasSelected(player)) {
 
                     val usedHat = HatAnimatedSystem.getSelectedAnimatedHat(player)
                     val hatName = usedHat.display
                     usedHatName = hatName
                 }
-
                 val animatedHatsDesbloqueados = HatAnimatedSystem.animatedHats.count {
                     hasPermission(it.permission)
                 }
-
-                var porcentagemDesbloqueada = animatedHatsDesbloqueados.toDouble() / HatAnimatedSystem.animatedHats.size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = animatedHatsDesbloqueados.toDouble() / HatAnimatedSystem.animatedHats.size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
-
-
                 ItemBuilder(Material.SKULL_ITEM).skin("http://textures.minecraft.net/texture/732fe121a63eaabd99ced6d1acc91798652d1ee8084d2f9127d8a315cad5ce4")
                     .name("§aChapéus animados")
                     .lore(
@@ -161,12 +150,13 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 it.player.soundWhenSwitchMenu()
             }
         }
+
         button("closet") {
             setPosition(2, 4)
 
             iconPerPlayer = {
+                val player = this
                 val closet = ClosetSystem.getPlayerCloset(player)
-
                 var helmet = "§a▸ Vazio"
                 if (closet.helmet != null) {
                     helmet = "§a▸ ${closet.helmetName} §c(Brilho inativo)"
@@ -195,10 +185,8 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 if (closet.bootsBright) {
                     boots = "§a▸ ${closet.bootsName} §e(Brilho ativo)"
                 }
-
                 val item = ItemBuilder(Material.ARMOR_STAND).name("§aGuarda-Roupa")
-
-                if (player.hasPermission("rmcosmetics.use.closet")) {
+                if (player.hasPermission("rmcore.benefits.vip")) {
                     item.lore(
                         "§7Ande sempre com estilo em",
                         "§7nossos lobbies com armaduras",
@@ -221,14 +209,13 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                         "§fAdquira seu VIP acessando nossa loja:",
                         "§awww.redemift.com/loja",
                         "",
-                        "§fExclusivo para §aVIP §fou superior.",
+                        "§cExclusivo para §aVIP §cou superior.",
                     )
                 }
             }
             click = ClickEffect {
                 val player = it.player
-
-                if (player.hasPermission("rmcosmetics.use.closet")) {
+                if (player.hasPermission("rmcore.benefits.vip")) {
                     player.soundWhenSwitchMenu()
                     MenuCloset.instance.open(player)
                 } else {
@@ -236,16 +223,17 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 }
             }
         }
+
         button("pets") {
             setPosition(3, 4)
 
             iconPerPlayer = {
                 ItemBuilder(Material.BONE)
-                    .name("§aPets")
+                    .name("§aMascotes")
                     .lore(
                         "§7Passeie em nossos lobbies",
                         "§7com estilo utilizando um",
-                        "§7pet exclusivo.",
+                        "§7mascote exclusivo.",
                         "",
                         "§fDesbloqueados: §c0/0 §8(0%)",
                         "§fSelecionado atualmente:",
@@ -266,23 +254,17 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
             iconPerPlayer = {
                 val player = this
                 var usedBannerName = "Nenhum"
-
                 if (BannerSystem.hasSelected(player)) {
-
                     val usedBanner = BannerSystem.getSelectedBanner(player)
                     val bannerName = usedBanner.display
                     usedBannerName = bannerName
                 }
-
                 val bannersDesbloqueados = BannerSystem.banners.count {
                     hasPermission(it.permission)
                 }
-
-                var porcentagemDesbloqueada = bannersDesbloqueados.toDouble() / BannerSystem.banners.size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = bannersDesbloqueados.toDouble() / BannerSystem.banners.size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
-
-
                 ItemBuilder(Material.BANNER)
                     .name("§aBanners")
                     .lore(
@@ -316,23 +298,18 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
             iconPerPlayer = {
                 val player = this
                 var usedParticleName = "Nenhuma"
-
                 if (ParticleSystem.hasSelected(player)) {
 
                     val usedParticle = ParticleSystem.getSelectedParticle(player)
                     val particleName = usedParticle.display
                     usedParticleName = particleName
                 }
-
                 val particlesDesbloqueados = ParticleSystem.particles.count {
                     hasPermission(it.permission)
                 }
-
-                var porcentagemDesbloqueada = particlesDesbloqueados.toDouble() / ParticleSystem.particles.size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = particlesDesbloqueados.toDouble() / ParticleSystem.particles.size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
-
-
                 ItemBuilder(Material.BLAZE_POWDER)
                     .name("§aPartículas")
                     .lore(
@@ -358,22 +335,18 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
             iconPerPlayer = {
                 val player = this
                 var usedGadgetName = "Nenhuma"
-
                 if (GadgetSystem.hasSelected(player)) {
 
                     val usedGadget = GadgetSystem.getSelectedGadget(player)
                     val gadgetName = usedGadget.name
                     usedGadgetName = gadgetName
                 }
-
                 val gadgetsDesbloqueados = GadgetSystem.gadgets.count {
                     hasPermission(it.permission)
                 }
-
-                var porcentagemDesbloqueada = gadgetsDesbloqueados.toDouble() / GadgetSystem.gadgets.size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = gadgetsDesbloqueados.toDouble() / GadgetSystem.gadgets.size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
-
                 ItemBuilder(Material.DISPENSER)
                     .name("§aEngenhocas")
                     .lore(

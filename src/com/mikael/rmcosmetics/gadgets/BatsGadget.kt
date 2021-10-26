@@ -61,8 +61,6 @@ class BatsGadget : Gadget(
 
             val localbat = local.clone().add(0.0, 3.5, 0.0)
 
-            mundo.time = 1000
-
             val morcego = local.world.spawn(localbat, Bat::class.java)
             listaDeEntityParaRemover.add(morcego)
             morcego.isAwake = true

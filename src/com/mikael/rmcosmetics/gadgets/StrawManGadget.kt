@@ -24,7 +24,7 @@ class StrawManGadget : Gadget(
         "§7Você sabia que deixar um espantalho com uma",
         "§7abóbora deixa ele amaldiçoado? Acho que o",
         "§7fazendeiro que criou este espantalho não sabia..."
-    ), ItemBuilder(Material.HAY_BLOCK), 120, "rmcosmetics.gadget.strawman"
+    ), ItemBuilder(Material.HAY_BLOCK), 80, "rmcosmetics.gadget.strawman"
 ) {
     companion object {
         lateinit var instance: StrawManGadget
@@ -32,7 +32,7 @@ class StrawManGadget : Gadget(
 
     val listaDeEntityParaRemover = mutableListOf<Entity>()
 
-    val cooldown = CooldownManager(20 * 120)
+    val cooldown = CooldownManager(20 * 80)
 
     init {
         cooldown.msgCooldown = "§cVocê precisa esperar mais %times para utilizar esta engenhoca novamente!"
@@ -100,7 +100,7 @@ class StrawManGadget : Gadget(
 
         if (cooldown.cooldown(player)) {
             val user = player.user
-            player.sendMessage("§aVocê ativou a engenhoca Espantalho Amaldiçoado! Duração: §f35s")
+            player.sendMessage("§aVocê ativou a engenhoca Espantalho Amaldiçoado! Duração: §f15s")
             GadgetSystem.putActiveGadget(player)
             val mundo = player.world
 
@@ -407,12 +407,16 @@ class StrawManGadget : Gadget(
                             mundo.strikeLightning(local)
                             mundo.strikeLightning(local)
                             Mine.broadcast("§6[Cosméticos] §cA maldição do espantalho invocada por ${user.nick} §cse foi em um estouro.")
-                            mundo.time = 1000
+                            var time = 1000.toLong()
+                            if (CoreMain.instance.getBoolean("is-halloween")) {
+                                time = 16000
+                            }
+                            mundo.time = time
                         }
-                    }.runTaskLater(MiftCosmetics.instance, 20 * 35);
+                    }.runTaskLater(MiftCosmetics.instance, 20 * 15)
                 }
 
-            }.runTaskLater(MiftCosmetics.instance, 20);
+            }.runTaskLater(MiftCosmetics.instance, 20)
         }
     }
 

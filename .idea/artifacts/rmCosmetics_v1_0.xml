@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="rmCosmetics-v1.0">
-    <output-path>$USER_HOME$/Desktop/Docs - Rede Mift/Rede Mift - Plugins</output-path>
-    <root id="archive" name="rmCosmetics-v1.0.jar">
-      <element id="module-output" name="rmCosmetics" />
-    </root>
-  </artifact>
-</component>

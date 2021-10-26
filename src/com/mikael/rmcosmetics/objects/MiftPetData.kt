@@ -4,8 +4,8 @@ import net.eduard.api.lib.database.annotations.*
 import net.eduard.redemikael.core.api.MiftData
 import net.eduard.redemikael.core.objects.MiftProfile
 
-@TableName("mift_cosmetics_animated_hats")
-class AnimatedHatData : MiftData {
+@TableName("mift_cosmetics_pets")
+class MiftPetData : MiftData {
 
     @ColumnPrimary
     var id = 0L
@@ -15,5 +15,5 @@ class AnimatedHatData : MiftData {
     lateinit var player: MiftProfile
 
     @ColumnNullable
-    var animatedHat: String? = null
+    var pet: String? = null
 }

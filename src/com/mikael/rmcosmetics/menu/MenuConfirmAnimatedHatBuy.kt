@@ -24,7 +24,7 @@ class MenuConfirmAnimatedHatBuy : Menu("Confirmar Compra?", 4) {
     val comprando = mutableMapOf<Player, HatAnimated>()
 
     init {
-        instance = this
+        instance = this@MenuConfirmAnimatedHatBuy
         cooldownBetweenInteractions = 0
 
         button("confirm-buy") {

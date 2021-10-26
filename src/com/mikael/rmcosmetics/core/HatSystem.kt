@@ -9,6 +9,12 @@ import org.bukkit.entity.Player
 
 object HatSystem {
 
+    /**
+     * Sistema de Chapéus do rmCosmetics
+     *
+     * Desenvolvido por Mikael e Eduard
+     */
+
     var usingHat = mutableMapOf<Player, Hat>()
     var hats = mutableListOf<Hat>()
     var hatsSelected = mutableMapOf<MiftProfile, HatData>()
@@ -266,7 +272,7 @@ object HatSystem {
             listOf(""),
             "divino",
             "http://textures.minecraft.net/texture/5b1ef2a4829a11fd903b5e31088662a8c56e471bb48643c0d9f95006d1820210",
-            "rmcosmeitcs.hat.cubo_magico"
+            "rmcosmetics.hat.cubo_magico"
         )
         val chapeu31 = Hat(
             "Ovo de Dragão",
@@ -453,7 +459,7 @@ object HatSystem {
         val chapeu57 = Hat(
             "Shrek",
             listOf(""),
-            "rpico",
+            "raro",
             "http://textures.minecraft.net/texture/4868dd50bcb73c47c4aaee75c7eb3c7097885d4a9dd34a57c8ca48de3b76598a",
             "rmcosmetics.hat.shrek"
         )

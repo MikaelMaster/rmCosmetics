@@ -26,7 +26,10 @@ class FlyingHorseGadget : Gadget(
     listOf(
         "§7Acho que tem algo de errado com esse",
         "§7cavalo... parece que ele sabe voar!"
-    ), ItemBuilder(Material.SADDLE), 60, "rmcosmetics.gadget.flyinghorse"
+    ),
+    ItemBuilder().skin("http://textures.minecraft.net/texture/450f992599a55a8311373a5412716bb7f91cf39afadea2517f415d72879a2"),
+    60,
+    "rmcosmetics.gadget.flyinghorse"
 ) {
     companion object {
         lateinit var instance: FlyingHorseGadget
@@ -149,10 +152,12 @@ class FlyingHorseGadget : Gadget(
 
     init {
         instance = this@FlyingHorseGadget
-        icon = ItemBuilder(Material.SADDLE).name("§aEngenhoca: §eCavalo Voador")
-            .lore(
-                "§7Parece que tem algo de errado com esse",
-                "§7cavalo... parece que ele sabe voar!"
-            )
+        icon =
+            ItemBuilder().skin("http://textures.minecraft.net/texture/450f992599a55a8311373a5412716bb7f91cf39afadea2517f415d72879a2")
+                .name("§aEngenhoca: §eCavalo Voador")
+                .lore(
+                    "§7Parece que tem algo de errado com esse",
+                    "§7cavalo... parece que ele sabe voar!"
+                )
     }
 }

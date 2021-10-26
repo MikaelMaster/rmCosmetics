@@ -1,6 +1,6 @@
 name: rmCosmetics
 website: "https://redemift.com"
-version: 1.3
+version: 1.5
 author: Mikael
 depend: [ EduardAPI, rmCore, MiniaturePets ]
 softdepend: [ rmParkour ]

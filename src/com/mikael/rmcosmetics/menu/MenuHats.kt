@@ -19,7 +19,6 @@ class MenuHats : Menu("Chapéus", 6) {
 
     init {
         isAutoAlignItems = true
-
         cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
@@ -181,8 +180,6 @@ class MenuHats : Menu("Chapéus", 6) {
                     HatSystem.deselect(player)
                     player.sendMessage("§cSeu chapéu atual foi removido.")
                     open(player, getPageOpen(player))
-                } else {
-                    player.sendMessage("§cVocê não possui um chapéu selecionado.")
                 }
             }
 

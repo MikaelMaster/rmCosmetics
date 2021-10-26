@@ -5,6 +5,7 @@ import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
+import net.eduard.api.lib.modules.Mine
 import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
 import net.eduard.redemikael.parkour.isPlaying
@@ -14,8 +15,10 @@ import org.bukkit.entity.Egg
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.block.Action
 import org.bukkit.event.entity.CreatureSpawnEvent
+import org.bukkit.event.player.PlayerEggThrowEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -117,7 +120,6 @@ class EggRainfallGadget : Gadget(
                 }
 
             }.runTaskTimer(MiftCosmetics.instance, 5, 5)
-
         }
     }
 

@@ -8,10 +8,6 @@ import net.eduard.redemikael.core.objects.MiftProfile
 @TableName("mift_cosmetics_companions")
 class CompanionData : MiftData {
 
-    class CompanionNames {
-        var customNames = mutableMapOf<String, String>()
-    }
-
     @ColumnPrimary
     var id = 0L
 
@@ -22,7 +18,7 @@ class CompanionData : MiftData {
     @ColumnNullable
     var companion: String? = null
 
-    @ColumnSize(1000)
-    @ColumnJson
-    var customNames = CompanionNames()
+    @ColumnSize(50)
+    @ColumnNullable
+    var customName: String? = null
 }

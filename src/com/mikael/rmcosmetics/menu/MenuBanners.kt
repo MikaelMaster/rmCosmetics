@@ -23,15 +23,13 @@ class MenuBanners : Menu("Banners", 6) {
     }
 
     init {
-        instance = this
-
+        instance = this@MenuBanners
         cooldownBetweenInteractions = 0
         isAutoAlignItems = true
-        autoAlignSkipLines = listOf(1, 4, 5)
+        autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
-
 
         for (banner in BannerSystem.banners) {
             button {
@@ -177,8 +175,6 @@ class MenuBanners : Menu("Banners", 6) {
                             BannerSystem.deselect(player)
                             player.sendMessage("§cSeu banner atual foi removido.")
                             open(player, getPageOpen(player))
-                        } else {
-                            player.sendMessage("§cVocê não possui um banner selecionado.")
                         }
                     }
                 }

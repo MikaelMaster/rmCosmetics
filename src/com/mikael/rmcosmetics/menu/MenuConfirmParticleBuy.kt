@@ -25,7 +25,7 @@ class MenuConfirmParticleBuy : Menu("Confirmar Compra?", 4) {
     val comprando = mutableMapOf<Player, ParticleCosmetic>()
 
     init {
-        instance = this
+        instance = this@MenuConfirmParticleBuy
         cooldownBetweenInteractions = 0
 
         button("confirm-buy") {

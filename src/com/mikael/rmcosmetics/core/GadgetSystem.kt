@@ -8,15 +8,19 @@ import net.eduard.redemikael.core.objects.MiftProfile
 import net.eduard.redemikael.core.user
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import javax.swing.Painter
 
 object GadgetSystem {
 
+    /**
+     * Sistema de Engenhocas do rmCosmetics
+     *
+     * Desenvolvido por Mikael e Eduard
+     */
+
     var blocksList = mutableListOf<Location>()
-
     var activeGadget = mutableListOf<Player>()
-
     var usingGadget = mutableMapOf<Player, Gadget>()
+
     var gadgets = mutableListOf<Gadget>()
     var gadgetsSelected = mutableMapOf<MiftProfile, GadgetData>()
 
@@ -89,7 +93,7 @@ object GadgetSystem {
         gadgets.add(ThunderGadget())
         gadgets.add(JumpJumpGadget())
         gadgets.add(EggRainfallGadget())
-        // gadgets.add(MountGadget())
+        gadgets.add(MountGadget())
         gadgets.add(RabbitsFamilyGadget())
         gadgets.add(FlyingHorseGadget())
         // gadgets.add(FlyingCarGadget())
@@ -106,6 +110,7 @@ object GadgetSystem {
         gadgets.add(FireFootsGadget())
         gadgets.add(PainterGadget())
         gadgets.add(ExplosiveSheepGadget())
+        gadgets.add(SpidersGadget())
         // gadgets.add(SnowStormGadget())
         // gadgets.add(ChristmasTreeGadget())
         // gadgets.add(GraveStoneGadget())

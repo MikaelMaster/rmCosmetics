@@ -23,7 +23,7 @@ class MenuSelectCoinTypeAnimatedHat : Menu("Qual moeda deseja usar?", 3) {
     val comprando = mutableMapOf<Player, HatAnimated>()
 
     init {
-        instance = this
+        instance = this@MenuSelectCoinTypeAnimatedHat
         cooldownBetweenInteractions = 0
 
         button("gold") {

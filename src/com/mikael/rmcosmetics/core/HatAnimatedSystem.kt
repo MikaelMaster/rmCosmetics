@@ -11,6 +11,12 @@ import org.bukkit.entity.Player
 
 object HatAnimatedSystem {
 
+    /**
+     * Sistema de Chapéus Animados do rmCosmetics
+     *
+     * Desenvolvido por Mikael e Eduard
+     */
+
     var animatedHats = mutableListOf<HatAnimated>()
     var usingAnimatedHat = mutableMapOf<Player, HatAnimated>()
     var hatsSelected = mutableMapOf<MiftProfile, AnimatedHatData>()
@@ -32,8 +38,8 @@ object HatAnimatedSystem {
                 "http://textures.minecraft.net/texture/8d8f5fb387ca66fc2f65b91fcb231604548e8565895bb96c676984205e6f19" to 5,
                 "http://textures.minecraft.net/texture/01b9def55876c41c17c815f88115f02c95f89620fbed6a6cb2d38d46fe05" to 20
             ), "rmcosmetics.animatedhat.alegre",
-            "rmcosmetics.benefits.mvp",
-            "§fExclusivo para §6MVP §fou superior."
+            "rmcore.benefits.mvp",
+            "§cExclusivo para §6MVP §cou superior."
         )
 
         val chapeu2 = HatAnimated(
@@ -45,8 +51,8 @@ object HatAnimatedSystem {
                 "http://textures.minecraft.net/texture/b328db1c323585adeba1907ced306050e02aa77591588fb182fdeaf423ad6" to 2,
                 "http://textures.minecraft.net/texture/45868529fbf4be629371275b1138dab929576021716ee737db12634aa125af3" to 20
             ), "rmcosmetics.animatedhat.assustado",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior."
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior."
         )
 
         val chapeu3 = HatAnimated(
@@ -58,7 +64,7 @@ object HatAnimatedSystem {
                 "http://textures.minecraft.net/texture/f4ea2d6f939fefeff5d122e63dd26fa8a427df90b2928bc1fa89a8252a7e" to 10
             ), "rmcosmetics.animatedhat.piscadela",
             "rmcosmetics.benefits.mvp",
-            "§fExclusivo para §6MVP §fou superior."
+            "§cExclusivo para §6MVP §cou superior."
         )
 
         val chapeu4 = HatAnimated(
@@ -71,8 +77,8 @@ object HatAnimatedSystem {
                 "http://textures.minecraft.net/texture/129fb9f593b6ae533dfa8ce79615fcc35894a42cbb41de598d694767352fe" to 5,
                 "http://textures.minecraft.net/texture/42737e99e4c0596a3712e7711baecae8d1ddb774ac1cf531896862380753e16" to 10
             ), "rmcosmetics.animatedhat.apaixonado",
-            "rmcosmetics.benefits.vip",
-            "§fExclusivo para §aVIP §fou superior."
+            "rmcore.benefits.vip",
+            "§cExclusivo para §aVIP §cou superior."
         )
 
         val chapeu5 = HatAnimated(
@@ -86,8 +92,8 @@ object HatAnimatedSystem {
                 "http://textures.minecraft.net/texture/ad34ba688d9d275b5b2bc200faac000a134525e565b9268e34be392a600d173e" to 3,
                 "http://textures.minecraft.net/texture/55aa7895830f566618a71af691124654abc1cdfc18bbd6a6631dfbdc6a648b2" to 3
             ), "rmcosmetics.animatedhat.slime_multicolor",
-            "rmcosmetics.benefits.vip",
-            "§fExclusivo para §aVIP §fou superior."
+            "rmcore.benefits.vip",
+            "§cExclusivo para §aVIP §cou superior."
         )
 
         val chapeu6 = HatAnimated(
@@ -97,8 +103,8 @@ object HatAnimatedSystem {
                 "http://textures.minecraft.net/texture/71e08d547f992949f013a1e2c7e3cd226ab485e3bc8c0c0c39c15d5b7c9e820" to 3,
                 "http://textures.minecraft.net/texture/15742475ee5ad5bef398bb41943a515dcaa77dcd72228b519ef69c3aa86c4" to 3
             ), "rmcosmetics.animatedhat.sirene",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior."
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior."
         )
 
         val chapeu7 = HatAnimated(
@@ -108,8 +114,8 @@ object HatAnimatedSystem {
                 "http://textures.minecraft.net/texture/dc59e5c7b0738b579f3b444c13a47bed496b30838b2ee2b127cc59cd798aee77" to 5,
                 "http://textures.minecraft.net/texture/ad833b51566565658f9011de8784e90c1ad9ba5d3337f8c069213bbdee986523" to 5
             ), "rmcosmetics.animatedhat.notificacao_do_discord",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior."
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior."
         )
 
         animatedHats.add(chapeu1)

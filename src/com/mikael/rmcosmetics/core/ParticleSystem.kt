@@ -12,6 +12,12 @@ import org.bukkit.entity.Player
 
 object ParticleSystem {
 
+    /**
+     * Sistema de Partículas do rmCosmetics
+     *
+     * Desenvolvido por Mikael e Eduard
+     */
+
     var usingParticle = mutableMapOf<Player, ParticleCosmetic>()
     var particles = mutableListOf<ParticleCosmetic>()
     var particlesSelected = mutableMapOf<MiftProfile, ParticleData>()
@@ -67,15 +73,14 @@ object ParticleSystem {
     }
 
     init {
-
         val particle1 = ParticleCosmetic(
             "Corações",
             "divino",
             ParticleType.HEART,
             Material.RED_ROSE,
             "rmcosmetics.particle.heart",
-            "rmcosmetics.benefits.mvp",
-            "§fExclusivo para §6MVP §fou superior.",
+            "rmcore.benefits.mvp",
+            "§cExclusivo para §6MVP §cou superior.",
             SingleParticleHead::class
         )
         val particle2 = ParticleCosmetic(
@@ -84,8 +89,8 @@ object ParticleSystem {
             ParticleType.FLAME,
             Material.BLAZE_POWDER,
             "rmcosmetics.particle.flame",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior.",
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior.",
             SingleParticleHead::class
         )
         val particle3 = ParticleCosmetic(
@@ -94,8 +99,8 @@ object ParticleSystem {
             ParticleType.CRIT,
             Material.DEAD_BUSH,
             "rmcosmetics.particle.crit",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior.",
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior.",
             SingleParticleHead::class
         )
         val particle4 = ParticleCosmetic(
@@ -104,8 +109,8 @@ object ParticleSystem {
             ParticleType.MAGIC_CRIT,
             Material.PRISMARINE_CRYSTALS,
             "rmcosmetics.particle.magic_crit",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior.",
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior.",
             SingleParticleHead::class
         )
         val particle5 = ParticleCosmetic(
@@ -114,8 +119,8 @@ object ParticleSystem {
             ParticleType.FIREWORKS_SPARK,
             Material.FIREWORK,
             "rmcosmetics.particle.fireworks_spark",
-            "rmcosmetics.benefits.vip",
-            "§fExclusivo para §aVIP §fou superior.",
+            "rmcore.benefits.vip",
+            "§cExclusivo para §aVIP §cou superior.",
             SingleParticleHead::class
         )
         val particle6 = ParticleCosmetic(
@@ -124,8 +129,8 @@ object ParticleSystem {
             ParticleType.WITCH_MAGIC,
             Material.FERMENTED_SPIDER_EYE,
             "rmcosmetics.particle.witch_magic",
-            "rmcosmetics.benefits.mvp",
-            "§fExclusivo para §6MVP §fou superior.",
+            "rmcore.benefits.mvp",
+            "§cExclusivo para §6MVP §cou superior.",
             SingleParticleHead::class
         )
         val particle7 = ParticleCosmetic(
@@ -134,8 +139,8 @@ object ParticleSystem {
             ParticleType.DRIP_WATER,
             Material.WATER_BUCKET,
             "rmcosmetics.particle.drip_water",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior.",
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior.",
             SingleParticleHead::class
         )
         val particle8 = ParticleCosmetic(
@@ -144,8 +149,8 @@ object ParticleSystem {
             ParticleType.DRIP_LAVA,
             Material.LAVA_BUCKET,
             "rmcosmetics.particle.drip_lava",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior.",
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior.",
             SingleParticleHead::class
         )
         val particle9 = ParticleCosmetic(
@@ -154,8 +159,8 @@ object ParticleSystem {
             ParticleType.ANGRY_VILLAGER,
             Material.BLAZE_ROD,
             "rmcosmetics.particle.angry_villager",
-            "rmcosmetics.benefits.mvpplus",
-            "§fExclusivo para §bMVP§6+ §fou superior.",
+            "rmcore.benefits.mvpplus",
+            "§cExclusivo para §bMVP§6+ §cou superior.",
             SingleParticleHead::class
         )
         val particle10 = ParticleCosmetic(
@@ -164,8 +169,8 @@ object ParticleSystem {
             ParticleType.HAPPY_VILLAGER,
             Material.EMERALD,
             "rmcosmetics.particle.happy_villager",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior.",
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior.",
             SingleParticleHead::class
         )
         val particle11 = ParticleCosmetic(
@@ -174,8 +179,8 @@ object ParticleSystem {
             ParticleType.NOTE,
             Material.RECORD_4,
             "rmcosmetics.particle.note",
-            "rmcosmetics.benefits.vip",
-            "§fExclusivo para §aVIP §fou superior.",
+            "rmcore.benefits.vip",
+            "§cExclusivo para §aVIP §cou superior.",
             SingleParticleHead::class
         )
         val particle12 = ParticleCosmetic(
@@ -184,8 +189,8 @@ object ParticleSystem {
             ParticleType.PORTAL,
             Material.EYE_OF_ENDER,
             "rmcosmetics.particle.portal",
-            "rmcosmetics.defaultperm",
-            "§fExclusivo para §7Membro §fou superior.",
+            "rmcore.defaultperm",
+            "§cExclusivo para §7Membro §cou superior.",
             SingleParticleHead::class
         )
         val particle13 = ParticleCosmetic(
@@ -194,8 +199,8 @@ object ParticleSystem {
             ParticleType.ENCHANTMENT_TABLE,
             Material.MAP,
             "rmcosmetics.particle.enchantment_table",
-            "rmcosmetics.benefits.mvpplus",
-            "§fExclusivo para §bMVP§6+ §fou superior.",
+            "rmcore.benefits.mvpplus",
+            "§cExclusivo para §bMVP§6+ §cou superior.",
             SingleParticleHead::class
         )
 

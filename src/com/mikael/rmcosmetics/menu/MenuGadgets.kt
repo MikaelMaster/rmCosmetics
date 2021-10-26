@@ -18,7 +18,6 @@ class MenuGadgets : Menu("Engenhocas", 6) {
 
     init {
         isAutoAlignItems = true
-
         cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
@@ -163,8 +162,6 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                             GadgetSystem.deselect(player)
                             player.sendMessage("§cVocê removeu sua engenhoca atual.")
                             open(player, getPageOpen(player))
-                        } else {
-                            player.sendMessage("§cVocê não possui uma engenhoca selecioanda.")
                         }
                     }
                 }

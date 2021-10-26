@@ -5,7 +5,6 @@ import com.mikael.rmcosmetics.core.ClosetSystem
 import com.mikael.rmcosmetics.core.HatAnimatedSystem
 import com.mikael.rmcosmetics.core.HatSystem
 import net.eduard.api.lib.game.ItemBuilder
-import net.eduard.api.lib.kotlin.name
 import net.eduard.api.lib.kotlin.player
 import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
@@ -20,10 +19,9 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
     }
 
     init {
-        instance = this
-
+        instance = this@MenuCloset
         openWithCommand = "/closet"
-        openNeedPermission = "rmcosmetics.use.closet"
+        openNeedPermission = "rmcore.benefits.vip"
         messagePermission = "§cVocê precisa do Grupo §aVIP §cou superior para utilizar o Guarda-Roupa!"
         cooldownBetweenInteractions = 0
 

@@ -26,7 +26,7 @@ class MenuConfirmCompanionBuy2 : Menu("Confirmar Compra?", 4) {
     val comprando = mutableMapOf<Player, PetContainer>()
 
     init {
-        instance = this
+        instance = this@MenuConfirmCompanionBuy2
         cooldownBetweenInteractions = 0
 
         button("confirm-buy") {

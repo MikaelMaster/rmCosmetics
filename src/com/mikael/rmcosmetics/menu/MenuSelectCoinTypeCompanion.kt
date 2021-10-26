@@ -22,7 +22,7 @@ class MenuSelectCoinTypeCompanion : Menu("Qual moeda deseja usar?", 3) {
     val comprando = mutableMapOf<Player, PetContainer>()
 
     init {
-        instance = this
+        instance = this@MenuSelectCoinTypeCompanion
         cooldownBetweenInteractions = 0
 
         button("gold") {

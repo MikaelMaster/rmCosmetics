@@ -19,18 +19,18 @@ import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.Sound
 
-class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
+class MenuAnimatedHats : Menu("Chapéus Animados", 4) {
 
     companion object {
         lateinit var instance: MenuAnimatedHats
     }
 
     init {
-        instance = this
+        instance = this@MenuAnimatedHats
 
         cooldownBetweenInteractions = 0
         isAutoAlignItems = true
-        autoAlignSkipLines = listOf(1, 4, 5)
+        autoAlignSkipLines = listOf(1, 3, 4)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 1 * autoAlignPerLine
@@ -235,7 +235,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
         }
 
         button("remove-animated-hat") {
-            setPosition(4, 5)
+            setPosition(4, 4)
 
             fixed = true
             iconPerPlayer = {
@@ -252,14 +252,12 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
                     HatAnimatedSystem.deselect(player)
                     player.sendMessage("§cSeu chapéu animado atual foi removido.")
                     open(player, getPageOpen(player))
-                } else {
-                    player.sendMessage("§cVocê não possui um chapéu animado selecionado.")
                 }
             }
         }
 
         button("info") {
-            setPosition(6, 5)
+            setPosition(6, 4)
 
             fixed = true
             iconPerPlayer = {
@@ -302,7 +300,7 @@ class MenuAnimatedHats : Menu("Chapéus Animados", 5) {
 
         backPage.item = ItemBuilder(Material.ARROW)
             .name("§aVoltar")
-        backPage.setPosition(5, 5)
+        backPage.setPosition(5, 4)
         backPageSound = SoundEffect(Sound.NOTE_STICKS, 2f, 1f)
     }
 }

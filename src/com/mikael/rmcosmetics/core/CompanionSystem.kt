@@ -10,6 +10,12 @@ import org.bukkit.entity.Player
 
 object CompanionSystem {
 
+    /**
+     * Sistema de Companheiros do rmCosmetics (Utilizando MiniaturePets como API)
+     *
+     * Desenvolvido por Mikael e Eduard
+     */
+
     var usingCompanion = mutableMapOf<Player, Pet>()
     var companionsSelected = mutableMapOf<MiftProfile, CompanionData>()
 
@@ -28,8 +34,7 @@ object CompanionSystem {
     fun hasName(player: Player): Boolean {
         val user = player.user
         val selected = getOrCreate(user)
-
-        return selected.customNames.customNames.containsKey(selected.companion)
+        return selected.customName != null
     }
 
     fun getSelectedCompanion(player: Player): Pet {
@@ -47,15 +52,14 @@ object CompanionSystem {
     fun setCustomName(player: Player, name: String) {
         val user = player.user
         val selected = getOrCreate(user)
-        selected.customNames.customNames[selected.companion!!] = name
-        selected.updateOnlyQueue("customNames")
+        selected.customName = name
+        selected.updateOnlyQueue("customName")
     }
 
     fun getCustomName(player: Player): String? {
         val user = player.user
         val selected = getOrCreate(user)
-
-        return selected.customNames.customNames[selected.companion!!]
+        return selected.customName
     }
 
     fun getOrCreate(profile: MiftProfile): CompanionData {
@@ -207,54 +211,54 @@ object CompanionSystem {
         precoemcash[petsByName["logo da twitch"]!!] = Double.MAX_VALUE
 
         for (pet in PetLoader.getPets()) {
-            groupPermission[pet] = "rmcosmetics.defaultperm"
+            groupPermission[pet] = "rmcore.defaultperm"
             petsByName[pet.name.toLowerCase()] = pet
         }
-        groupPermission[petsByName["urso"]!!] = "rmcosmetics.benefits.vip"
-        groupPermission[petsByName["panda gigante"]!!] = "rmcosmetics.benefits.mvpplus"
-        groupPermission[petsByName["boxer"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["macaco"]!!] = "rmcosmetics.benefits.mvp"
-        groupPermission[petsByName["diglet"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["pato"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["dragão de fogo"]!!] = "rmcosmetics.benefits.vip"
-        groupPermission[petsByName["girafa"]!!] = "rmcosmetics.benefits.mvp"
-        groupPermission[petsByName["gorila"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["dragão de gelo"]!!] = "rmcosmetics.benefits.vip"
-        groupPermission[petsByName["coala"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["leão"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["minime"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["bb-8"]!!] = "rmcosmetics.benefits.mvp"
-        groupPermission[petsByName["ursinho de pelúcia"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["pinguim"]!!] = "rmcosmetics.defaultperm"
-        groupPermission[petsByName["pug"]!!] = "rmcosmetics.benefits.mvpplus"
-        groupPermission[petsByName["tartaruga"]!!] = "rmcosmetics.benefits.mvpplus"
-        groupPermission[petsByName["logo do youtube"]!!] = "rmcosmetics.benefits.youtuber"
-        groupPermission[petsByName["logo da twitch"]!!] = "rmcosmetics.benefits.streamer"
+        groupPermission[petsByName["urso"]!!] = "rmcore.benefits.vip"
+        groupPermission[petsByName["panda gigante"]!!] = "rmcore.benefits.mvpplus"
+        groupPermission[petsByName["boxer"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["macaco"]!!] = "rmcore.benefits.mvp"
+        groupPermission[petsByName["diglet"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["pato"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["dragão de fogo"]!!] = "rmcore.benefits.vip"
+        groupPermission[petsByName["girafa"]!!] = "rmcore.benefits.mvp"
+        groupPermission[petsByName["gorila"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["dragão de gelo"]!!] = "rmcore.benefits.vip"
+        groupPermission[petsByName["coala"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["leão"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["minime"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["bb-8"]!!] = "rmcore.benefits.mvp"
+        groupPermission[petsByName["ursinho de pelúcia"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["pinguim"]!!] = "rmcore.defaultperm"
+        groupPermission[petsByName["pug"]!!] = "rmcore.benefits.mvpplus"
+        groupPermission[petsByName["tartaruga"]!!] = "rmcore.benefits.mvpplus"
+        groupPermission[petsByName["logo do youtube"]!!] = "rmcore.benefits.youtuber"
+        groupPermission[petsByName["logo da twitch"]!!] = "rmcore.benefits.streamer"
 
         for (pet in PetLoader.getPets()) {
-            exclusiveGroupName[pet] = "§fExclusivo para §7Membro §fou superior."
+            exclusiveGroupName[pet] = "§cExclusivo para §7Membro §cou superior."
             petsByName[pet.name.toLowerCase()] = pet
         }
-        exclusiveGroupName[petsByName["urso"]!!] = "§fExclusivo para §aVIP §fou superior."
-        exclusiveGroupName[petsByName["panda gigante"]!!] = "§fExclusivo para §bMVP§6+ §fou superior."
-        exclusiveGroupName[petsByName["boxer"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["macaco"]!!] = "§fExclusivo para §6MVP §fou superior."
-        exclusiveGroupName[petsByName["diglet"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["pato"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["dragão de fogo"]!!] = "§fExclusivo para §aVIP §fou superior."
-        exclusiveGroupName[petsByName["girafa"]!!] = "§fExclusivo para §6MVP §fou superior."
-        exclusiveGroupName[petsByName["gorila"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["dragão de gelo"]!!] = "§fExclusivo para §aVIP §fou superior."
-        exclusiveGroupName[petsByName["coala"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["leão"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["minime"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["bb-8"]!!] = "§fExclusivo para §6MVP §fou superior."
-        exclusiveGroupName[petsByName["ursinho de pelúcia"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["pinguim"]!!] = "§fExclusivo para §7Membro §fou superior."
-        exclusiveGroupName[petsByName["pug"]!!] = "§fExclusivo para §bMVP§6+ §fou superior."
-        exclusiveGroupName[petsByName["tartaruga"]!!] = "§fExclusivo para §bMVP§6+ §fou superior."
-        exclusiveGroupName[petsByName["logo do youtube"]!!] = "§fExclusivo para §cYouTuber §fou superior."
-        exclusiveGroupName[petsByName["logo da twitch"]!!] = "§fExclusivo para §9Streamer §fou superior."
+        exclusiveGroupName[petsByName["urso"]!!] = "§cExclusivo para §aVIP §cou superior."
+        exclusiveGroupName[petsByName["panda gigante"]!!] = "§cExclusivo para §bMVP§6+ §cou superior."
+        exclusiveGroupName[petsByName["boxer"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["macaco"]!!] = "§cExclusivo para §6MVP §cou superior."
+        exclusiveGroupName[petsByName["diglet"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["pato"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["dragão de fogo"]!!] = "§cExclusivo para §aVIP §cou superior."
+        exclusiveGroupName[petsByName["girafa"]!!] = "§cExclusivo para §6MVP §cou superior."
+        exclusiveGroupName[petsByName["gorila"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["dragão de gelo"]!!] = "§cExclusivo para §aVIP §cou superior."
+        exclusiveGroupName[petsByName["coala"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["leão"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["minime"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["bb-8"]!!] = "§cExclusivo para §6MVP §cou superior."
+        exclusiveGroupName[petsByName["ursinho de pelúcia"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["pinguim"]!!] = "§cExclusivo para §7Membro §cou superior."
+        exclusiveGroupName[petsByName["pug"]!!] = "§cExclusivo para §bMVP§6+ §cou superior."
+        exclusiveGroupName[petsByName["tartaruga"]!!] = "§cExclusivo para §bMVP§6+ §cou superior."
+        exclusiveGroupName[petsByName["logo do youtube"]!!] = "§cExclusivo para §cYouTuber §cou superior."
+        exclusiveGroupName[petsByName["logo da twitch"]!!] = "§cExclusivo para §9Streamer §cou superior."
 
         for (pet in PetLoader.getPets()) {
             rarity[pet] = "comum"
@@ -265,7 +269,7 @@ object CompanionSystem {
         rarity[petsByName["boxer"]!!] = "epico"
         rarity[petsByName["macaco"]!!] = "epico"
         rarity[petsByName["diglet"]!!] = "comum"
-        rarity[petsByName["pato"]!!] = "raro"
+        rarity[petsByName["pato"]!!] = "epico"
         rarity[petsByName["dragão de fogo"]!!] = "divino"
         rarity[petsByName["girafa"]!!] = "divino"
         rarity[petsByName["gorila"]!!] = "divino"

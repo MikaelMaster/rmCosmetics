@@ -5,9 +5,12 @@ import com.mikael.rmcosmetics.core.GadgetSystem
 import com.mikael.rmcosmetics.objects.Gadget
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.CooldownManager
+import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.soundWhenNoSuccess
 import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
 import net.eduard.redemikael.parkour.isPlaying
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
@@ -17,14 +20,14 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent
 
 class MountGadget : Gadget(
     "Vaqueiro",
-    "comum",
+    "divino",
     listOf(
         "§7Você já pensou em como seria andar",
         "§7em outro jogador? Vamos tentar?"
-    ), ItemBuilder(Material.FISHING_ROD), 60, "rmcosmetics.gadget.mount"
+    ), ItemBuilder(Material.SADDLE), 15, "rmcosmetics.gadget.mount"
 ) {
 
-    val cooldown = CooldownManager(20 * 60)
+    val cooldown = CooldownManager(20 * 15)
 
     init {
         cooldown.msgCooldown = "§cVocê precisa esperar mais %times para utilizar esta engenhoca novamente!"
@@ -34,6 +37,8 @@ class MountGadget : Gadget(
     fun clicando(event: PlayerInteractAtEntityEvent) {
         val player = event.player
         if (event.rightClicked.type != EntityType.PLAYER) return
+        val jogadorClicadoToCheck = event.rightClicked as Player
+        if (!Bukkit.getOnlinePlayers().contains(jogadorClicadoToCheck)) return
         if (icon != event.player.itemInHand) return
         if (CoreMain.instance.getBoolean("is-minigame-lobby")) {
             if (player.isPlaying) {
@@ -51,7 +56,6 @@ class MountGadget : Gadget(
             val user = player.user
             val playerClicado = event.rightClicked as Player
             val clickedUser = playerClicado.user
-            player.sendMessage("§aVocê ativou a engenhoca Vaqueiro! Duração: §f30s")
             GadgetSystem.putActiveGadget(player)
             player.sendMessage("§aMontado agora em: ${clickedUser.visual}")
             playerClicado.playSound(playerClicado.location, Sound.ORB_PICKUP, 2f, 1f)
@@ -60,17 +64,28 @@ class MountGadget : Gadget(
 
             object : BukkitRunnable() {
                 override fun run() {
-                    player.sendMessage("§cVocê não está mais andando em ${clickedUser.nick}§c.")
-                    playerClicado.sendMessage("§eO jogador ${user.nick} não está mais montado em você.")
-                    GadgetSystem.removeActiveGadget(player)
-                    playerClicado.passenger = null
+                    if (playerClicado.passenger != player) {
+                        GadgetSystem.removeActiveGadget(player)
+                        player.sendMessage("§cVocê se demontou de ${playerClicado.user.visual}§c.")
+                        playerClicado.sendMessage("§cO jogador ${player.user.visual} §cse desmontou de você.")
+                        cancel()
+                    }
+                    if (playerClicado.isSneaking) {
+                        GadgetSystem.removeActiveGadget(player)
+                        player.soundWhenNoSuccess()
+                        player.sendMessage("§cO jogador ${playerClicado.user.visual} §cdesmontou você dele.")
+                        playerClicado.sendMessage("§cVocê desmontou o jogador ${player.user.visual} §cde você.")
+                        playerClicado.eject()
+                        cooldown.stopCooldown(player)
+                        cancel()
+                    }
                 }
-            }.runTaskLater(MiftCosmetics.instance, 20 * 30);
+            }.runTaskTimerAsynchronously(MiftCosmetics.instance, 0, 0)
         }
     }
 
     init {
-        icon = ItemBuilder(Material.FISHING_ROD).name("§aEngenhoca: §eVaqueiro")
+        icon = ItemBuilder(Material.SADDLE).name("§aEngenhoca: §eVaqueiro")
             .lore(
                 "§7Você já pensou em como seria andar",
                 "§7em outro jogador? Vamos tentar?"
