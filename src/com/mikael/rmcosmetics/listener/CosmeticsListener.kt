@@ -6,6 +6,7 @@ import com.kirelcodes.miniaturepets.pets.PetManager
 import com.mikael.rmcosmetics.MiftCosmetics
 import net.eduard.api.lib.manager.CooldownManager
 import net.eduard.api.lib.manager.EventsManager
+import net.eduard.api.lib.modules.Mine
 import net.eduard.redemikael.core.soundWhenPickup
 import net.eduard.redemikael.core.user
 import net.md_5.bungee.api.chat.ClickEvent
@@ -52,7 +53,7 @@ class CosmeticsListener : EventsManager() {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun petDismount(e: EntityDismountEvent) {
         if (e.entity is Player) {
             val player = e.entity as Player
@@ -74,7 +75,7 @@ class CosmeticsListener : EventsManager() {
         e.isCancelled = true
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun removePlayerCar(e: PlayerQuitEvent) {
         val player = e.player
         if (player.isInsideVehicle) {

@@ -239,12 +239,12 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                         "§fSelecionado atualmente:",
                         "§a▸ Nenhum",
                         "",
-                        "§eClique para abrir!"
+                        "§cDisponível em breve!"
                     )
             }
-            menu = MenuPets()
+           // menu = MenuPets()
             click = ClickEffect {
-                it.player.soundWhenSwitchMenu()
+                it.player.soundWhenNoEffect()
             }
         }
 

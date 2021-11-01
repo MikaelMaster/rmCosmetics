@@ -17,10 +17,8 @@ class Banner(
 
     fun icon(): ItemBuilder {
         val item = ItemBuilder()
-
             .name("§a$display")
             .lore(lore)
-
         for (pattern in patterns) {
             item.banner(basecolor, pattern.color, pattern.pattern)
         }

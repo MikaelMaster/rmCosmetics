@@ -10,6 +10,11 @@ class MiftPet(
     var type: EntityType = EntityType.ENDERMAN,
     var gender: Boolean = false,
     var groupName: String = "vip",
+    var isWinnable: Boolean = true,
+    var isGoldBuyable: Boolean = true,
+    var isCashBuyable: Boolean = true,
+    var goldPrice: Double = Double.MAX_VALUE,
+    var cashPrice: Double = Double.MAX_VALUE,
     var group: String = "rmcore.benefits.${groupName}",
     var permission: String = "rmcosmetics.pet.${name}",
 )

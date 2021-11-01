@@ -24,13 +24,14 @@ object PetSystem {
     val pets = mutableListOf<MiftPet>()
 
     // Retorna true se o jogador possui um pet (navigator) spawnado
-    fun hasSpawnedPet(player: Player): Boolean {
+    private fun hasSpawnedPet(player: Player): Boolean {
         return spawnedNavigators.containsKey(player)
     }
 
     // Remove um pet spawnado de um jogador (Navigator e pet)
     fun removePet(owner: Player, sendMessage: Boolean = false) {
         try {
+            if (!hasSpawnedPet(owner)) return
             val petNavigator = spawnedNavigators[owner]!!
             val pet = spawnedPets[petNavigator]!!
             pet.remove()
@@ -122,8 +123,6 @@ object PetSystem {
     }
 
     init {
-        pets.clear()
-
         val pet1 = MiftPet(
             "enderman",
             "Enderman",
@@ -132,6 +131,11 @@ object PetSystem {
             EntityType.ENDERMAN,
             false,
             "mvpplus",
+            true,
+            true,
+            true,
+            1500.0,
+            2000.0
         )
 
         pets.add(pet1)

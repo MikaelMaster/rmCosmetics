@@ -61,6 +61,9 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
         MenuConfirmAnimatedHatBuy().registerMenu(this)
         MenuConfirmAnimatedHatBuy2().registerMenu(this)
         MenuSelectCoinTypeAnimatedHat().registerMenu(this)
+        MenuSelectCoinTypePet().registerMenu(this)
+        MenuConfirmPetBuy().registerMenu(this)
+        MenuConfirmPetBuy2().registerMenu(this)
         for (gadget in GadgetSystem.gadgets) {
             gadget.register(this)
         }
@@ -93,6 +96,8 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
                         pet.target = null
                     }
                     pet.teleport(petNav.location.clone().add(-1.0, 0.0, -1.0))
+                    pet.location.yaw = petNav.location.yaw
+                    pet.location.pitch = petNav.location.pitch
                     asyncTask {
                         if (petNav.location.distance(owner.location) > 2.5) {
                             if (petNav.location.distance(owner.location) > 15.0) {

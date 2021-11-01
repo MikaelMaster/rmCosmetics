@@ -3,11 +3,11 @@ package com.mikael.rmcosmetics.menu
 import com.mikael.rmcosmetics.core.PetSystem
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.game.SoundEffect
+import net.eduard.api.lib.kotlin.format
 import net.eduard.api.lib.kotlin.player
 import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
-import net.eduard.redemikael.core.soundWhenEffect
-import net.eduard.redemikael.core.soundWhenNoEffect
+import net.eduard.redemikael.core.*
 import org.bukkit.Material
 import org.bukkit.Sound
 
@@ -18,8 +18,8 @@ class MenuPets : Menu("Mascotes", 6) {
 
     init {
         instance = this@MenuPets
-        openWithCommand = "/pets"
-        openWithCommandText = "/mascotes"
+       // openWithCommand = "/pets"
+       // openWithCommandText = "/mascotes"
         isAutoAlignItems = true
         cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
@@ -66,10 +66,38 @@ class MenuPets : Menu("Mascotes", 6) {
                                 item.addLore("§eClique para utilizar!")
                             }
                         } else {
-                            item.addLore("§cVocê não possui esse mascote.")
+                            if (pet.isGoldBuyable || pet.isCashBuyable) {
+                                item.addLore("§eOpções de compra:")
+                                if (pet.isGoldBuyable) {
+                                    item.addLore(" §8▪ §fComprar com Gold: §6${pet.goldPrice.format(false)}")
+                                }
+                                if (pet.isCashBuyable) {
+                                    item.addLore(" §8▪ §fComprar com Cash: §b${pet.cashPrice.format(false)}")
+                                }
+                                item.addLore("")
+                                if (player.user.gold >= pet.goldPrice
+                                    || player.user.cash >= pet.cashPrice
+                                ) {
+                                    item.addLore("§aClique para comprar!")
+                                } else {
+                                    item.addLore("§cVocê não possui saldo suficiente.")
+                                }
+                            } else {
+                                item.addLore("§cIndisponível para compra.")
+                            }
                         }
                     } else {
-                        item.addLore("§cExclusivo.")
+                        var exclusive = "§7Membro"
+                        if (pet.groupName == "vip") {
+                            exclusive = "§aVIP"
+                        }
+                        if (pet.groupName == "mvp") {
+                            exclusive = "§6MVP"
+                        }
+                        if (pet.groupName == "mvpplus") {
+                            exclusive = "§bMVP§6+"
+                        }
+                        item.addLore("§cExclusivo para $exclusive §cou superior.")
                     }
                     item
                 }
@@ -80,7 +108,19 @@ class MenuPets : Menu("Mascotes", 6) {
                         return@ClickEffect
                     }
                     if (!player.hasPermission(pet.permission)) {
-                        player.soundWhenNoEffect()
+                        if (pet.isGoldBuyable || pet.isCashBuyable) {
+                            if (player.user.cash >= pet.cashPrice
+                                || player.user.gold >= pet.goldPrice
+                            ) {
+                                player.soundWhenSwitchMenu()
+                                MenuSelectCoinTypePet.instance.comprando[player] = pet
+                                MenuSelectCoinTypePet.instance.open(player)
+                            } else {
+                                player.soundWhenNoEffect()
+                            }
+                        } else {
+                            player.soundWhenNoEffect()
+                        }
                         return@ClickEffect
                     }
                     if (PetSystem.hasSelected(player) &&
@@ -102,7 +142,8 @@ class MenuPets : Menu("Mascotes", 6) {
             }
         }
 
-        button("remove-pet") {
+        button("remove-pet")
+        {
             setPosition(4, 6)
 
             fixed = true
@@ -123,7 +164,8 @@ class MenuPets : Menu("Mascotes", 6) {
             }
         }
 
-        button("info") {
+        button("info")
+        {
             setPosition(6, 6)
 
             fixed = true
@@ -152,7 +194,8 @@ class MenuPets : Menu("Mascotes", 6) {
             }
         }
 
-        button("rename-pet") {
+        button("rename-pet")
+        {
             setPosition(9, 1)
 
             fixed = true
