@@ -1,12 +1,13 @@
 package com.mikael.rmcosmetics.commands
 
-import net.eduard.api.lib.manager.CommandManager
+import net.eduard.redemikael.core.api.MiftCommand
+import net.eduard.redemikael.core.api.MiftGroup
 import org.bukkit.command.CommandSender
 
-class MiftCosmeticsCommand : CommandManager("rmcosmetics") {
+class MiftCosmeticsCommand : MiftCommand("rmcosmetics", "rmcs") {
 
     init {
-        permission = "rmcosmetics.defaultperm"
+        group = MiftGroup.MEMBRO
         register(RemoveCosmeticsCommand())
         register(GetBannerDataCommand())
         register(SyncAllCosmeticsCommand())

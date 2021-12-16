@@ -19,20 +19,27 @@ class MenuHats : Menu("Chapéus", 6) {
 
     init {
         isAutoAlignItems = true
-        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
+        update()
+    }
 
-        for (hat in HatSystem.hats) {
+    override fun update() {
+        removeAllButtons()
 
-            button {
-
+        for (hatFor in HatSystem.hats.withIndex().sortedByDescending { it.index }) {
+            val hat = hatFor.value
+            button(hat.display) {
                 iconPerPlayer = {
                     val player = this
                     val item = ItemBuilder()
                         .skin(hat.url).name("§a" + hat.display)
+
+                    if (!player.hasPermission(hat.permission)) {
+                        item.type(Material.INK_SACK).data(8)
+                    }
 
                     if (HatSystem.hasSelected(player)) {
                         if (HatSystem.getSelectedHat(player) == hat) {
@@ -54,7 +61,6 @@ class MenuHats : Menu("Chapéus", 6) {
                             val hatUsed = HatSystem.getSelectedHat(player)
                             if (hatUsed == hat) {
                                 val loreUsada = mutableListOf<String>()
-
                                 loreUsada.add("§8Chapéu")
                                 loreUsada.add("")
                                 loreUsada.add("§7Exiba seu estilo em nossos lobbies")
@@ -65,7 +71,6 @@ class MenuHats : Menu("Chapéus", 6) {
 
                             } else {
                                 val loreUsada = mutableListOf<String>()
-
                                 loreUsada.add("§8Chapéu")
                                 loreUsada.add("")
                                 loreUsada.add("§7Exiba seu estilo em nossos lobbies")
@@ -76,7 +81,6 @@ class MenuHats : Menu("Chapéus", 6) {
                             }
                         } else {
                             val loreUsada = mutableListOf<String>()
-
                             loreUsada.add("§8Chapéu")
                             loreUsada.add("")
                             loreUsada.add("§7Exiba seu estilo em nossos lobbies")
@@ -87,16 +91,17 @@ class MenuHats : Menu("Chapéus", 6) {
                         }
                     } else {
                         val loreUsada = mutableListOf<String>()
-
                         loreUsada.add("§8Chapéu")
                         loreUsada.add("")
                         loreUsada.add("§7Exiba seu estilo em nossos lobbies")
                         loreUsada.add("§7utilizando o chapéu ${hat.display}§7.")
                         loreUsada.addAll(hat.lore)
+                        loreUsada.add("§eCaixas contendo este item:")
+                        loreUsada.add(" §8▪ §bCaixa Misteriosa de Cosméticos")
+                        loreUsada.add("")
                         loreUsada.add("§cVocê não possui esse chapéu.")
                         item.lore(loreUsada)
                     }
-
                     item
                 }
                 click = ClickEffect {
@@ -120,12 +125,14 @@ class MenuHats : Menu("Chapéus", 6) {
                                 if (BannerSystem.hasSelected(player)) {
                                     BannerSystem.deselect(player)
                                 }
-                                val closet = ClosetSystem.getPlayerCloset(player)
-                                if (closet.helmet != null) {
-                                    closet.helmet = null
-                                    closet.helmetBright = false
-                                    closet.helmetName = null
-                                    closet.updateQueue()
+                                if (player.hasPermission("rmcore.benefits.vip")) {
+                                    val closet = ClosetSystem.getPlayerCloset(player)
+                                    if (closet.helmet != null) {
+                                        closet.helmet = null
+                                        closet.helmetBright = false
+                                        closet.helmetName = null
+                                        closet.updateQueue()
+                                    }
                                 }
                                 player.equipment.helmet = null
                                 player.sendMessage("§aVocê equipou o chapéu '${hat.display}'.")
@@ -163,6 +170,7 @@ class MenuHats : Menu("Chapéus", 6) {
                 }
             }
         }
+
         button("remove-hat") {
             setPosition(4, 6)
             fixed = true
@@ -173,7 +181,6 @@ class MenuHats : Menu("Chapéus", 6) {
             }
             click = ClickEffect {
                 val player = it.player
-
                 player.soundWhenEffect()
                 if (HatSystem.hasSelected(player)) {
                     player.equipment.helmet = null
@@ -189,22 +196,16 @@ class MenuHats : Menu("Chapéus", 6) {
                 iconPerPlayer = {
                     val player = this
                     var usedHatName = "Nenhum"
-
                     if (HatSystem.hasSelected(player)) {
-
                         val usedHat = HatSystem.getSelectedHat(player)
-                        val hatName = usedHat.display
-                        usedHatName = hatName
+                        usedHatName = usedHat.display
                     }
-
                     val hatsDesbloqueados = HatSystem.hats.count {
                         hasPermission(it.permission)
                     }
-
-                    var porcentagemDesbloqueada = hatsDesbloqueados.toDouble() / HatSystem.hats.size
-                    var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                    val porcentagemDesbloqueada = hatsDesbloqueados.toDouble() / HatSystem.hats.size
+                    val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                     val corNumero = porcentagemDesbloqueada.percentColor()
-
                     ItemBuilder(Material.PAPER)
                         .name("§aInformações")
                         .lore(

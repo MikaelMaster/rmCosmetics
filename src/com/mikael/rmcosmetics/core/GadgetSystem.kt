@@ -1,6 +1,7 @@
 package com.mikael.rmcosmetics.core
 
 import com.mikael.rmcosmetics.gadgets.*
+import com.mikael.rmcosmetics.objects.CosmeticsData
 import com.mikael.rmcosmetics.objects.Gadget
 import com.mikael.rmcosmetics.objects.GadgetData
 import net.eduard.redemikael.core.api.miftCore
@@ -22,7 +23,7 @@ object GadgetSystem {
     var usingGadget = mutableMapOf<Player, Gadget>()
 
     var gadgets = mutableListOf<Gadget>()
-    var gadgetsSelected = mutableMapOf<MiftProfile, GadgetData>()
+    var gadgetsSelected = mutableMapOf<MiftProfile, CosmeticsData>()
 
     fun hasActiveGadget(player: Player): Boolean {
         return activeGadget.contains(player)
@@ -70,20 +71,21 @@ object GadgetSystem {
 
     fun load(player: Player) {
         val profile = player.user
-        val gadgetSelected = miftCore.sqlManager.getDataOf<GadgetData>(profile) ?: return
+        val gadgetSelected = miftCore.sqlManager.getDataOf<CosmeticsData>(profile) ?: return
         gadgetsSelected[profile] = gadgetSelected
         val gadget = gadgets.firstOrNull { it.name == gadgetSelected.gadget } ?: return
         usingGadget[player] = gadget
     }
 
-    fun getOrCreate(profile: MiftProfile): GadgetData {
-        if (gadgetsSelected.containsKey(profile)) {
-            return gadgetsSelected[profile]!!
+    private fun getOrCreate(profile: MiftProfile): CosmeticsData {
+        if (CosmeticsUtils.selecteds.containsKey(profile)) {
+            return CosmeticsUtils.selecteds[profile]!!
         }
-        val gadgetSelected = GadgetData()
+        val gadgetSelected = CosmeticsData()
         gadgetSelected.player = profile
         gadgetSelected.insert()
         gadgetsSelected[profile] = gadgetSelected
+        CosmeticsUtils.selecteds[profile] = gadgetSelected
         return gadgetSelected
     }
 

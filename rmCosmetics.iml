@@ -40,15 +40,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../Docs - Rede Mift/Rede Mift - Plugins/MiftCore-1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../../Docs - Rede Mift/Rede Mift - Plugins/EduardAPI-1.0-all.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -59,6 +50,24 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../../Docs - Rede Mift/Rede Mift - Plugins/MiftParkour-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../Docs - Rede Mift/Rede Mift - Plugins/MiftCore-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../Docs - Rede Mift/Rede Mift - Plugins/PlayerParticles-7.22.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -41,7 +41,7 @@ class CosmeticsListener : EventsManager() {
                 val donoDoCompanion = e.pet.owner
                 val userDoDono = donoDoCompanion.user
                 player.soundWhenPickup()
-                player.sendMessage("§aEste é o Companheiro de ${userDoDono.visual}§7.")
+                player.sendMessage("§aEste é o Companheiro de ${userDoDono.visual}§a.")
                 val text = net.md_5.bungee.api.chat.TextComponent("§aClique §a§lAQUI §apara adquirir o seu!")
                 val clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/companions")
                 text.clickEvent = clickEvent

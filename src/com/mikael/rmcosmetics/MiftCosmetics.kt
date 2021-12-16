@@ -1,11 +1,12 @@
 package com.mikael.rmcosmetics
 
 import com.kirelcodes.miniaturepets.pets.PetManager
+import com.mikael.rmcosmetics.commands.CosmeticsCommand
 import com.mikael.rmcosmetics.commands.MiftCosmeticsCommand
 import com.mikael.rmcosmetics.core.*
 import com.mikael.rmcosmetics.gadgets.*
 import com.mikael.rmcosmetics.listener.CosmeticsListener
-import com.mikael.rmcosmetics.listener.CosmeticLoaderListener
+import com.mikael.rmcosmetics.listener.CosmeticsLoaderListener
 import com.mikael.rmcosmetics.listener.PetSystemListener
 import com.mikael.rmcosmetics.menu.*
 import com.mikael.rmcosmetics.objects.*
@@ -17,6 +18,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Creature
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 
 class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
     companion object {
@@ -28,48 +30,31 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
         val timeStart = System.currentTimeMillis()
 
         log("Criando tabelas e referências...")
-        miftCore.sqlManager.createTable<HatData>()
-        miftCore.sqlManager.createReferences<HatData>()
-        miftCore.sqlManager.createTable<GadgetData>()
-        miftCore.sqlManager.createReferences<GadgetData>()
-        miftCore.sqlManager.createTable<ParticleData>()
-        miftCore.sqlManager.createReferences<ParticleData>()
-        miftCore.sqlManager.createTable<AnimatedHatData>()
-        miftCore.sqlManager.createReferences<AnimatedHatData>()
+        miftCore.sqlManager.createTable<CosmeticsData>()
+        miftCore.sqlManager.createReferences<CosmeticsData>()
         miftCore.sqlManager.createTable<ClosetData>()
         miftCore.sqlManager.createReferences<ClosetData>()
-        miftCore.sqlManager.createTable<CompanionData>()
-        miftCore.sqlManager.createReferences<CompanionData>()
-        miftCore.sqlManager.createTable<BannerData>()
-        miftCore.sqlManager.createReferences<BannerData>()
-        miftCore.sqlManager.createTable<MiftPetData>()
-        miftCore.sqlManager.createReferences<MiftPetData>()
 
         log("Carregando sistemas...")
         MiftCosmeticsCommand().registerCommand(this)
         CosmeticsListener().registerListener(this)
-        CosmeticLoaderListener().registerListener(this)
+        CosmeticsLoaderListener().registerListener(this)
         PetSystemListener().registerListener(this)
         MenuCosmetics().registerMenu(this)
         MenuCloset().registerMenu(this)
-        MenuConfirmCompanionBuy().registerMenu(this)
-        MenuConfirmCompanionBuy2().registerMenu(this)
         MenuSelectCoinTypeCompanion().registerMenu(this)
-        MenuConfirmParticleBuy().registerMenu(this)
-        MenuConfirmParticleBuy2().registerMenu(this)
         MenuSelectCoinTypeParticle().registerMenu(this)
-        MenuConfirmAnimatedHatBuy().registerMenu(this)
-        MenuConfirmAnimatedHatBuy2().registerMenu(this)
         MenuSelectCoinTypeAnimatedHat().registerMenu(this)
         MenuSelectCoinTypePet().registerMenu(this)
-        MenuConfirmPetBuy().registerMenu(this)
-        MenuConfirmPetBuy2().registerMenu(this)
+        CosmeticsCommand().registerCommand(this)
+
+        log("Carregando engenhocas...")
         for (gadget in GadgetSystem.gadgets) {
             gadget.register(this)
         }
 
         log("Iniciando timers...")
-        asyncTimer(20, 20) {
+        asyncTimer(20L, 20L) {
             for (playerLoop in Bukkit.getOnlinePlayers()) {
                 try {
                     if (!PetManager.hasPet(playerLoop)) continue
@@ -88,7 +73,7 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
             }
         }
 
-        syncTimer(20, 1) {
+        syncTimer(20L, 1L) {
             for ((owner, petNav) in PetSystem.spawnedNavigators) {
                 try {
                     val pet = PetSystem.spawnedPets[petNav]!!
@@ -182,11 +167,15 @@ class MiftCosmetics : JavaPlugin(), IPluginInstance, BukkitTimeHandler {
         return description.name
     }
 
+    override fun getPluginFolder(): File {
+        return this.file
+    }
+
     override fun getPluginConnected(): Plugin {
         return this
     }
 
-    fun log(msg: String) {
+    private fun log(msg: String) {
         Bukkit.getConsoleSender().sendMessage("§b[rmCosmetics] §f${msg}")
     }
 }

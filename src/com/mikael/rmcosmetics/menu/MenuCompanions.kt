@@ -10,10 +10,7 @@ import net.eduard.api.lib.game.SoundEffect
 import net.eduard.api.lib.kotlin.*
 import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
-import net.eduard.redemikael.core.soundWhenEffect
-import net.eduard.redemikael.core.soundWhenNoEffect
-import net.eduard.redemikael.core.soundWhenSwitchMenu
-import net.eduard.redemikael.core.user
+import net.eduard.redemikael.core.*
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import org.bukkit.Material
@@ -28,7 +25,7 @@ class MenuCompanions : Menu("Companheiros", 6) {
         lateinit var instance: MenuCompanions
     }
 
-    val editandoPetName = mutableMapOf<Player, Pet>()
+    private val editandoPetName = mutableMapOf<Player, Pet>()
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun chatCancelMessage(e: AsyncPlayerChatEvent) {
@@ -58,13 +55,13 @@ class MenuCompanions : Menu("Companheiros", 6) {
                 } else {
                     e.isCancelled = true
                     editandoPetName.remove(player)
-                    player.playSound(player.location, Sound.VILLAGER_NO, 2f, 1f)
+                    player.soundWhenNoSuccess()
                     player.sendMessage("§cO nome do seu companheiro não pode conter mais que 32 caracteres.")
                 }
             } else {
                 e.isCancelled = true
                 editandoPetName.remove(player)
-                player.playSound(player.location, Sound.VILLAGER_NO, 2f, 1f)
+                player.soundWhenNoSuccess()
                 player.sendMessage("§cMudança de apelido do companheiro cancelada.")
             }
         }
@@ -74,30 +71,32 @@ class MenuCompanions : Menu("Companheiros", 6) {
     init {
         instance = this@MenuCompanions
         isAutoAlignItems = true
-
         openWithCommand = "/companions"
         openWithCommandText = "/companheiros"
-        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
+        update()
+    }
+
+    override fun update() {
+        removeAllButtons()
 
         for (pet in PetLoader.getPets()) {
-            button {
-
+            button(pet.name) {
                 iconPerPlayer = {
-                    val item = ItemBuilder(pet.symbol).clone().name("§a" + pet.name)
+                    val player = this
                     val user = player.user
 
-                    val companion = pet
-                    val companionprecogold = CompanionSystem.precoemgold[companion]!!
-                    val companionprecocash = CompanionSystem.precoemcash[companion]!!
-                    val companioncompravel = CompanionSystem.compravel[companion]!!
-                    val companionporgold = CompanionSystem.compravelporgold[companion]!!
-                    val companionporcash = CompanionSystem.compravelporcash[companion]!!
-                    val companionGroup = CompanionSystem.groupPermission[companion]!!
-                    val exclusiveGroupName = CompanionSystem.exclusiveGroupName[companion]!!
+                    val item = ItemBuilder(pet.symbol).clone().name("§a" + pet.name)
+                    val companionprecogold = CompanionSystem.precoemgold[pet]!!
+                    val companionprecocash = CompanionSystem.precoemcash[pet]!!
+                    val companioncompravel = CompanionSystem.compravel[pet]!!
+                    val companionporgold = CompanionSystem.compravelporgold[pet]!!
+                    val companionporcash = CompanionSystem.compravelporcash[pet]!!
+                    val companionGroup = CompanionSystem.groupPermission[pet]!!
+                    val exclusiveGroupName = CompanionSystem.exclusiveGroupName[pet]!!
 
                     if (PetManager.hasPet(player)) {
                         if (PetManager.getPet(player).container == pet) {
@@ -120,7 +119,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                 val companionUsed = PetManager.getPet(player).container
                                 if (companionUsed == pet) {
                                     val loreUsada = mutableListOf<String>()
-
                                     loreUsada.add("§8Companheiro")
                                     loreUsada.add("")
                                     loreUsada.addAll(pet.description)
@@ -129,7 +127,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                     item.lore(loreUsada)
                                 } else {
                                     val loreUsada = mutableListOf<String>()
-
                                     loreUsada.add("§8Companheiro")
                                     loreUsada.add("")
                                     loreUsada.addAll(pet.description)
@@ -139,7 +136,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                 }
                             } else {
                                 val loreUsada = mutableListOf<String>()
-
                                 loreUsada.add("§8Companheiro")
                                 loreUsada.add("")
                                 loreUsada.addAll(pet.description)
@@ -149,10 +145,12 @@ class MenuCompanions : Menu("Companheiros", 6) {
                             }
                         } else {
                             val loreUsada = mutableListOf<String>()
-
                             loreUsada.add("§8Companheiro")
                             loreUsada.add("")
                             loreUsada.addAll(pet.description)
+                            loreUsada.add("")
+                            loreUsada.add("§eCaixas contendo este item:")
+                            loreUsada.add(" §8▪ §bCaixa Misteriosa de Cosméticos")
                             loreUsada.add("")
                             if (companioncompravel) {
                                 loreUsada.add("§eOpções de compra:")
@@ -168,19 +166,19 @@ class MenuCompanions : Menu("Companheiros", 6) {
                             }
                             if (companioncompravel) {
                                 loreUsada.add(
-                                    if (user.gold >= companionprecogold || user.cash >= companionprecocash)
+                                    if (user.gold >= companionprecogold
+                                        || user.cash >= companionprecocash
+                                    )
                                         "§aClique para comprar!" else
                                         "§cVocê não possui saldo suficiente."
                                 )
                             } else {
                                 loreUsada.add("§cIndisponível para compra.")
                             }
-
                             item.lore(loreUsada)
                         }
                     } else {
                         val loreUsada = mutableListOf<String>()
-
                         loreUsada.add("§8Companheiro")
                         loreUsada.add("")
                         loreUsada.addAll(pet.description)
@@ -194,10 +192,9 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     val player = it.player
                     val user = player.user
 
-                    val companion = pet
-                    val companionemgold = CompanionSystem.precoemgold[companion]!!
-                    val companionemcash = CompanionSystem.precoemcash[companion]!!
-                    val companionGroup = CompanionSystem.groupPermission[companion]!!
+                    val companionemgold = CompanionSystem.precoemgold[pet]!!
+                    val companionemcash = CompanionSystem.precoemcash[pet]!!
+                    val companionGroup = CompanionSystem.groupPermission[pet]!!
 
                     if (player.hasPermission(companionGroup)) {
                         if (player.hasPermission(pet.permission)) {
@@ -215,7 +212,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                     pet.spawnPet(player)
                                     val companionSelected = PetManager.getPet(player)
                                     CompanionSystem.select(player, companionSelected)
-
                                     val companionUsedVal = CompanionSystem.getSelectedCompanion(player)
                                     if (CompanionSystem.hasName(player)) {
                                         companionUsedVal.customName = CompanionSystem.getCustomName(player)
@@ -245,7 +241,7 @@ class MenuCompanions : Menu("Companheiros", 6) {
                                 if (user.gold >= companionemgold || user.cash >= companionemcash) {
                                     player.soundWhenSwitchMenu()
                                     MenuSelectCoinTypeCompanion.instance
-                                        .comprando[player] = companion
+                                        .comprando[player] = pet
                                     MenuSelectCoinTypeCompanion.instance.open(player)
                                 } else {
                                     player.soundWhenNoEffect()
@@ -290,37 +286,25 @@ class MenuCompanions : Menu("Companheiros", 6) {
                 val companionsDesbloqueados = PetLoader.getPets().count {
                     hasPermission(it.permission)
                 }
-
                 val porcentagemDesbloqueada = companionsDesbloqueados.toDouble() / PetLoader.getPets().size
                 val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
-
-                val item = ItemBuilder(Material.PAPER).name("§aInformações")
+                var companionUsed = "Nenhum"
                 if (PetManager.hasPet(player)) {
-                    item.lore(
-                        "§8Companheiros",
-                        "",
-                        "§7Você pode encontrar novos companheiros em",
-                        "§bCaixas Misteriosas de Cosméticos §7ou",
-                        "§7comprá-los utilizando §6Gold §7e §bCash§7.",
-                        "",
-                        "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
-                        "§fSelecionado atualmente:",
-                        "§a▸ ${PetManager.getPet(player).container.name}"
-                    )
-                } else {
-                    item.lore(
-                        "§8Companheiros",
-                        "",
-                        "§7Você pode encontrar novos companheiros em",
-                        "§bCaixas Misteriosas de Cosméticos §7ou",
-                        "§7comprá-los utilizando §6Gold §7e §bCash§7.",
-                        "",
-                        "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
-                        "§fSelecionado atualmente:",
-                        "§a▸ Nenhum"
-                    )
+                    companionUsed = PetManager.getPet(player).container.name
                 }
+                val item = ItemBuilder(Material.PAPER).name("§aInformações")
+                item.lore(
+                    "§8Companheiros",
+                    "",
+                    "§7Você pode encontrar novos companheiros em",
+                    "§bCaixas Misteriosas de Cosméticos §7ou",
+                    "§7comprá-los utilizando §6Gold §7e §bCash§7.",
+                    "",
+                    "§fDesbloqueados: ${corNumero}${companionsDesbloqueados}/${PetLoader.getPets().size} §8(${porcentagemTexto})",
+                    "§fSelecionado atualmente:",
+                    "§a▸ $companionUsed"
+                )
             }
             click = ClickEffect {
                 it.player.soundWhenNoEffect()
@@ -332,11 +316,10 @@ class MenuCompanions : Menu("Companheiros", 6) {
 
             fixed = true
             iconPerPlayer = {
+                val player = this
                 val item = ItemBuilder(Material.NAME_TAG)
-
                 if (PetManager.hasPet(player)) {
                     val companion = PetManager.getPet(player)
-
                     item.name("§aRenomear Companheiro '${companion.container.name}'")
                 } else {
                     item.name("§aRenomear Companheiro")
@@ -370,7 +353,6 @@ class MenuCompanions : Menu("Companheiros", 6) {
                     player.soundWhenEffect()
                     val companion = PetManager.getPet(player)
                     editandoPetName[player] = companion
-
                     player.sendMessage("")
                     player.sendMessage("§aQual será o nome do seu companheiro? §7(${companion.container.name})")
                     val text =
@@ -380,13 +362,10 @@ class MenuCompanions : Menu("Companheiros", 6) {
                         "rmcosmetics:cancelchangename"
                     )
                     text.clickEvent = clickEvent
-
                     val texts = net.md_5.bungee.api.chat.ComponentBuilder("§fClique para cancelar!")
-
                     val hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, texts.create())
                     text.hoverEvent = hoverEvent
                     player.spigot().sendMessage(text)
-
                     player.sendMessage("")
                     player.closeInventory()
                 } else {

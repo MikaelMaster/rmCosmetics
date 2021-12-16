@@ -1,5 +1,6 @@
 package com.mikael.rmcosmetics.core
 
+import com.mikael.rmcosmetics.objects.CosmeticsData
 import com.mikael.rmcosmetics.objects.Hat
 import com.mikael.rmcosmetics.objects.HatData
 import net.eduard.redemikael.core.api.miftCore
@@ -17,7 +18,7 @@ object HatSystem {
 
     var usingHat = mutableMapOf<Player, Hat>()
     var hats = mutableListOf<Hat>()
-    var hatsSelected = mutableMapOf<MiftProfile, HatData>()
+    var hatsSelected = mutableMapOf<MiftProfile, CosmeticsData>()
 
     fun select(player: Player, hat: Hat) {
         val user = player.user
@@ -46,20 +47,21 @@ object HatSystem {
 
     fun load(player: Player) {
         val profile = player.user
-        val hatSelected = miftCore.sqlManager.getDataOf<HatData>(profile) ?: return
+        val hatSelected = miftCore.sqlManager.getDataOf<CosmeticsData>(profile) ?: return
         hatsSelected[profile] = hatSelected
         val hat = hats.firstOrNull { it.display == hatSelected.hat } ?: return
         usingHat[player] = hat
     }
 
-    fun getOrCreate(profile: MiftProfile): HatData {
-        if (hatsSelected.containsKey(profile)) {
-            return hatsSelected[profile]!!
+    private fun getOrCreate(profile: MiftProfile): CosmeticsData {
+        if (CosmeticsUtils.selecteds.containsKey(profile)) {
+            return CosmeticsUtils.selecteds[profile]!!
         }
-        val hatSelected = HatData()
+        val hatSelected = CosmeticsData()
         hatSelected.player = profile
         hatSelected.insert()
         hatsSelected[profile] = hatSelected
+        CosmeticsUtils.selecteds[profile] = hatSelected
         return hatSelected
     }
 
@@ -662,6 +664,72 @@ object HatSystem {
             "http://textures.minecraft.net/texture/f8bccd8d916a1960ed304f99d81b9be676ac821b1a1c356b380830575a4444e3",
             "rmcosmetics.hat.pc_gamer"
         )
+        val chapeu85 = Hat(
+            "Cavalo",
+            listOf(""),
+            "epico",
+            "http://textures.minecraft.net/texture/1f15c27cb7c35a6e7aa763573ddbff9808516bdabc23f1cb5163918c4a1392",
+            "rmcosmetics.hat.cavalo"
+        )
+        val chapeu86 = Hat(
+            "Globo de Neve",
+            listOf(
+                "",
+                "§6Globo especial ao",
+                "§6Natal de 2021.",
+                "",
+            ),
+            "raro",
+            "http://textures.minecraft.net/texture/7bbe8fd1aa39f15076e884dfe6ddb9a3f3761db31e2b1f9940b5dfd34d1c4d",
+            "rmcosmetics.hat.globo_de_neve"
+        )
+        val chapeu87 = Hat(
+            "Pinguim",
+            listOf(
+                "",
+                "§6Pinguim especial ao",
+                "§6Natal de 2021.",
+                "",
+            ),
+            "epico",
+            "http://textures.minecraft.net/texture/f435906a8f2490111025e6e0ca9526ba6630c7e7fc7244de98b7060ce77e2ee8",
+            "rmcosmetics.hat.pinguim"
+        )
+        val chapeu88 = Hat(
+            "Papai Noel",
+            listOf(
+                "",
+                "§6Papai Noel do",
+                "§6Natal de 2021.",
+                "",
+            ),
+            "epico",
+            "http://textures.minecraft.net/texture/14e424b1676feec3a3f8ebade9e7d6a6f71f7756a869f36f7df0fc182d436e",
+            "rmcosmetics.hat.papai_noel"
+        )
+        val chapeu89 = Hat(
+            "Grinch",
+            listOf(
+                "",
+                "§6Grinch que tentou acabar",
+                "§6com o Natal de 2021.",
+                "",
+            ),
+            "divino",
+            "http://textures.minecraft.net/texture/e838d630d496f21285d49099c3fd8d921442172a5160c1b5d42a5080f9cf818a",
+            "rmcosmetics.hat.grinch"
+        )
+        val chapeu90 = Hat(
+            "Mini Árvore de Natal",
+            listOf(
+                "",
+                "§6Especial ao Natal de 2021!",
+                "",
+            ),
+            "divino",
+            "http://textures.minecraft.net/texture/215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45",
+            "rmcosmetics.hat.mini_arvore_de_natal"
+        )
 
         hats.add(chapeu1)
         hats.add(chapeu2)
@@ -747,5 +815,11 @@ object HatSystem {
         hats.add(chapeu82)
         hats.add(chapeu83)
         hats.add(chapeu84)
+        hats.add(chapeu85)
+        hats.add(chapeu86)
+        hats.add(chapeu87)
+        hats.add(chapeu88)
+        hats.add(chapeu89)
+        hats.add(chapeu90)
     }
 }

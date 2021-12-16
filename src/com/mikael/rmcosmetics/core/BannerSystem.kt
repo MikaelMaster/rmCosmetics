@@ -2,6 +2,7 @@ package com.mikael.rmcosmetics.core
 
 import com.mikael.rmcosmetics.objects.Banner
 import com.mikael.rmcosmetics.objects.BannerData
+import com.mikael.rmcosmetics.objects.CosmeticsData
 import net.eduard.redemikael.core.api.miftCore
 import net.eduard.redemikael.core.objects.MiftProfile
 import net.eduard.redemikael.core.user
@@ -20,7 +21,7 @@ object BannerSystem {
 
     var usingBanner = mutableMapOf<Player, Banner>()
     var banners = mutableListOf<Banner>()
-    var bannersSelected = mutableMapOf<MiftProfile, BannerData>()
+    var bannersSelected = mutableMapOf<MiftProfile, CosmeticsData>()
 
     fun select(player: Player, banner: Banner) {
         val user = player.user
@@ -48,20 +49,21 @@ object BannerSystem {
 
     fun load(player: Player) {
         val profile = player.user
-        val bannerSelected = miftCore.sqlManager.getDataOf<BannerData>(profile) ?: return
+        val bannerSelected = miftCore.sqlManager.getDataOf<CosmeticsData>(profile) ?: return
         bannersSelected[profile] = bannerSelected
         val banner = banners.firstOrNull { it.display == bannerSelected.banner } ?: return
         usingBanner[player] = banner
     }
 
-    fun getOrCreate(profile: MiftProfile): BannerData {
-        if (bannersSelected.containsKey(profile)) {
-            return bannersSelected[profile]!!
+    private fun getOrCreate(profile: MiftProfile): CosmeticsData {
+        if (CosmeticsUtils.selecteds.containsKey(profile)) {
+            return CosmeticsUtils.selecteds[profile]!!
         }
-        val bannerSelected = BannerData()
+        val bannerSelected = CosmeticsData()
         bannerSelected.player = profile
         bannerSelected.insert()
         bannersSelected[profile] = bannerSelected
+        CosmeticsUtils.selecteds[profile] = bannerSelected
         return bannerSelected
     }
 

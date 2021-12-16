@@ -18,14 +18,17 @@ class MenuPets : Menu("Mascotes", 6) {
 
     init {
         instance = this@MenuPets
-       // openWithCommand = "/pets"
-       // openWithCommandText = "/mascotes"
+        // openWithCommand = "/pets"
+        // openWithCommandText = "/mascotes"
         isAutoAlignItems = true
-        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
+    }
+
+    override fun update() {
+        removeAllButtons()
 
         for (pet in PetSystem.pets) {
             button(pet.name) {

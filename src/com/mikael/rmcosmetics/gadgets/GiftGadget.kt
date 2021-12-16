@@ -18,7 +18,7 @@ import org.bukkit.util.Vector
 
 class GiftGadget : Gadget(
     "Chuva de Presentes",
-    "raro",
+    "epico",
     listOf(
         "§7Quem nunca sonhou com uma",
         "§7chuva de presentes?"

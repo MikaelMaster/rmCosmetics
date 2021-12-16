@@ -1,5 +1,6 @@
 package com.mikael.rmcosmetics.core
 
+import com.mikael.rmcosmetics.objects.CosmeticsData
 import com.mikael.rmcosmetics.objects.ParticleCosmetic
 import com.mikael.rmcosmetics.objects.ParticleData
 import com.mikael.rmcosmetics.particles.SingleParticleHead
@@ -20,7 +21,7 @@ object ParticleSystem {
 
     var usingParticle = mutableMapOf<Player, ParticleCosmetic>()
     var particles = mutableListOf<ParticleCosmetic>()
-    var particlesSelected = mutableMapOf<MiftProfile, ParticleData>()
+    var particlesSelected = mutableMapOf<MiftProfile, CosmeticsData>()
 
     val precoemgold: MutableMap<ParticleCosmetic, Double> = mutableMapOf<ParticleCosmetic, Double>()
     val precoemcash: MutableMap<ParticleCosmetic, Double> = mutableMapOf<ParticleCosmetic, Double>()
@@ -55,20 +56,21 @@ object ParticleSystem {
 
     fun load(player: Player) {
         val profile = player.user
-        val particleSelected = miftCore.sqlManager.getDataOf<ParticleData>(profile) ?: return
+        val particleSelected = miftCore.sqlManager.getDataOf<CosmeticsData>(profile) ?: return
         particlesSelected[profile] = particleSelected
         val particle = particles.firstOrNull { it.display == particleSelected.particle } ?: return
         usingParticle[player] = particle
     }
 
-    fun getOrCreate(profile: MiftProfile): ParticleData {
-        if (particlesSelected.containsKey(profile)) {
-            return particlesSelected[profile]!!
+    fun getOrCreate(profile: MiftProfile): CosmeticsData {
+        if (CosmeticsUtils.selecteds.containsKey(profile)) {
+            return CosmeticsUtils.selecteds[profile]!!
         }
-        val particleSelected = ParticleData()
+        val particleSelected = CosmeticsData()
         particleSelected.player = profile
         particleSelected.insert()
         particlesSelected[profile] = particleSelected
+        CosmeticsUtils.selecteds[profile] = particleSelected
         return particleSelected
     }
 
@@ -80,7 +82,7 @@ object ParticleSystem {
             Material.RED_ROSE,
             "rmcosmetics.particle.heart",
             "rmcore.benefits.mvp",
-            "§cExclusivo para §6MVP §cou superior.",
+            "§cExclusivo para §bMVP §cou superior.",
             SingleParticleHead::class
         )
         val particle2 = ParticleCosmetic(
@@ -130,7 +132,7 @@ object ParticleSystem {
             Material.FERMENTED_SPIDER_EYE,
             "rmcosmetics.particle.witch_magic",
             "rmcore.benefits.mvp",
-            "§cExclusivo para §6MVP §cou superior.",
+            "§cExclusivo para §bMVP §cou superior.",
             SingleParticleHead::class
         )
         val particle7 = ParticleCosmetic(
@@ -160,7 +162,7 @@ object ParticleSystem {
             Material.BLAZE_ROD,
             "rmcosmetics.particle.angry_villager",
             "rmcore.benefits.mvpplus",
-            "§cExclusivo para §bMVP§6+ §cou superior.",
+            "§cExclusivo para §6MVP§c+ §cou superior.",
             SingleParticleHead::class
         )
         val particle10 = ParticleCosmetic(
@@ -200,7 +202,7 @@ object ParticleSystem {
             Material.MAP,
             "rmcosmetics.particle.enchantment_table",
             "rmcore.benefits.mvpplus",
-            "§cExclusivo para §bMVP§6+ §cou superior.",
+            "§cExclusivo para §6MVP§c+ §cou superior.",
             SingleParticleHead::class
         )
 

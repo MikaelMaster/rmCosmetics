@@ -20,10 +20,16 @@ class MenuCloset : Menu("Guarda-Roupa", 6) {
 
     init {
         instance = this@MenuCloset
+        // O Cooldown nesse menu deve ser de 0 para melhor utilização
+        cooldownBetweenInteractions = 0
         openWithCommand = "/closet"
         openNeedPermission = "rmcore.benefits.vip"
         messagePermission = "§cVocê precisa do Grupo §aVIP §cou superior para utilizar o Guarda-Roupa!"
-        cooldownBetweenInteractions = 0
+        update()
+    }
+
+    override fun update() {
+        removeAllButtons()
 
         button("turn-bright-helmet") {
             setPosition(9, 2)

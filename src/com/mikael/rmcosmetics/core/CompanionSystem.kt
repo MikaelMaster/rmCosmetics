@@ -4,6 +4,7 @@ import com.kirelcodes.miniaturepets.loader.PetLoader
 import com.kirelcodes.miniaturepets.pets.Pet
 import com.kirelcodes.miniaturepets.pets.PetContainer
 import com.mikael.rmcosmetics.objects.CompanionData
+import com.mikael.rmcosmetics.objects.CosmeticsData
 import net.eduard.redemikael.core.objects.MiftProfile
 import net.eduard.redemikael.core.user
 import org.bukkit.entity.Player
@@ -17,7 +18,7 @@ object CompanionSystem {
      */
 
     var usingCompanion = mutableMapOf<Player, Pet>()
-    var companionsSelected = mutableMapOf<MiftProfile, CompanionData>()
+    var companionsSelected = mutableMapOf<MiftProfile, CosmeticsData>()
 
     fun select(player: Player, pet: Pet) {
         val user = player.user
@@ -34,7 +35,7 @@ object CompanionSystem {
     fun hasName(player: Player): Boolean {
         val user = player.user
         val selected = getOrCreate(user)
-        return selected.customName != null
+        return selected.companionName != null
     }
 
     fun getSelectedCompanion(player: Player): Pet {
@@ -52,24 +53,25 @@ object CompanionSystem {
     fun setCustomName(player: Player, name: String) {
         val user = player.user
         val selected = getOrCreate(user)
-        selected.customName = name
-        selected.updateOnlyQueue("customName")
+        selected.companionName = name
+        selected.updateOnlyQueue("companionName")
     }
 
     fun getCustomName(player: Player): String? {
         val user = player.user
         val selected = getOrCreate(user)
-        return selected.customName
+        return selected.companionName
     }
 
-    fun getOrCreate(profile: MiftProfile): CompanionData {
-        if (companionsSelected.containsKey(profile)) {
-            return companionsSelected[profile]!!
+    private fun getOrCreate(profile: MiftProfile): CosmeticsData {
+        if (CosmeticsUtils.selecteds.containsKey(profile)) {
+            return CosmeticsUtils.selecteds[profile]!!
         }
-        val companionSelected = CompanionData()
+        val companionSelected = CosmeticsData()
         companionSelected.player = profile
         companionSelected.insert()
         companionsSelected[profile] = companionSelected
+        CosmeticsUtils.selecteds[profile] = companionSelected
         return companionSelected
     }
 
@@ -240,25 +242,25 @@ object CompanionSystem {
             petsByName[pet.name.toLowerCase()] = pet
         }
         exclusiveGroupName[petsByName["urso"]!!] = "§cExclusivo para §aVIP §cou superior."
-        exclusiveGroupName[petsByName["panda gigante"]!!] = "§cExclusivo para §bMVP§6+ §cou superior."
+        exclusiveGroupName[petsByName["panda gigante"]!!] = "§cExclusivo para §6MVP§c+ §cou superior."
         exclusiveGroupName[petsByName["boxer"]!!] = "§cExclusivo para §7Membro §cou superior."
-        exclusiveGroupName[petsByName["macaco"]!!] = "§cExclusivo para §6MVP §cou superior."
+        exclusiveGroupName[petsByName["macaco"]!!] = "§cExclusivo para §bMVP §cou superior."
         exclusiveGroupName[petsByName["diglet"]!!] = "§cExclusivo para §7Membro §cou superior."
         exclusiveGroupName[petsByName["pato"]!!] = "§cExclusivo para §7Membro §cou superior."
         exclusiveGroupName[petsByName["dragão de fogo"]!!] = "§cExclusivo para §aVIP §cou superior."
-        exclusiveGroupName[petsByName["girafa"]!!] = "§cExclusivo para §6MVP §cou superior."
+        exclusiveGroupName[petsByName["girafa"]!!] = "§cExclusivo para §bMVP §cou superior."
         exclusiveGroupName[petsByName["gorila"]!!] = "§cExclusivo para §7Membro §cou superior."
         exclusiveGroupName[petsByName["dragão de gelo"]!!] = "§cExclusivo para §aVIP §cou superior."
         exclusiveGroupName[petsByName["coala"]!!] = "§cExclusivo para §7Membro §cou superior."
         exclusiveGroupName[petsByName["leão"]!!] = "§cExclusivo para §7Membro §cou superior."
         exclusiveGroupName[petsByName["minime"]!!] = "§cExclusivo para §7Membro §cou superior."
-        exclusiveGroupName[petsByName["bb-8"]!!] = "§cExclusivo para §6MVP §cou superior."
+        exclusiveGroupName[petsByName["bb-8"]!!] = "§cExclusivo para §bMVP §cou superior."
         exclusiveGroupName[petsByName["ursinho de pelúcia"]!!] = "§cExclusivo para §7Membro §cou superior."
         exclusiveGroupName[petsByName["pinguim"]!!] = "§cExclusivo para §7Membro §cou superior."
-        exclusiveGroupName[petsByName["pug"]!!] = "§cExclusivo para §bMVP§6+ §cou superior."
-        exclusiveGroupName[petsByName["tartaruga"]!!] = "§cExclusivo para §bMVP§6+ §cou superior."
+        exclusiveGroupName[petsByName["pug"]!!] = "§cExclusivo para §6MVP§c+ §cou superior."
+        exclusiveGroupName[petsByName["tartaruga"]!!] = "§cExclusivo para §6MVP§c+ §cou superior."
         exclusiveGroupName[petsByName["logo do youtube"]!!] = "§cExclusivo para §cYouTuber §cou superior."
-        exclusiveGroupName[petsByName["logo da twitch"]!!] = "§cExclusivo para §9Streamer §cou superior."
+        exclusiveGroupName[petsByName["logo da twitch"]!!] = "§cExclusivo para §bStreamer §cou superior."
 
         for (pet in PetLoader.getPets()) {
             rarity[pet] = "comum"

@@ -24,17 +24,26 @@ class MenuBanners : Menu("Banners", 6) {
 
     init {
         instance = this@MenuBanners
-        cooldownBetweenInteractions = 0
         isAutoAlignItems = true
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
+        update()
+    }
+
+    override fun update() {
+        removeAllButtons()
 
         for (banner in BannerSystem.banners) {
-            button {
+            button(banner.display) {
                 iconPerPlayer = {
+                    val player = this
                     val item = banner.icon()
+
+                    if (!player.hasPermission(banner.permission)) {
+                        item.type(Material.INK_SACK).data(8)
+                    }
 
                     if (BannerSystem.hasSelected(player)) {
                         if (BannerSystem.getSelectedBanner(player) == banner) {
@@ -90,6 +99,9 @@ class MenuBanners : Menu("Banners", 6) {
                             "§7Exiba seu estilo em nossos lobbies",
                             "§7utilizando o banner ${banner.display}§7.",
                             "",
+                            "§eCaixas contendo este item:",
+                            " §8▪ §bCaixa Misteriosa de Cosméticos",
+                            "",
                             "§cVocê não possui esse banner."
                         )
                     }
@@ -98,7 +110,6 @@ class MenuBanners : Menu("Banners", 6) {
                 }
                 click = ClickEffect {
                     val player = it.player
-
                     if (player.hasPermission(banner.permission)) {
                         if (BannerSystem.hasSelected(player)) {
                             val bannerUsed = BannerSystem.getSelectedBanner(player)
@@ -117,12 +128,14 @@ class MenuBanners : Menu("Banners", 6) {
                                 if (HatSystem.hasSelected(player)) {
                                     HatSystem.deselect(player)
                                 }
-                                val closet = ClosetSystem.getPlayerCloset(player)
-                                if (closet.helmet != null) {
-                                    closet.helmet = null
-                                    closet.helmetBright = false
-                                    closet.helmetName = null
-                                    closet.updateQueue()
+                                if (player.hasPermission("rmcore.benefits.vip")) {
+                                    val closet = ClosetSystem.getPlayerCloset(player)
+                                    if (closet.helmet != null) {
+                                        closet.helmet = null
+                                        closet.helmetBright = false
+                                        closet.helmetName = null
+                                        closet.updateQueue()
+                                    }
                                 }
                                 player.equipment.helmet = null
                                 player.sendMessage("§aVocê equipou o banner '${banner.display}'.")
@@ -199,8 +212,8 @@ class MenuBanners : Menu("Banners", 6) {
                     hasPermission(it.permission)
                 }
 
-                var porcentagemDesbloqueada = bannersDesbloqueados.toDouble() / BannerSystem.banners.size
-                var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                val porcentagemDesbloqueada = bannersDesbloqueados.toDouble() / BannerSystem.banners.size
+                val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                 val corNumero = porcentagemDesbloqueada.percentColor()
 
                 ItemBuilder(Material.PAPER)

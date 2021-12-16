@@ -4,8 +4,9 @@ import com.kirelcodes.miniaturepets.pets.PetManager
 import com.mikael.rmcosmetics.core.*
 import com.mikael.rmcosmetics.menu.MenuParticles
 import net.eduard.api.lib.game.ItemBuilder
-import net.eduard.api.lib.manager.CommandManager
 import net.eduard.api.lib.modules.Mine
+import net.eduard.redemikael.core.api.MiftCommand
+import net.eduard.redemikael.core.api.MiftGroup
 import net.eduard.redemikael.core.spigot.CoreMain
 import net.eduard.redemikael.core.user
 import org.bukkit.Bukkit
@@ -13,11 +14,10 @@ import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 
-class RemoveCosmeticsCommand : CommandManager("removeall") {
+class RemoveCosmeticsCommand : MiftCommand("removeall", "disableall") {
 
     init {
-        permission = "rmcore.group.gerente"
-        permissionMessage = "§cVocê precisa do Grupo §4Gerente §cou superior para utilizar este comando!"
+        group = MiftGroup.GERENTE
     }
 
     override fun playerCommand(player: Player, args: Array<String>) {
@@ -86,9 +86,8 @@ class RemoveCosmeticsCommand : CommandManager("removeall") {
                 GadgetSystem.deselect(playerLoop)
             }
         }
-        val user = player.user
         Mine.broadcast("")
-        Mine.broadcast(" §6[Cosméticos] §cTodos os cosméticos de todos os jogadores deste lobby foram desativados por ${user.visual}§c.")
+        Mine.broadcast(" §6[Cosméticos] §cTodos os cosméticos de todos os jogadores deste lobby foram desativados por ${player.user.visual}§c.")
         Mine.broadcast("")
     }
 }

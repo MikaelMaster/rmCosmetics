@@ -7,6 +7,8 @@ import net.eduard.api.lib.menu.ClickEffect
 import net.eduard.api.lib.menu.Menu
 import net.eduard.redemikael.core.soundWhenNoEffect
 import net.eduard.redemikael.core.soundWhenSwitchMenu
+import net.eduard.redemikael.core.spigot.confirm_buy_menus.MenuConfirmCashItemBuy
+import net.eduard.redemikael.core.spigot.confirm_buy_menus.MenuConfirmGoldItemBuy
 import net.eduard.redemikael.core.user
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -21,7 +23,11 @@ class MenuSelectCoinTypePet : Menu("Qual moeda deseja usar?", 3) {
 
     init {
         instance = this@MenuSelectCoinTypePet
-        cooldownBetweenInteractions = 0
+        update()
+    }
+
+    override fun update() {
+        removeAllButtons()
 
         button("gold") {
             setPosition(3, 2)
@@ -69,8 +75,14 @@ class MenuSelectCoinTypePet : Menu("Qual moeda deseja usar?", 3) {
                     if (user.gold >= pet.goldPrice) {
                         player.soundWhenSwitchMenu()
                         player.sendMessage("§aVocê selecionou a moeda §6Gold §apara prosseguir com sua compra.")
-                        MenuConfirmPetBuy.instance.comprando[player] = pet
-                        MenuConfirmPetBuy.instance.open(player)
+                        MenuConfirmGoldItemBuy.instance.backMenu[player] = MenuPets.instance
+                        MenuConfirmCashItemBuy.instance.buyingItem[user] =
+                            "Pet - ${pet.display} (Lobby)"
+                        MenuConfirmGoldItemBuy.instance.buyingItemPermission[user] = pet.permission
+                        MenuConfirmGoldItemBuy.instance.buyingItemPrice[user] = pet.goldPrice
+                        MenuConfirmGoldItemBuy.instance.buyingItemMaterial[user] =
+                            ItemBuilder().skin(pet.url)
+                        MenuConfirmGoldItemBuy.instance.open(player)
                     } else {
                         player.soundWhenNoEffect()
                     }
@@ -126,8 +138,14 @@ class MenuSelectCoinTypePet : Menu("Qual moeda deseja usar?", 3) {
                     if (user.cash >= pet.cashPrice) {
                         player.soundWhenSwitchMenu()
                         player.sendMessage("§aVocê selecionou a moeda §bCash §apara prosseguir com sua compra.")
-                        MenuConfirmPetBuy2.instance.comprando[player] = pet
-                        MenuConfirmPetBuy2.instance.open(player)
+                        MenuConfirmCashItemBuy.instance.backMenu[player] = MenuPets.instance
+                        MenuConfirmCashItemBuy.instance.buyingItem[user] =
+                            "Pet - ${pet.display} (Lobby)"
+                        MenuConfirmCashItemBuy.instance.buyingItemPermission[user] = pet.permission
+                        MenuConfirmCashItemBuy.instance.buyingItemPrice[user] = pet.cashPrice
+                        MenuConfirmCashItemBuy.instance.buyingItemMaterial[user] =
+                            ItemBuilder().skin(pet.url)
+                        MenuConfirmCashItemBuy.instance.open(player)
                     } else {
                         player.soundWhenNoEffect()
                     }

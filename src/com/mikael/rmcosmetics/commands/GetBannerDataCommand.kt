@@ -1,16 +1,16 @@
 package com.mikael.rmcosmetics.commands
 
-import net.eduard.api.lib.manager.CommandManager
+import net.eduard.redemikael.core.api.MiftCommand
+import net.eduard.redemikael.core.api.MiftGroup
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.BannerMeta
 import java.io.File
 import java.nio.file.Files
 
-class GetBannerDataCommand : CommandManager("getbannerdata") {
+class GetBannerDataCommand : MiftCommand("getbannerdata") {
 
     init {
-        permission = "rmcore.group.gerente"
-        permissionMessage = "§cVocê precisa do Grupo §4Gerente §cou superior para utilizar este comando!"
+        group = MiftGroup.GERENTE
     }
 
     override fun playerCommand(player: Player, args: Array<String>) {

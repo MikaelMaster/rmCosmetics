@@ -24,9 +24,11 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
     init {
         instance = this@MenuCosmetics
-        cooldownBetweenInteractions = 0
-        openWithCommand = "/cosmeticos"
-        openWithCommandText = "/cosmetics"
+        update()
+    }
+
+    override fun update() {
+        removeAllButtons()
 
         button("companions") {
             setPosition(3, 2)
@@ -81,10 +83,8 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val player = this
                 var usedHatName = "Nenhum"
                 if (HatSystem.hasSelected(player)) {
-
                     val usedHat = HatSystem.getSelectedHat(player)
-                    val hatName = usedHat.display
-                    usedHatName = hatName
+                    usedHatName = usedHat.display
                 }
                 val hatsDesbloqueados = HatSystem.hats.count {
                     hasPermission(it.permission)
@@ -120,10 +120,8 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val player = this
                 var usedHatName = "Nenhum"
                 if (HatAnimatedSystem.hasSelected(player)) {
-
                     val usedHat = HatAnimatedSystem.getSelectedAnimatedHat(player)
-                    val hatName = usedHat.display
-                    usedHatName = hatName
+                    usedHatName = usedHat.display
                 }
                 val animatedHatsDesbloqueados = HatAnimatedSystem.animatedHats.count {
                     hasPermission(it.permission)
@@ -156,37 +154,37 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
 
             iconPerPlayer = {
                 val player = this
-                val closet = ClosetSystem.getPlayerCloset(player)
-                var helmet = "§a▸ Vazio"
-                if (closet.helmet != null) {
-                    helmet = "§a▸ ${closet.helmetName} §c(Brilho inativo)"
-                }
-                if (closet.helmetBright) {
-                    helmet = "§a▸ ${closet.helmetName} §e(Brilho ativo)"
-                }
-                var chestplate = "§a▸ Vazio"
-                if (closet.chestplate != null) {
-                    chestplate = "§a▸ ${closet.chestplateName} §c(Brilho inativo)"
-                }
-                if (closet.chestplateBright) {
-                    chestplate = "§a▸ ${closet.chestplateName} §e(Brilho ativo)"
-                }
-                var leggings = "§a▸ Vazio"
-                if (closet.leggings != null) {
-                    leggings = "§a▸ ${closet.leggingsName} §c(Brilho inativo)"
-                }
-                if (closet.leggingsBright) {
-                    leggings = "§a▸ ${closet.leggingsName} §e(Brilho ativo)"
-                }
-                var boots = "§a▸ Vazio"
-                if (closet.boots != null) {
-                    boots = "§a▸ ${closet.bootsName} §c(Brilho inativo)"
-                }
-                if (closet.bootsBright) {
-                    boots = "§a▸ ${closet.bootsName} §e(Brilho ativo)"
-                }
                 val item = ItemBuilder(Material.ARMOR_STAND).name("§aGuarda-Roupa")
                 if (player.hasPermission("rmcore.benefits.vip")) {
+                    val closet = ClosetSystem.getPlayerCloset(player)
+                    var helmet = "§a▸ Vazio"
+                    if (closet.helmet != null) {
+                        helmet = "§a▸ ${closet.helmetName} §c(Brilho inativo)"
+                    }
+                    if (closet.helmetBright) {
+                        helmet = "§a▸ ${closet.helmetName} §e(Brilho ativo)"
+                    }
+                    var chestplate = "§a▸ Vazio"
+                    if (closet.chestplate != null) {
+                        chestplate = "§a▸ ${closet.chestplateName} §c(Brilho inativo)"
+                    }
+                    if (closet.chestplateBright) {
+                        chestplate = "§a▸ ${closet.chestplateName} §e(Brilho ativo)"
+                    }
+                    var leggings = "§a▸ Vazio"
+                    if (closet.leggings != null) {
+                        leggings = "§a▸ ${closet.leggingsName} §c(Brilho inativo)"
+                    }
+                    if (closet.leggingsBright) {
+                        leggings = "§a▸ ${closet.leggingsName} §e(Brilho ativo)"
+                    }
+                    var boots = "§a▸ Vazio"
+                    if (closet.boots != null) {
+                        boots = "§a▸ ${closet.bootsName} §c(Brilho inativo)"
+                    }
+                    if (closet.bootsBright) {
+                        boots = "§a▸ ${closet.bootsName} §e(Brilho ativo)"
+                    }
                     item.lore(
                         "§7Ande sempre com estilo em",
                         "§7nossos lobbies com armaduras",
@@ -242,7 +240,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                         "§cDisponível em breve!"
                     )
             }
-           // menu = MenuPets()
+            // menu = MenuPets()
             click = ClickEffect {
                 it.player.soundWhenNoEffect()
             }
@@ -256,8 +254,7 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 var usedBannerName = "Nenhum"
                 if (BannerSystem.hasSelected(player)) {
                     val usedBanner = BannerSystem.getSelectedBanner(player)
-                    val bannerName = usedBanner.display
-                    usedBannerName = bannerName
+                    usedBannerName = usedBanner.display
                 }
                 val bannersDesbloqueados = BannerSystem.banners.count {
                     hasPermission(it.permission)
@@ -299,10 +296,8 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val player = this
                 var usedParticleName = "Nenhuma"
                 if (ParticleSystem.hasSelected(player)) {
-
                     val usedParticle = ParticleSystem.getSelectedParticle(player)
-                    val particleName = usedParticle.display
-                    usedParticleName = particleName
+                    usedParticleName = usedParticle.display
                 }
                 val particlesDesbloqueados = ParticleSystem.particles.count {
                     hasPermission(it.permission)
@@ -336,10 +331,8 @@ class MenuCosmetics : Menu("Cosméticos", 5) {
                 val player = this
                 var usedGadgetName = "Nenhuma"
                 if (GadgetSystem.hasSelected(player)) {
-
                     val usedGadget = GadgetSystem.getSelectedGadget(player)
-                    val gadgetName = usedGadget.name
-                    usedGadgetName = gadgetName
+                    usedGadgetName = usedGadget.name
                 }
                 val gadgetsDesbloqueados = GadgetSystem.gadgets.count {
                     hasPermission(it.permission)

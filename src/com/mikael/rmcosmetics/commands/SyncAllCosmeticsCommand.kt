@@ -3,21 +3,22 @@ package com.mikael.rmcosmetics.commands
 import com.kirelcodes.miniaturepets.loader.PetLoader
 import com.mikael.rmcosmetics.MiftCosmetics
 import com.mikael.rmcosmetics.core.*
-import net.eduard.api.lib.manager.CommandManager
+import net.eduard.redemikael.core.api.MiftCommand
+import net.eduard.redemikael.core.api.MiftGroup
 import net.eduard.redemikael.core.api.miftCore
 import net.eduard.redemikael.core.objects.MiftMysteryBoxItens
 import org.bukkit.command.CommandSender
 
-class SyncAllCosmeticsCommand : CommandManager("synccosmetics") {
+class SyncAllCosmeticsCommand : MiftCommand("synccosmetics") {
+
 
     init {
-        permission = "rmcore.group.gerente"
-        permissionMessage = "§cVocê precisa do Grupo §4Gerente §cou superior para utilizar este comando!"
+        group = MiftGroup.GERENTE
     }
 
     override fun command(sender: CommandSender, args: Array<String>) {
+        sender.sendMessage("§eSincronizando cosméticos com mysql...")
         MiftCosmetics.instance.asyncTask {
-            sender.sendMessage("§eSincronizando cosméticos com mysql...")
             try {
                 val values = miftCore.sqlManager.getAllData(MiftMysteryBoxItens::class.java)
                 for (value in values) {

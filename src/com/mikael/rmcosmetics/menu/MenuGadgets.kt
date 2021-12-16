@@ -18,16 +18,25 @@ class MenuGadgets : Menu("Engenhocas", 6) {
 
     init {
         isAutoAlignItems = true
-        cooldownBetweenInteractions = 0
         autoAlignSkipLines = listOf(1, 5, 6)
         autoAlignSkipColumns = listOf(9, 1)
         autoAlignPerLine = 7
         autoAlignPerPage = 3 * autoAlignPerLine
+        update()
+    }
+
+    override fun update() {
+        removeAllButtons()
 
         for (gadget in GadgetSystem.gadgets) {
-            button {
+            button(gadget.name) {
                 iconPerPlayer = {
+                    val player = this
                     val item = ItemBuilder(gadget.material).name("§a" + gadget.name)
+
+                    if (!player.hasPermission(gadget.permission)) {
+                        item.type(Material.INK_SACK).data(8)
+                    }
 
                     if (GadgetSystem.hasSelected(player)) {
                         if (GadgetSystem.getSelectedGadget(player) == gadget) {
@@ -49,7 +58,6 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                             val gadgetUsed = GadgetSystem.getSelectedGadget(player)
                             if (gadgetUsed == gadget) {
                                 val loreUsada = mutableListOf<String>()
-
                                 loreUsada.add("§8Engenhoca")
                                 loreUsada.add("")
                                 loreUsada.addAll(gadget.lore)
@@ -60,7 +68,6 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                                 item.lore(loreUsada)
                             } else {
                                 val loreUsada = mutableListOf<String>()
-
                                 loreUsada.add("§8Engenhoca")
                                 loreUsada.add("")
                                 loreUsada.addAll(gadget.lore)
@@ -72,7 +79,6 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                             }
                         } else {
                             val loreUsada = mutableListOf<String>()
-
                             loreUsada.add("§8Engenhoca")
                             loreUsada.add("")
                             loreUsada.addAll(gadget.lore)
@@ -84,23 +90,21 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                         }
                     } else {
                         val loreUsada = mutableListOf<String>()
-
                         loreUsada.add("§8Engenhoca")
                         loreUsada.add("")
                         loreUsada.addAll(gadget.lore)
                         loreUsada.add("")
-                        loreUsada.add("§fDelay entre usos: §7${gadget.delay}s")
+                        loreUsada.add("§eCaixas contendo este item:")
+                        loreUsada.add(" §8▪ §bCaixa Misteriosa de Cosméticos")
                         loreUsada.add("")
                         loreUsada.add("§cVocê não possui essa engenhoca.")
                         item.lore(loreUsada)
                     }
-
                     item
                 }
                 click = ClickEffect {
                     val player = it.player
                     if (player.hasPermission(gadget.permission)) {
-
                         if (GadgetSystem.hasSelected(player)) {
                             val gadgetUsed = GadgetSystem.getSelectedGadget(player)
                             if (gadgetUsed == gadget) {
@@ -174,22 +178,16 @@ class MenuGadgets : Menu("Engenhocas", 6) {
                 iconPerPlayer = {
                     val player = this
                     var usedGadgetName = "Nenhuma"
-
                     if (GadgetSystem.hasSelected(player)) {
-
                         val usedGadget = GadgetSystem.getSelectedGadget(player)
-                        val gadgetName = usedGadget.name
-                        usedGadgetName = gadgetName
+                        usedGadgetName = usedGadget.name
                     }
-
                     val gadgetsDesbloqueados = GadgetSystem.gadgets.count {
                         hasPermission(it.permission)
                     }
-
-                    var porcentagemDesbloqueada = gadgetsDesbloqueados.toDouble() / GadgetSystem.gadgets.size
-                    var porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
+                    val porcentagemDesbloqueada = gadgetsDesbloqueados.toDouble() / GadgetSystem.gadgets.size
+                    val porcentagemTexto = porcentagemDesbloqueada.percent() + "%"
                     val corNumero = porcentagemDesbloqueada.percentColor()
-
                     ItemBuilder(Material.PAPER)
                         .name("§aInformações")
                         .lore(

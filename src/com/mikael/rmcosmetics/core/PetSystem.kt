@@ -1,5 +1,6 @@
 package com.mikael.rmcosmetics.core
 
+import com.mikael.rmcosmetics.objects.CosmeticsData
 import com.mikael.rmcosmetics.objects.MiftPet
 import com.mikael.rmcosmetics.objects.MiftPetData
 import net.eduard.redemikael.core.api.miftCore
@@ -77,7 +78,7 @@ object PetSystem {
      * Métodos relacionados a seleção e mysql
      */
     var usingPet = mutableMapOf<Player, MiftPet>()
-    var petsSelected = mutableMapOf<MiftProfile, MiftPetData>()
+    var petsSelected = mutableMapOf<MiftProfile, CosmeticsData>()
 
     fun select(player: Player, pet: MiftPet) {
         val user = player.user
@@ -105,20 +106,21 @@ object PetSystem {
 
     fun load(player: Player) {
         val profile = player.user
-        val selected = miftCore.sqlManager.getDataOf<MiftPetData>(profile) ?: return
+        val selected = miftCore.sqlManager.getDataOf<CosmeticsData>(profile) ?: return
         petsSelected[profile] = selected
         val pet = pets.firstOrNull { it.name == selected.pet } ?: return
         usingPet[player] = pet
     }
 
-    private fun getOrCreate(profile: MiftProfile): MiftPetData {
-        if (petsSelected.containsKey(profile)) {
-            return petsSelected[profile]!!
+    private fun getOrCreate(profile: MiftProfile): CosmeticsData {
+        if (CosmeticsUtils.selecteds.containsKey(profile)) {
+            return CosmeticsUtils.selecteds[profile]!!
         }
-        val selected = MiftPetData()
+        val selected = CosmeticsData()
         selected.player = profile
         selected.insert()
         petsSelected[profile] = selected
+        CosmeticsUtils.selecteds[profile] = selected
         return selected
     }
 
