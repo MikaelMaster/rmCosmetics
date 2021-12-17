@@ -3,7 +3,6 @@ package com.mikael.rmcosmetics.listener
 import com.mikael.rmcosmetics.MiftCosmetics
 import com.mikael.rmcosmetics.core.*
 import com.mikael.rmcosmetics.menu.MenuParticles
-import net.eduard.api.lib.database.customTypeRegister
 import net.eduard.api.lib.game.ItemBuilder
 import net.eduard.api.lib.manager.EventsManager
 import net.eduard.redemikael.core.soundWhenNoSuccess
@@ -31,9 +30,9 @@ class CosmeticsLoaderListener : EventsManager() {
      * cosméticos e info da ram no quit.
      */
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     fun loadAllCosmeticsOnJoin(e: PlayerJoinEvent) {
-        MiftCosmetics.instance.asyncDelay(1) {
+        MiftCosmetics.instance.asyncDelay(20) {
             val player = e.player
             val user = player.user
             testLag("Carregando cosméticos de ${player.name}") {
@@ -170,14 +169,14 @@ class CosmeticsLoaderListener : EventsManager() {
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                     player.soundWhenNoSuccess()
-                    player.sendMessage("§cOcorreu um erro interno ao carregar seus cosméticos.")
+                    player.sendMessage("§cOcorreu um erro interno ao carregar seus cosméticos. :c")
                 }
             }
         }
     }
 
     // Remove todos os dados do jogador das listas da ram e remove a partícula ativa do mesmo.
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.MONITOR)
     fun removePlayerParticleOnQuit(e: PlayerQuitEvent) {
         try {
             val player = e.player
